@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 
 
 class LoginView(View):
+    template = 'accounts/login.html'
+
     def get(self, request, *args, **kwargs):
-        return HttpResponse('<h1>Login page</h1>')
+        return render(request, self.template, {})
 
     # def post(self, request):
     #     username = request.POST.get('username')
