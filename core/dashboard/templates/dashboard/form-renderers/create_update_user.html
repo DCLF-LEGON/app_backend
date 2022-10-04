@@ -1,0 +1,128 @@
+{% extends "base/base.html" %}
+
+{% block title %} {{head}} User {% endblock %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{head}} User</li>
+            </ol>
+        </nav>
+        <h2 class="h4">{{head}} User</h2>
+        <p class="mb-0">This action will create/update a new/existing user</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group ms-2 ms-lg-3">
+            <a href="#" class="btn btn-sm btn-outline-gray-600">
+                <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 6v6m0 0v6m0-6h6m-6 0H6">
+                    </path>
+                </svg>
+                User Details
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- user creation and updation form -->
+<div class="row">
+    <div class="col-12 mb-4">
+        <div class="card border-0 shadow components-section">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-lg-6 col-sm-12 mx-auto px-3">
+                        <!-- Form -->
+                        <form action="" style="border: 2px solid blue; padding: 30px;">
+                            {% csrf_token %}
+                            <fieldset>
+                                <legend>User creation/updation form</legend>
+                                <!-- main form content -->
+                                <div class="mb-4">
+                                    <label for="fname">First Name**</label>
+                                    <input type="text" class="form-control" id="fname" aria-describedby="fnameHelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="lname">Last Name**</label>
+                                    <input type="text" class="form-control" id="lname" aria-describedby="lnameHelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="email">Email**</label>
+                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="gender">Gender</label>
+                                    <select name="gender" id="gender" class="form-control">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" id="dob" aria-describedby="dobhelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="phone">Phone**</label>
+                                    <input type="text" class="form-control" id="phone" aria-describedby="phonehelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="country">Country</label>
+                                    <input type="text" class="form-control" id="country" aria-describedby="countryhelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="region">Region</label>
+                                    <input type="text" class="form-control" id="region" aria-describedby="regionhelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="city">City</label>
+                                    <input type="text" class="form-control" id="city" aria-describedby="cityhelp">
+                                </div>
+                                <div class="mb-4">
+                                    <label for="Zip">Zip Code</label>
+                                    <input type="text" class="form-control" id="Zip" aria-describedby="Ziphelp">
+                                </div>
+                                <hr>
+                                <div class="mb-4">
+                                    <label for="role">Role**</label>
+                                    <select name="role" id="role" class="form-control">
+                                        <option value="app_user">APP USER</option>
+                                        <option value="admin_user">ADMIN USER</option>
+                                    </select>
+                                </div>
+                                <div class="mb-4">
+                                    <input type="submit" class="btn btn-sm btn-block btn-primary" value="Submit">
+                                </div>
+                            </fieldset>
+                        </form>
+                        <!-- End of Form -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
