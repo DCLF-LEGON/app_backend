@@ -16,3 +16,13 @@ class CreateUpdateMessageView(View):
 
     def delete(self, request, *args, **kwargs):
         return HttpResponse('CreateUpdateMessageView')
+
+
+class MessagesListView(View):
+    '''CBV for listing messages'''
+    template = 'dashboard/messages.html'
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        return render(request, self.template, context)
+
