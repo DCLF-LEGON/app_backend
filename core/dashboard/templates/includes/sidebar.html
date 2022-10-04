@@ -1,8 +1,8 @@
         {% load static %}
         <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
           <a class="navbar-brand me-lg-5" href="/">
-            <img class="navbar-brand-dark" src="{% static '/assets/img/brand/light.svg' %}" alt="Volt logo" /> <img
-              class="navbar-brand-light" src="{% static '/assets/img/brand/dark.svg' %}" alt="Volt logo" />
+            <img class="navbar-brand-dark" src="{% static '/assets/img/brand/light.svg' %}" alt="DLCF logo" /> <img
+              class="navbar-brand-light" src="{% static '/assets/img/brand/dark.svg' %}" alt="DLCF logo" />
           </a>
           <div class="d-flex align-items-center">
             <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -48,7 +48,7 @@
             </div>
             <ul class="nav flex-column pt-3 pt-md-0">
               <li class="nav-item">
-                <a href="/" class="nav-link d-flex align-items-center">
+                <a href="javascript:void()" class="nav-link d-flex align-items-center">
                   <span class="sidebar-icon">
                     <img src="{% static '/assets/img/brand/light.svg' %}" height="20" width="20" alt="Volt Logo">
                   </span>
@@ -134,17 +134,17 @@
                   id="submenu-app" aria-expanded="false">
                   <ul class="flex-column nav">
                     <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'dashboard:messages' %}">
                         <span class="sidebar-text">Campus Messages</span>
                       </a>
                     </li>
                     <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'dashboard:messages' %}">
                         <span class="sidebar-text">GC Messages</span>
                       </a>
                     </li>
                     <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'dashboard:messages' %}">
                         <span class="sidebar-text">Other Messages</span>
                       </a>
                     </li>
@@ -194,12 +194,12 @@
                   id="submenu-users" aria-expanded="false">
                   <ul class="flex-column nav">
                     <li class="nav-item {% if 'users-buttons' in segment %} active {% endif %}">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=app_users">
                         <span class="sidebar-text">App Users</span>
                       </a>
                     </li>
                     <li class="nav-item {% if 'users-notifications' in segment %} active {% endif %}">
-                      <a class="nav-link" href="">
+                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=administrators">
                         <span class="sidebar-text">Administrators</span>
                       </a>
                     </li>
