@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
 
 
 class LoginView(View):
@@ -9,12 +10,21 @@ class LoginView(View):
     def get(self, request, *args, **kwargs):
         return render(request, self.template, {})
 
-    # def post(self, request):
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     user = authenticate(request, username=username, password=password)
-    #     if user is not None:
-    #         login(request, user)
-    #         return redirect('home')
-    #     else:
-    #         return HttpResponse('Invalid credentials')
+    def post(self, request):
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        user = authenticate(request, username=email, password=password)
+        if user is not None and user.is_staff:
+            # redirect to otp page
+            # do the redirection here
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid credentials')
+            return redirect('login')
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('login')
