@@ -4,6 +4,9 @@ from .settings import *
 from .donations import *
 from .doctrines import *
 from .leaders import *
+from .messages import *
+from .notifications import *
+from .users import *
 
 
 class DashboardView(View):
