@@ -21,3 +21,19 @@ urlpatterns += [
 urlpatterns += [
     path('leaders/', views.LeadersListView.as_view(), name='leaders'),
 ]
+
+# messages
+urlpatterns += [
+    path('messages/', views.MessagesListView.as_view(), name='messages'),
+]
+
+# notifications
+urlpatterns += [
+    path('notifications/', views.NotificationsListView.as_view(), name='notifications'),  # noqa
+]
+
+# users
+urlpatterns += [
+    path('users/', views.UsersListView.as_view(), name='users'),
+    path('create-update-user/', views.CreateUpdateUserView.as_view(), name='create_update_user'),  # noqa
+]
