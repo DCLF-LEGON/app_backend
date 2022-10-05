@@ -26,7 +26,9 @@ INSTALLED_APPS = [
     # 3rd party apps
     'rest_framework',
     'knox',
+    "corsheaders",
 
+    # project apps
     'accounts.apps.AccountsConfig',
     'dashboard.apps.DashboardConfig',
 ]
@@ -34,6 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,6 +134,9 @@ REST_FRAMEWORK = {
         'knox.auth.TokenAuthentication',
     ]
 }
+
+# django cors headers settings
+CORS_ALLOW_ALL_ORIGINS = True
 
 # enviroment variables
 PAYHUB_SECRET_TOKEN = os.getenv(
