@@ -1,3 +1,7 @@
+from django.utils import timezone
+from datetime import timedelta, datetime
+from datetime import timedelta
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
@@ -46,11 +50,16 @@ class OTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
-    expiry_date = models.DateTimeField(blank=True, null=True)
-    is_expired = models.BooleanField(default=False)
+    expiry_date = models.DateTimeField(default=datetime.now() + timedelta(hours=2))  # noqa
+
+    def otp_is_expired(self):
+        '''checks if the otp has expired'''
+        if self.expiry_date < timezone.now():
+            return True
+        return False
 
     def __str__(self):
-        return self.user.email
+        return self.otp
 
     class Meta:
         db_table = 'otp'
