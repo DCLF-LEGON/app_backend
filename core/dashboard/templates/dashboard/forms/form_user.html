@@ -1,0 +1,62 @@
+<form action="" style="border: 2px solname blue; padding: 30px;">
+    {% csrf_token %}
+    <fieldset>
+        <legend>User creation/updation form</legend>
+        <!-- main form content -->
+        <div class="mb-4">
+            <label for="fname">First Name**</label>
+            <input type="text" class="form-control" name="fname" value="{{user.fname}}" aria-describedby="fnameHelp">
+        </div>
+        <div class="mb-4">
+            <label for="lname">Last Name**</label>
+            <input type="text" class="form-control" name="lname" value="{{user.lname}}" aria-describedby="lnameHelp">
+        </div>
+        <div class="mb-4">
+            <label for="email">Email**</label>
+            <input type="email" class="form-control" name="email" value="{{user.email}}" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-4">
+            <label for="gender">Gender</label>
+            <select name="gender" name="gender" class="form-control">
+                <option value="Male" {% if user.gender == "Male" %} selected {% endif %}>Male</option>
+                <option value="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <label for="dob">Date of Birth</label>
+            <input type="date" class="form-control" name="dob" value="{{user.dob}}" aria-describedby="dobhelp">
+        </div>
+        <div class="mb-4">
+            <label for="phone">Phone**</label>
+            <input type="text" class="form-control" name="phone" value="{{user.phone}}" aria-describedby="phonehelp">
+        </div>
+        <div class="mb-4">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" name="country" value="{{user.country}}"
+                aria-describedby="countryhelp">
+        </div>
+        <div class="mb-4">
+            <label for="region">Region</label>
+            <input type="text" class="form-control" name="region" value="{{user.region}}" aria-describedby="regionhelp">
+        </div>
+        <div class="mb-4">
+            <label for="city">City</label>
+            <input type="text" class="form-control" name="city" value="{{user.city}}" aria-describedby="cityhelp">
+        </div>
+        <div class="mb-4">
+            <label for="Zip">Zip Code</label>
+            <input type="text" class="form-control" name="zip" value="{{user.zip}}" aria-describedby="Ziphelp">
+        </div>
+        <hr>
+        <div class="mb-4">
+            <label for="role">Role**</label>
+            <select name="role" name="role" class="form-control">
+                <option value="app_user" {% if user.role == "app_user" %} selected {% endif %}>APP USER</option>
+                <option value="admin_user" {% if user.role == "admin_user" %} selected {% endif %}>ADMIN USER</option>
+            </select>
+        </div>
+        <div class="mb-4">
+            <input type="submit" class="btn btn-sm btn-block btn-primary" value="Submit">
+        </div>
+    </fieldset>
+</form>
