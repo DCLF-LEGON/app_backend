@@ -26,6 +26,9 @@ def mail_user_password(sender, instance, created, **kwargs):
             send_email(instance, email_template, passcode, subject, message, receipients)  # noqa
             instance.set_password(generate_user_password())
             instance.save()
+        else:
+            # create otp
+            OTP.objects.create(user=instance, otp=generate_otp())
         return
 
 
@@ -37,22 +40,27 @@ def mail_user_otp(sender, instance, created, **kwargs):
         subject = 'One Time Password'
         message = 'Hello there, your one time password is: '
         receipients = [instance.user.email]
-        send_email(instance, email_template, passcode,
-                   subject, message, receipients)
-        return
+        try:
+            send_email(instance, email_template, passcode,
+                       subject, message, receipients)
+        except Exception as e:
+            print(e)
+        else:
+            print('OTP sent to: ', receipients)
+        finally:
+            print("THE mail_user_opt function has been called")
 
 
 def send_email(instance, template_name: str, password: str, subject: str, message, receipients):  # noqa
     '''Send mail to user who booked the trip'''
     text = render_to_string(template_name, {
         'instance': instance,
-        'password': password,
+        'passcode': password,
         'message': message,
+        'subject': subject,
     })
-    # t = loader.get_template(tempiclate_name)
-    # html = t.render(Context({'tket': ticket}))
     msg = EmailMultiAlternatives(
-        subject.upper, text,
+        subject.upper(), text,
         settings.EMAIL_HOST_USER, receipients)
     msg.attach_alternative(text, "text/html")
     try:
@@ -73,5 +81,5 @@ def generate_user_password():
 def generate_otp():
     '''generate a random otp for the user'''
     chars = string.digits
-    size = 6
+    size = 4
     return ''.join(random.choice(chars) for _ in range(size))
