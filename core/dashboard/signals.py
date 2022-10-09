@@ -46,9 +46,9 @@ def mail_user_otp(sender, instance, created, **kwargs):
         except Exception as e:
             print(e)
         else:
-            print('OTP sent to: ', receipients)
+            print('OTP sent to: ', receipients, 'OTP CODE: ', passcode)
         finally:
-            print("THE mail_user_opt function has been called")
+            print("The mail_user_opt function has been called")
 
 
 def send_email(instance, template_name: str, password: str, subject: str, message, receipients):  # noqa
