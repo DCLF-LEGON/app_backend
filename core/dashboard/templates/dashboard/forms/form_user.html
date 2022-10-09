@@ -1,4 +1,4 @@
-<form action="" style="border: 2px solname blue; padding: 30px;">
+<form action="" style="border: 2px solid blue; padding: 30px 50px;" method="POST">
     {% csrf_token %}
     <fieldset>
         <legend>User creation/updation form</legend>
@@ -52,7 +52,8 @@
             <label for="role">Role**</label>
             <select name="role" name="role" class="form-control">
                 <option value="app_user" {% if user.role == "app_user" %} selected {% endif %}>APP USER</option>
-                <option value="admin_user" {% if user.role == "admin_user" %} selected {% endif %}>ADMIN USER</option>
+                <option value="administrator" {% if user.role == "administrator" %} selected {% endif %}>ADMINISTRATOR
+                </option>
             </select>
         </div>
         <div class="mb-4">
