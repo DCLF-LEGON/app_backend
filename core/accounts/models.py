@@ -58,6 +58,10 @@ class OTP(models.Model):
             return True
         return False
 
+    def send_otp(self):
+        '''sends the otp to the user's email'''
+        pass
+
     def __str__(self):
         return self.otp
 
