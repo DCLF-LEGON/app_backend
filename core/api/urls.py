@@ -9,6 +9,13 @@ urlpatterns = [
 ]
 
 
+# otp urls
+urlpatterns += [
+    path('verify-otp/', views.VerifyOTPAPI.as_view(), name="verify_otp"),
+    path('resend-otp/', views.ResendOTPAPI.as_view(), name="resend_otp"),
+]
+
+
 # API AUTHENTICATION (login, logout, etc.)
 urlpatterns += [
     path('login/', views.LoginAPI.as_view(), name='login'),
