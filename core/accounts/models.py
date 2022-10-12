@@ -10,8 +10,7 @@ from accounts.manager import AccountManager
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
-    fname = models.CharField(max_length=255, blank=True, null=True)
-    lname = models.CharField(max_length=255, blank=True, null=True)
+    fullname = models.CharField(max_length=255, blank=True, null=True)
     gender = models.CharField(max_length=1, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     dob = models.DateField(blank=True, null=True)
@@ -29,7 +28,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_fullname(self):
         '''return the full name of the user'''
-        return self.fname + ' ' + self.lname if self.fname or self.lname else 'N/A'  # noqa
+        return self.fullname if self.fullname else self.email
 
     def resend_user_password(self):
         '''sends the user password to the user's email'''
