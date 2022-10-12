@@ -73,10 +73,10 @@ class VerifyOTPAPI(generics.GenericAPIView):
                 return Response({
                     "message": "Invalid OTP!",
                 }, status=status.HTTP_400_BAD_REQUEST)
+        # NOTE: FIX!!!!!!!!!
         return Response({
-            "user": UserSerializer(user).data,
-            "token": AuthToken.objects.create(user)[1],
-        }, status=status.HTTP_201_CREATED)
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ResendOTPAPI(generics.GenericAPIView):
