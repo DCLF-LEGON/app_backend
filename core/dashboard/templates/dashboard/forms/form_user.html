@@ -4,16 +4,14 @@
         <legend>User creation/updation form</legend>
         <!-- main form content -->
         <div class="mb-4">
-            <label for="fname">First Name**</label>
-            <input type="text" class="form-control" name="fname" value="{{user.fname}}" aria-describedby="fnameHelp">
+            <label for="fullname">Full Name*</label>
+            <input type="text" class="form-control" name="fullname" value="{{user.fullname}}"
+                aria-describedby="fullnameHelp" required>
         </div>
         <div class="mb-4">
-            <label for="lname">Last Name**</label>
-            <input type="text" class="form-control" name="lname" value="{{user.lname}}" aria-describedby="lnameHelp">
-        </div>
-        <div class="mb-4">
-            <label for="email">Email**</label>
-            <input type="email" class="form-control" name="email" value="{{user.email}}" aria-describedby="emailHelp">
+            <label for="email">Email*</label>
+            <input type="email" class="form-control" name="email" value="{{user.email}}" aria-describedby="emailHelp"
+                required>
         </div>
         <div class="mb-4">
             <label for="gender">Gender</label>
@@ -27,7 +25,7 @@
             <input type="date" class="form-control" name="dob" value="{{user.dob}}" aria-describedby="dobhelp">
         </div>
         <div class="mb-4">
-            <label for="phone">Phone**</label>
+            <label for="phone">Phone*</label>
             <input type="text" class="form-control" name="phone" value="{{user.phone}}" aria-describedby="phonehelp">
         </div>
         <div class="mb-4">
