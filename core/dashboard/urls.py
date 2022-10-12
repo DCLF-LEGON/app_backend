@@ -20,6 +20,12 @@ urlpatterns += [
 # leaders
 urlpatterns += [
     path('leaders/', views.LeadersListView.as_view(), name='leaders'),
+    path('create-update-leader/', views.CreateLeaderView.as_view(), name='create-update-leader'),  # noqa
+]
+
+# preachers
+urlpatterns += [
+    path('preachers/', views.PreachersListView.as_view(), name='preachers'),
 ]
 
 # messages
