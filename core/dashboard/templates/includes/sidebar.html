@@ -96,7 +96,7 @@
                 </a>
               </li>
               <li class="nav-item {% if 'leadership' in segment %} active {% endif %}">
-                <a href="{% url 'dashboard:create-update-leader' %}" class="nav-link">
+                <a href="{% url 'dashboard:leaders' %}" class="nav-link">
                   <span class="sidebar-icon">
                     <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +109,7 @@
                 </a>
               </li>
               <li class="nav-item {% if 'preachers' in segment %} active {% endif %}">
-                <a href="{% url 'dashboard:leaders' %}" class="nav-link">
+                <a href="{% url 'dashboard:preachers' %}" class="nav-link">
                   <span class="sidebar-icon">
                     <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg">
@@ -207,12 +207,12 @@
                   id="submenu-users" aria-expanded="false">
                   <ul class="flex-column nav">
                     <li class="nav-item {% if 'users-buttons' in segment %} active {% endif %}">
-                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=app_users">
+                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=app_user">
                         <span class="sidebar-text">App Users</span>
                       </a>
                     </li>
                     <li class="nav-item {% if 'users-notifications' in segment %} active {% endif %}">
-                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=administrators">
+                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=administrator">
                         <span class="sidebar-text">Administrators</span>
                       </a>
                     </li>
