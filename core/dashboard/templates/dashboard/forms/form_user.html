@@ -1,5 +1,7 @@
-<form action="" style="border: 2px solid blue; padding: 30px 50px;" method="POST">
+<form action="{% url 'dashboard:create_update_user' %}" style="border: 2px solid blue; padding: 30px 50px;"
+    method="POST">
     {% csrf_token %}
+    <input type="hidden" name="user_id" value="{{user.id}}">
     <fieldset>
         <legend>User creation/updation form</legend>
         <!-- main form content -->
@@ -15,7 +17,7 @@
         </div>
         <div class="mb-4">
             <label for="gender">Gender</label>
-            <select name="gender" name="gender" class="form-control">
+            <select name="gender" class="form-control">
                 <option value="Male" {% if user.gender == "Male" %} selected {% endif %}>Male</option>
                 <option value="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
             </select>
@@ -48,7 +50,7 @@
         <hr>
         <div class="mb-4">
             <label for="role">Role**</label>
-            <select name="role" name="role" class="form-control">
+            <select name="role" class="form-control">
                 <option value="app_user" {% if user.role == "app_user" %} selected {% endif %}>APP USER</option>
                 <option value="administrator" {% if user.role == "administrator" %} selected {% endif %}>ADMINISTRATOR
                 </option>
