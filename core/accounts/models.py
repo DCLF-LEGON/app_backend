@@ -11,7 +11,7 @@ from accounts.manager import AccountManager
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     fullname = models.CharField(max_length=255, blank=True, null=True)
-    gender = models.CharField(max_length=1, blank=True, null=True)
+    gender = models.CharField(max_length=10, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     dob = models.DateField(blank=True, null=True)
     region = models.CharField(max_length=255, blank=True, null=True)
