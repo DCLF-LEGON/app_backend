@@ -22,3 +22,8 @@ urlpatterns += [
     path('logout/', knox_views.LogoutView.as_view(), name='logout'),
     path('logoutall/', knox_views.LogoutAllView.as_view(), name='logoutall'),  # noqa
 ]
+
+# UPDATE PASSWORD
+urlpatterns += [
+    path('change-password/', views.ChangePasswordAPI.as_view(), name='change_password'),  # noqa
+]
