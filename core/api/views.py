@@ -105,3 +105,33 @@ class ResendOTPAPI(generics.GenericAPIView):
         return Response({
             "message": "Invalid token!",
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ChangePasswordAPI(APIView):
+    '''This CBV is used to change a user's password'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        new_password = request.data.get('new_password')
+
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+            else:
+                return Response({
+                    "message": "Invalid token!",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            user.set_password(new_password)
+            user.save()
+            return Response({
+                "message": "Password changed successfully",
+            }, status=status.HTTP_200_OK)
+        user = request.user
+        user.set_password(request.data.get('password'))
+        user.save()
+        return Response({
+            "message": "Password changed successfully",
+        }, status=status.HTTP_200_OK)
+
