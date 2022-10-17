@@ -1,24 +1,35 @@
-<form action="" style="border: 2px solid blue; padding: 30px 50px;" method="POST">
+<form action="{% url 'dashboard:create-update-leader' %}?leader_id={{leader.id}}"
+    style="border: 2px solid blue; padding: 30px 50px;" method="POST">
     {% csrf_token %}
     <fieldset>
-        <legend>User creation/updation form</legend>
+        <legend>Leader creation/updation form</legend>
         <!-- main form content -->
         <div class="mb-4">
-            <label for="fullname">Full Name*</label>
-            <input type="text" class="form-control" name="fullname" value="{{user.fullname}}"
-                aria-describedby="fullnameHelp" required>
-        </div>
-        <div class="mb-4">
-            <label for="email">Email*</label>
-            <input type="email" class="form-control" name="email" value="{{user.email}}" aria-describedby="emailHelp"
+            <label for="name">Full Name*</label>
+            <input type="text" class="form-control" name="name" value="{{leader.name}}" aria-describedby="nameHelp"
                 required>
         </div>
         <div class="mb-4">
-            <label for="gender">Gender</label>
-            <select name="gender" name="gender" class="form-control">
-                <option value="Male" {% if user.gender == "Male" %} selected {% endif %}>Male</option>
-                <option value="Female" {% if user.gender == "Female" %} selected {% endif %}>Female</option>
+            <label for="title">Title</label>
+            <select name="title" name="title" class="form-control">
+                <option value="MR" {% if leader.title == "MR" %} selected {% endif %}>Mr (Mister)</option>
+                <option value="MS" {% if leader.title == "MS" %} selected {% endif %}>MS (Miss)</option>
+                <option value="MRS" {% if leader.title == "MRS" %} selected {% endif %}>MRS (Mrs)</option>
+                <option value="DR" {% if leader.title == "DR" %} selected {% endif %}>DR (Doctor)</option>
+                <option value="PS" {% if leader.title == "PS" %} selected {% endif %}>PS (Pastor)</option>
+                <option value="EVG" {% if leader.title == "EVG" %} selected {% endif %}>EVG (Evangelist)</option>
+                <option value="APS" {% if leader.title == "APS" %} selected {% endif %}>APS (Apostle)</option>
             </select>
+        </div>
+        <div class="mb-4">
+            <label for="position">Position</label>
+            <input type="text" class="form-control" name="position" value="{{leader.position}}"
+                aria-describedby="positionHelp" required>
+        </div>
+        <div class="mb-4">
+            <label for="position">Picture</label>
+            <input type="file" class="form-control" name="picture" value="{{leader.picture}}"
+                aria-describedby="pictureHelp" accept="image/jpg, image/jpeg, image/png" required>
         </div>
 
         <div class="mb-4">
