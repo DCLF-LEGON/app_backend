@@ -1,0 +1,117 @@
+{% extends "base/base.html" %}
+
+{% block title %} User | {{user.fullname|upper}} {% endblock %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
+                <li class="breadcrumb-item active" aria-current="page">User</li>
+            </ol>
+        </nav>
+        <h2 class="h4">{{user.fullname|upper}}</h2>
+        <p class="mb-0">All you need to know about {{user.fullname}}</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group ms-2 ms-lg-3">
+            <form action="{% url 'dashboard:delete_user' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="user_id" value="{{user.id}}">
+                <button type="submit" class="btn btn-sm btn-outline-gray-600"><span
+                        class="fas fa-trash-alt me-2"></span>Delete User</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <div class="row">
+        <div class="col-4 mb-3">
+            <b>Fullname</b>
+            <p class="text-primary">{{user.fullname}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Email</b>
+            <p class="text-primary">{{user.email}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Phone</b>
+            <p class="text-primary">{{user.phone}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Gender</b>
+            <p class="text-primary">{{user.gender}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>DOB</b>
+            <p class="text-primary">{{user.dob}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Country</b>
+            <p class="text-primary">{{user.country}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Region</b>
+            <p class="text-primary">{{user.region}}</p>
+        </div>
+        <div class="col-4">
+            <b>City</b>
+            <p class="text-primary">{{user.city}}</p>
+        </div>
+        <div class="col-4">
+            <b>Zip</b>
+            <p class="text-primary">{{user.zip}}</p>
+        </div>
+        <div class="col-4">
+            <b>Role</b>
+            <p class="text-primary">{{user.role}}</p>
+        </div>
+        <div class="col-4">
+            <b>Created From Dashboard</b>
+            <p class="text-primary">{{user.created_from_dashboard}}</p>
+        </div>
+        <div class="col-4">
+            <b>Is Active</b>
+            <p class="text-primary">{{user.is_active}}</p>
+        </div>
+        <div class="col-4">
+            <b>Is Appuser</b>
+            <p class="text-primary">{{user.is_appuser}}</p>
+        </div>
+        <div class="col-4">
+            <b>Is Staff</b>
+            <p class="text-primary">{{user.is_staff}}</p>
+        </div>
+        <div class="col-4">
+            <b>Is Superuser</b>
+            <p class="text-primary">{{user.is_superuser}}</p>
+        </div>
+        <div class="col-4">
+            <b>Date Joined</b>
+            <p class="text-primary">{{user.date_joined}}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
