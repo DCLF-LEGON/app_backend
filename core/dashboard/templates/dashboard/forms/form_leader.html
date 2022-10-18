@@ -1,5 +1,5 @@
 <form action="{% url 'dashboard:create-update-leader' %}?leader_id={{leader.id}}"
-    style="border: 2px solid blue; padding: 30px 50px;" method="POST">
+    style="border: 2px solid blue; padding: 30px 50px;" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset>
         <legend>Leader creation/updation form</legend>
