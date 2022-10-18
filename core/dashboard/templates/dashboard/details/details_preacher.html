@@ -48,6 +48,8 @@
             <b>Picture</b> <br>
             <img src="{% if preacher.picture %} {{preacher.picture.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %} "
                 style="height: 80px; width: 80px; border-radius: 50%;" alt="">
+            <button type="button" class="btn btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#modal-default"><span
+                    class="fas fa-eye"></span></button>
         </div>
         <div class="col-4 mb-3">
             <b>Fullname</b>
@@ -80,6 +82,29 @@
     </div>
 
 </div>
+
+
+<!-- Modal Content -->
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="card-title">
+                    <h2 class="h6 modal-title">{{preacher.name}}</h2>
+                </div>
+                <img src="{% if preacher.picture %} {{preacher.picture.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %} "
+                    alt="" class="card-img-top" style="width: 100%; height:auto;">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link text-gray-600 ms-auto" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal Content -->
+
+
 
 {% endblock content %}
 
