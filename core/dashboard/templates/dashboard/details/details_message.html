@@ -1,0 +1,111 @@
+{% extends "base/base.html" %}
+
+{% block title %} Message | {{message.title}} {% endblock %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Message</li>
+            </ol>
+        </nav>
+        <h2 class="h4">{{message.title|upper}}</h2>
+        <p class="mb-0">Details of the message {{message.title}}</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group ms-2 ms-lg-3">
+            <form action="{% url 'dashboard:delete_message' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="message_id" value="{{message.id}}">
+                <button type="submit" class="btn btn-sm btn-outline-gray-600"><span
+                        class="fas fa-trash-alt me-2"></span>Delete Message</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <div class="row">
+        <div class="col-8 mt-2 mb-3 mx-auto">
+            {% if message.media %}
+            {% if message.media_type == "video" %}
+            <video width="100%" height="auto" controls>
+                <source src="{{message.media.url}}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            {% elif message.media_type == "audio" %}
+            <audio controls>
+                <source src="{{message.media.url}}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            {% endif %}
+            {% endif %}
+        </div>
+        <hr>
+        <div class="col-4 mb-3">
+            <b>Title</b>
+            <p class="text-primary">{{message.title}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>URL</b>
+            <p class="text-primary">
+                {% if message.media %}
+                {{message.media.url}}
+                {% else %}
+                No/media/Found/
+                {% endif %}
+            </p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Media Size</b>
+            <p class="text-primary">{{message.get_media_size}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Media Type</b>
+            <p class="text-primary">{{message.media_type}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Message Category</b>
+            <p class="text-primary">{{message.category.name}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Preacher</b>
+            <p class="text-primary">{{message.preacher.name}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Date Created</b>
+            <p class="text-primary">{{message.created_at}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Created by</b>
+            <p class="text-primary">Administrator</p>
+        </div>
+        <div class="col-4">
+            <b>Updated by</b>
+            <p class="text-primary">Administrator</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
