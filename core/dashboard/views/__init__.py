@@ -8,6 +8,7 @@ from .messages import *
 from .notifications import *
 from .users import *
 from .preachers import *
+from .categories import *
 
 
 class DashboardView(View):
