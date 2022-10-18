@@ -38,6 +38,19 @@ urlpatterns += [
 # messages
 urlpatterns += [
     path('messages/', views.MessagesListView.as_view(), name='messages'),
+    path('create-update-message/', views.CreateUpdateMessageView.as_view(), name='create_update_message'),  # noqa
+    path('message-details/', views.MessageDetailsView.as_view(), name='message_details'),  # noqa
+    path('search-message/', views.SearchMessageView.as_view(), name='search_message'),  # noqa
+    path('delete-message/', views.DeleteMessageView.as_view(), name='delete_message'),  # noqa
+]
+
+# messages category
+urlpatterns += [
+    path('categories/', views.CategoriesListView.as_view(), name='categories'),
+    path('create-update-category/', views.CreateUpdateCategoryView.as_view(), name='create_update_category'),  # noqa
+    path('message-details/', views.MessageDetailsView.as_view(), name='message_details'),  # noqa
+    path('search-category/', views.SearchCategoryView.as_view(), name='search_category'),  # noqa
+    path('delete-category/', views.DeleteCategoryView.as_view(), name='delete_category'),  # noqa
 ]
 
 # notifications
