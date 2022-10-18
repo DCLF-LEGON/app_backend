@@ -23,6 +23,7 @@ class ApiEndPointsView(APIView):
 
             'verify-otp': '/api/verify-otp/',
             'resend-otp': '/api/resend-otp/',
+            'user-profile': '/api/user-profile/',
         })
 
 
@@ -135,3 +136,24 @@ class ChangePasswordAPI(APIView):
             "message": "Password changed successfully",
         }, status=status.HTTP_200_OK)
 
+
+class UserProfileAPI(APIView):
+    '''This CBV is used to get a user's profile'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+            else:
+                return Response({
+                    "message": "Invalid token!",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "user": UserSerializer(user).data,
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
