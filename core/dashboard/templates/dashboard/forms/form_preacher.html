@@ -1,5 +1,5 @@
-<form action="{% url 'dashboard:create-update-preacher' %}?preacher_id={{preacher.id}}"
-    style="border: 2px solid blue; padding: 30px 50px;" method="POST">
+<form action="{% url 'dashboard:create_update_preacher' %}?preacher_id={{preacher.id}}"
+    style="border: 2px solid blue; padding: 30px 50px;" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <fieldset>
         <legend>Preacher creation/updation form</legend>
