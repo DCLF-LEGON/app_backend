@@ -1,6 +1,7 @@
-<form action="{% url 'dashboard:create-update-leader' %}?leader_id={{leader.id}}"
-    style="border: 2px solid blue; padding: 30px 50px;" method="POST" enctype="multipart/form-data">
+<form action="{% url 'dashboard:create_update_leader' %}" style="border: 2px solid blue; padding: 30px 50px;"
+    method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <input type="hidden" name="leader_id" value="{{leader.id}}">
     <fieldset>
         <legend>Leader creation/updation form</legend>
         <!-- main form content -->
@@ -28,8 +29,13 @@
         </div>
         <div class="mb-4">
             <label for="position">Picture</label>
+            {% if leader.picture %}
+            <br>
+            <small>Current Picture: <span style="color: blue;">{{leader.picture.url}} </span></small>
+            {% endif %}
             <input type="file" class="form-control" name="picture" value="{{leader.picture}}"
-                aria-describedby="pictureHelp" accept="image/jpg, image/jpeg, image/png" required>
+                aria-describedby="pictureHelp" accept="image/jpg, image/jpeg, image/png" {% if not leader.picture %}
+                required {% endif %}>
         </div>
 
         <div class="mb-4">
