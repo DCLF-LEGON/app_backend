@@ -84,6 +84,8 @@
                 <th class="border-gray-200">URL</th>
                 <th class="border-gray-200">Title</th>
                 <th class="border-gray-200">Preacher</th>
+                <th class="border-gray-200">Category</th>
+                <th class="border-gray-200">Media Type</th>
                 <th class="border-gray-200">File Size</th>
                 <th class="border-gray-200">Date Added</th>
                 <th class="border-gray-200">Action</th>
@@ -111,6 +113,10 @@
                 <td>
                     <span class="fw-normal">{{message.preacher.name}}</span>
                 </td>
+                <td>
+                    <span class="fw-normal">{{message.category.name}}</span>
+                </td>
+                <td><span class="fw-bold">{{message.media_type}}</span></td>
                 <td><span class="fw-bold">{{message.get_media_size}}</span></td>
                 <td><span class="fw-normal">{{message.created_at}}</span></td>
                 <td>
