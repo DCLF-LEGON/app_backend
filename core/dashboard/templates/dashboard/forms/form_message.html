@@ -1,6 +1,7 @@
-<form action="{% url 'dashboard:create_update_message' %}?message_id={{message.id}}"
-    style="border: 2px solid blue; padding: 30px 50px;" method="POST" enctype="multipart/form-data">
+<form action="{% url 'dashboard:create_update_message' %}" style="border: 2px solid blue; padding: 30px 50px;"
+    method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <input type="hidden" name="message_id" value="{{message.id}}">
     <fieldset>
         <legend>Message creation/updation form</legend>
         <!-- main form content -->
@@ -11,14 +12,18 @@
         </div>
         <div class="mb-4">
             <label for="media">Media*</label>
+            {% if message.media %}
+            <br>
+            <small>Current Media: <span style="color: blue;">{{message.media.url}} </span></small>
+            {% endif %}
             <input type="file" class="form-control" name="media" aria-describedby="mediaHelp" accept="audio/*, video/*"
-                required>
+                {% if not message.media %} required {% endif %}>
         </div>
         <div class="mb-4">
             <label for="media_type">Media Type*</label>
             <select name="media_type" class="form-control">
                 {% for media_type in media_types %}
-                <option value="{{media_type}}" {% if message.media_type == "{{media_type}}" %} selected {% endif %}>
+                <option value="{{media_type}}" {% if message.media_type == media_type %} selected {% endif %}>
                     {{media_type}}</option>
                 {% endfor %}
             </select>
@@ -27,7 +32,7 @@
             <label for="preacher">Preacher*</label>
             <select name="preacher" class="form-control">
                 {% for preacher in preachers %}
-                <option value="{{preacher.id}}" {% if message.preacher.id == "{{preacher.id}}" %} selected {% endif %}>
+                <option value="{{preacher.id}}" {% if message.preacher.id == preacher.id %} selected {% endif %}>
                     {{preacher.title}} {{preacher.name}}</option>
                 {% endfor %}
             </select>
@@ -36,7 +41,7 @@
             <label for="category">Message Category*</label>
             <select name="category" class="form-control">
                 {% for category in categories %}
-                <option value="{{category.id}}" {% if message.category.id == "{{category.id}}" %} selected {% endif %}>
+                <option value="{{category.id}}" {% if message.category.id == category.id %} selected {% endif %}>
                     {{category.name}}</option>
                 {% endfor %}
             </select>
