@@ -1,9 +1,10 @@
 import random
 import string
+from dashboard.models import Message, MessageCategory
 from dashboard.signals import generate_otp
 from django.shortcuts import render
 from accounts.models import OTP
-from api.serializers import RegisterSerializer, UserSerializer
+from api.serializers import MessageCategorySerializer, MessageSerializer, RegisterSerializer, UserSerializer
 from rest_framework.views import APIView
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
@@ -157,3 +158,64 @@ class UserProfileAPI(APIView):
         return Response({
             "message": "Invalid token!",
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MessageCategoriesListAPI(APIView):
+    '''This CBV is used to get all categories'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        categories = MessageCategory.objects.all()
+        return Response({
+            "categories": MessageCategorySerializer(categories, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class MessagesListAPI(APIView):
+    '''This CBV is used to get all messages from all categories'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        messages = Message.objects.all().order_by('-created_at')
+
+        all_messages = []
+        for message in messages:
+            all_messages.append({
+                "id": message.id,
+                "title": message.title,
+                "media": message.media.url,
+                "media_type": message.media_type.upper(),
+                "category": message.category.name.upper(),
+                "preacher": message.preacher.title.upper() + '. ' + message.preacher.name.upper(),
+
+            })
+        return Response({
+            "messages": all_messages,
+        }, status=status.HTTP_200_OK)
+
+
+class CategoryMessagesAPI(APIView):
+    '''This CBV is used to get all messages from specified category'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        category_id = request.GET.get('category_id')
+        category = MessageCategory.objects.filter(id=category_id).first()
+        if not category:
+            return Response({
+                "message": "Invalid category!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        messages = Message.objects.filter(category=category).order_by('-created_at')  # noqa
+        all_messages = []
+        for message in messages:
+            all_messages.append({
+                "id": message.id,
+                "title": message.title,
+                "media": message.media.url,
+                "media_type": message.media_type.upper(),
+                "category": message.category.name.upper(),
+                "preacher": message.preacher.title.upper() + '. ' + message.preacher.name.upper(),
+            })
+        return Response({
+            "messages": all_messages,
+        }, status=status.HTTP_200_OK)
