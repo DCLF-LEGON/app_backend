@@ -37,4 +37,17 @@ class RegisterSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        exclude = ('password', 'is_superuser', 'groups', 'user_permissions', 'last_login', 'id')  # noqa
+
+
+class MessageCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageCategory
+        exclude = ('created_at', 'updated_at')
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        exclude = ('created_at', 'updated_at')
+
