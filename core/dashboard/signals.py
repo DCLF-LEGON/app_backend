@@ -51,6 +51,21 @@ def mail_user_otp(sender, instance, created, **kwargs):
             print("The mail_user_opt function has been called")
 
 
+@receiver(post_save, sender=User)
+def mail_user_password(sender, instance, created, **kwargs):
+    '''sends the user password to the user's email'''
+    if created:
+        if instance.created_from_dashboard:
+            subject = 'New Account Setup'
+            message = 'Hello there, your account[for dlcf app] has been created. \nUse the password below to login to your account'
+            receipients = [str(instance.email)]
+            passcode = generate_user_password()
+            instance.set_password(passcode)
+            instance.save()
+            send_email(instance, email_template, passcode,
+                       subject, message, receipients)
+
+
 def send_email(instance, template_name: str, password: str, subject: str, message, receipients):  # noqa
     '''Send mail to user who booked the trip'''
     text = render_to_string(template_name, {
