@@ -15,6 +15,10 @@ urlpatterns += [
 # doctrines
 urlpatterns += [
     path('doctrines/', views.DoctrinesListView.as_view(), name='doctrines'),
+    path('create-update-doctrine/', views.CreateUpdateDoctrineView.as_view(), name='create_update_doctrine'),  # noqa
+    path('doctrine-details/', views.DoctrineDetailsView.as_view(), name='doctrine_details'),  # noqa
+    path('search-doctrine/', views.SearchDoctrineView.as_view(), name='search_doctrine'),  # noqa
+    path('delete-doctrine/', views.DeleteDoctrineView.as_view(), name='delete_doctrine'),  # noqa
 ]
 
 # leaders
