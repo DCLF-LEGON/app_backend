@@ -1,0 +1,21 @@
+<form action="{% url 'dashboard:create_update_doctrine' %}" style="border: 2px solid blue; padding: 30px 50px;"
+    method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="doctrine_id" value="{{doctrine.id}}">
+    <fieldset>
+        <legend>doctrine creation/updation form</legend>
+        <!-- main form content -->
+        <div class="mb-4">
+            <label for="title">Title*</label>
+            <input type="text" class="form-control" name="title" value="{{doctrine.title}}" aria-describedby="titleHelp"
+                required>
+        </div>
+        <div class="mb-4">
+            <label for="description">Description*</label>
+            <textarea name="description" cols="30" rows="20" class="form-control">{{doctrine.description}}</textarea>
+        </div>
+        <div class="mb-4">
+            <input type="submit" class="btn btn-sm btn-block btn-primary" value="Submit">
+        </div>
+    </fieldset>
+</form>
