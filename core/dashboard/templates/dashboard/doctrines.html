@@ -32,7 +32,7 @@
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group ms-2 ms-lg-3">
-            <a href="#" class="btn btn-sm btn-outline-gray-600">
+            <a href="{% url 'dashboard:create_update_doctrine' %}" class="btn btn-sm btn-outline-gray-600">
                 <svg class="icon icon-xs me-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -49,10 +49,10 @@
     <div class="row align-items-center justify-content-between">
         <div class="col col-md-6 col-lg-3 col-xl-4">
             <div class="input-group me-2 me-lg-3 fmxw-400">
-                <form action="">
+                <form action="{% url 'dashboard:search_doctrine' %}">
                     <div class="row">
                         <div class="col-9 mx-0" style="padding-right: 0;">
-                            <input type="text" class="form-control" name="query" placeholder="Search Doctrines">
+                            <input type="text" class="form-control" name="q" placeholder="Search Doctrines">
                         </div>
                         <div class="col-3 mx-0" style="padding-left: 0;">
                             <span><button class="btn btn-sm btn-primary">Search</button></span>
@@ -65,7 +65,11 @@
         <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
             <div class="dropdown">
                 <button class="btn btn-link text-white m-0 p-1 bg-gray-800">
-                    20 Doctrines Added
+                    {% if search %}
+                    {{total_doctrines}} Doctrines Found!
+                    {% else %}
+                    {{total_doctrines}} Doctrines Added
+                    {% endif %}
                 </button>
             </div>
         </div>
@@ -86,21 +90,21 @@
         </thead>
         <tbody>
             <!-- Item -->
+            {% for doctrine in doctrines %}
             <tr>
                 <td>
-                    1
+                    {{forloop.counter}}
                 </td>
                 <td>
-                    <a href="#" class="fw-bold">
-                        The Godhead
+                    <a href="javascript:void()" class="fw-bold">
+                        {{doctrine.title}}
                     </a>
                 </td>
                 <td>
-                    <span class="fw-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum,
-                        laboriosam...</span>
+                    <span class="fw-normal">{{doctrine.description|slice:":80"}} ...</span>
                 </td>
-                <td><span class="fw-bold">Prince Kyeremanteng</span></td>
-                <td><span class="fw-normal">1 May 2020</span></td>
+                <td><span class="fw-bold">Administrator</span></td>
+                <td><span class="fw-normal">{{doctrine.created_at}}</span></td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
@@ -108,52 +112,25 @@
                             <span class="icon icon-sm">
                                 <span class="fas fa-ellipsis-h icon-dark"></span>
                             </span>
-                            <span class="visually-hidden">Toggle Dropdown</span>
                         </button>
                         <div class="dropdown-menu py-0">
-                            <a class="dropdown-item rounded-top" href="#"><span
+                            <a class="dropdown-item rounded-top"
+                                href="{% url 'dashboard:doctrine_details' %}?doctrine_id={{doctrine.id}}"><span
                                     class="fas fa-eye me-2"></span>Details</a>
-                            <a class="dropdown-item" href="#"><span class="fas fa-edit me-2"></span>Edit</a>
-                            <a class="dropdown-item text-danger rounded-bottom" href="#"><span
-                                    class="fas fa-trash-alt me-2"></span>Delete</a>
+                            <a class="dropdown-item"
+                                href="{% url 'dashboard:create_update_doctrine' %}?doctrine_id={{doctrine.id}}"><span
+                                    class="fas fa-edit me-2"></span>Edit</a>
+                            <form action="{% url 'dashboard:delete_doctrine' %}" method="POST" style="display: inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="doctrine_id" value="{{doctrine.id}}">
+                                <button type="submit" class="dropdown-item text-danger rounded-bottom"><span
+                                        class="fas fa-trash-alt me-2"></span>Delete</button>
+                            </form>
                         </div>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <td>
-                    2
-                </td>
-                <td>
-                    <a href="#" class="fw-bold">
-                        The Holy Bible
-                    </a>
-                </td>
-                <td>
-                    <span class="fw-normal">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Illum,
-                        laboriosam...</span>
-                </td>
-                <td><span class="fw-bold">Prince Kyeremanteng</span></td>
-                <td><span class="fw-normal">1 May 2020</span></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="icon icon-sm">
-                                <span class="fas fa-ellipsis-h icon-dark"></span>
-                            </span>
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu py-0">
-                            <a class="dropdown-item rounded-top" href="#"><span
-                                    class="fas fa-eye me-2"></span>Details</a>
-                            <a class="dropdown-item" href="#"><span class="fas fa-edit me-2"></span>Edit</a>
-                            <a class="dropdown-item text-danger rounded-bottom" href="#"><span
-                                    class="fas fa-trash-alt me-2"></span>Delete</a>
-                        </div>
-                    </div>
-                </td>
-            </tr>
+            {% endfor %}
 
         </tbody>
     </table>
@@ -183,7 +160,8 @@
                 </li>
             </ul>
         </nav>
-        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
+        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{total_doctrines}}</b> out of <b>{{total_doctrines}}</b>
+            entries</div>
     </div>
 </div>
 
