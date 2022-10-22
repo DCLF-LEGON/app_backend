@@ -39,7 +39,6 @@ class Doctrine(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    created_by = models.ForeignKey(User, related_name='doctrines', on_delete=models.CASCADE)  # noqa
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
