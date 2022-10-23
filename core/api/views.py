@@ -1,8 +1,17 @@
+import decimal
+import time
+from core.utils.util_functions import get_transaction_status, receive_payment
+from core import settings
+from .serializers import DonationSerializer
+from dashboard.models import Donation, Preacher
+from .serializers import PreacherSerializer
+from dashboard.models import Doctrine
+from .serializers import DoctrineSerializer
+from .serializers import LeaderSerializer
 import random
 import string
-from dashboard.models import Message, MessageCategory
+from dashboard.models import Leader, Message, MessageCategory
 from dashboard.signals import generate_otp
-from django.shortcuts import render
 from accounts.models import OTP
 from api.serializers import MessageCategorySerializer, MessageSerializer, RegisterSerializer, UserSerializer
 from rest_framework.views import APIView
@@ -219,3 +228,91 @@ class CategoryMessagesAPI(APIView):
         return Response({
             "messages": all_messages,
         }, status=status.HTTP_200_OK)
+
+
+class LeadersListAPI(APIView):
+    '''This CBV is used to get all leaders'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        leaders = Leader.objects.all().order_by('-created_at')
+        return Response({
+            "leaders": LeaderSerializer(leaders, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class PreachersListAPI(APIView):
+    '''This CBV is used to get all preachers'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        preachers = Preacher.objects.all().order_by('-created_at')
+        return Response({
+            "preachers": PreacherSerializer(preachers, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class DoctrinesListAPI(APIView):
+    '''This CBV is used to get all doctrines'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        doctrines = Doctrine.objects.all().order_by('-created_at')
+        return Response({
+            "doctrines": DoctrineSerializer(doctrines, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class MakeDonationAPI(APIView):
+    # this is used to make a donation
+    def generate_transaction_id(self):
+        return int(round(time.time() * 10000))
+
+    def post(self, request, *args, **kwargs):
+        serializer = DonationSerializer(data=request.data)
+        if serializer.is_valid():
+            transaction_id = self.generate_transaction_id()
+            data = {
+                'transaction_id': transaction_id,
+                'mobile_number': serializer['mobile_number'].value,
+                'amount': serializer['amount'].value,
+                'wallet_id': settings.PAYHUB_WALLET_ID,
+                'network_code': serializer['network'].value,
+            }
+            # initiate payment
+            receive_payment(data)
+            transaction_is_successful = False
+            # wait for 30 seconds for payment to be completed
+            for i in range(6):
+                time.sleep(5)
+                transaction_status = get_transaction_status(transaction_id)  # noqa
+                print(transaction_status)
+                if transaction_status['success'] == True:
+                    transaction_is_successful = True
+                    print('the transaction was successful')
+                    break
+
+            transaction = {
+                'transaction_id': transaction_id,
+                'amount': serializer['amount'].value,
+                'mobile_number': serializer['mobile_number'].value,
+                'network': serializer['network'].value,
+                'status_code': transaction_status['status_code'],
+                'status_message': transaction_status['message'],
+            }
+            print("Saving Transaction")
+            transaction = Donation.objects.create(**transaction)
+            print('Transaction Saved')
+            serializer = DonationSerializer(transaction, many=False)
+            if transaction_is_successful:
+                return Response({
+                    "status": "success",
+                    "transaction": serializer.data,
+                }, status=status.HTTP_200_OK)
+            else:
+                return Response({
+                    "status": "pending",
+                    "transaction": serializer.data,
+                }, status=status.HTTP_201_CREATED)
+        # if transaction data is not valid
+        return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
