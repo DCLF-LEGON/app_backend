@@ -51,10 +51,10 @@
     <div class="row align-items-center justify-content-between">
         <div class="col col-md-6 col-lg-3 col-xl-4">
             <div class="input-group me-2 me-lg-3 fmxw-400">
-                <form action="">
+                <form action="{% url 'dashboard:search-donation' %}">
                     <div class="row">
                         <div class="col-9 mx-0" style="padding-right: 0;">
-                            <input type="text" class="form-control" name="query" placeholder="Search Donations">
+                            <input type="text" class="form-control" name="q" placeholder="Search Donations">
                         </div>
                         <div class="col-3 mx-0" style="padding-left: 0;">
                             <span><button class="btn btn-sm btn-primary">Search</button></span>
@@ -67,7 +67,7 @@
         <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
             <div class="dropdown">
                 <button class="btn btn-link text-white m-0 p-1 bg-gray-800">
-                    20 Donations Today
+                    {{donations_today}} Donations Today
                 </button>
             </div>
         </div>
@@ -80,123 +80,36 @@
             <tr>
                 <th class="border-gray-200">#</th>
                 <th class="border-gray-200">Donation ID</th>
-                <th class="border-gray-200">Reference Note</th>
-                <th class="border-gray-200">Total</th>
-                <th class="border-gray-200">Status</th>
+                <th class="border-gray-200">Amount</th>
+                <th class="border-gray-200">Mobile Number</th>
+                <th class="border-gray-200">Network</th>
+                <th class="border-gray-200">Status Code</th>
+                <th class="border-gray-200">Status Message</th>
                 <th class="border-gray-200">Date Donated</th>
-                <th class="border-gray-200">Action</th>
             </tr>
         </thead>
         <tbody>
             <!-- Item -->
+            {% for donation in donations %}
             <tr>
                 <td>
-                    1
+                    {{forloop.counter}}
                 </td>
                 <td>
-                    <a href="#" class="fw-bold">
-                        1756325456478
+                    <a href="javascript:void()" class="fw-bold">
+                        {{donation.transaction_id}}
                     </a>
                 </td>
                 <td>
-                    <span class="fw-normal">Platinum Subscription Plan</span>
+                    <span class="fw-normal">{{donation.amount}}</span>
                 </td>
-                <td><span class="fw-bold">$799,00</span></td>
-                <td><span class="fw-bold text-warning">Not Paid</span></td>
-                <td><span class="fw-normal">1 May 2020</span></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="icon icon-sm">
-                                <span class="fas fa-ellipsis-h icon-dark"></span>
-                            </span>
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu py-0">
-                            <a class="dropdown-item rounded-top" href="#"><span class="fas fa-eye me-2"></span>View
-                                Details</a>
-                            <!-- <a class="dropdown-item" href="#"><span class="fas fa-edit me-2"></span>Edit</a>
-                            <a class="dropdown-item text-danger rounded-bottom" href="#"><span
-                                    class="fas fa-trash-alt me-2"></span>Remove</a> -->
-                        </div>
-                    </div>
-                </td>
+                <td><span class="fw-bold">{{donation.mobile_number}}</span></td>
+                <td><span class="fw-bold text-warning">{{donation.network}}</span></td>
+                <td><span class="fw-normal">{{donation.status_code}}</span></td>
+                <td><span class="fw-normal">{{donation.status_message}}</span></td>
+                <td><span class="fw-normal">{{donation.created_at}}</span></td>
             </tr>
-            <!-- Item -->
-            <tr>
-                <td>
-                    <a href="#" class="fw-bold">
-                        2
-                    </a>
-                </td>
-                <td>
-                    <a href="#" class="fw-bold">
-                        1524632456423
-                    </a>
-                </td>
-                <td>
-                    <span class="fw-normal">Platinum Subscription Plan</span>
-                </td>
-                <td><span class="fw-bold">$799,00</span></td>
-                <td><span class="fw-bold text-success">Paid</span></td>
-                <td><span class="fw-normal">1 May 2020</span></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="icon icon-sm">
-                                <span class="fas fa-ellipsis-h icon-dark"></span>
-                            </span>
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu py-0">
-                            <a class="dropdown-item rounded-top" href="#"><span class="fas fa-eye me-2"></span>View
-                                Details</a>
-                            <!-- <a class="dropdown-item" href="#"><span class="fas fa-edit me-2"></span>Edit</a>
-                            <a class="dropdown-item text-danger rounded-bottom" href="#"><span
-                                    class="fas fa-trash-alt me-2"></span>Remove</a> -->
-                        </div>
-                    </div>
-                </td>
-            </tr>
-            <!-- Item -->
-            <tr>
-                <td>
-                    <a href="#" class="fw-bold">
-                        3
-                    </a>
-                </td>
-                <td>
-                    <a href="#" class="fw-bold">
-                        1856432456420
-                    </a>
-                </td>
-                <td>
-                    <span class="fw-normal">Platinum Subscription Plan</span>
-                </td>
-                <td><span class="fw-bold">$799,00</span></td>
-                <td><span class="fw-bold text-success">Paid</span></td>
-                <td><span class="fw-normal">1 May 2020</span></td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
-                            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="icon icon-sm">
-                                <span class="fas fa-ellipsis-h icon-dark"></span>
-                            </span>
-                            <span class="visually-hidden">Toggle Dropdown</span>
-                        </button>
-                        <div class="dropdown-menu py-0">
-                            <a class="dropdown-item rounded-top" href="#"><span class="fas fa-eye me-2"></span>View
-                                Details</a>
-                            <!-- <a class="dropdown-item" href="#"><span class="fas fa-edit me-2"></span>Edit</a>
-                            <a class="dropdown-item text-danger rounded-bottom" href="#"><span
-                                    class="fas fa-trash-alt me-2"></span>Remove</a> -->
-                        </div>
-                    </div>
-                </td>
-            </tr>
+            {% endfor %}
             <!-- Item -->
         </tbody>
     </table>
@@ -226,7 +139,8 @@
                 </li>
             </ul>
         </nav>
-        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>5</b> out of <b>25</b> entries</div>
+        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{total_donations}}</b> out of <b>{{total_donations}}</b>
+            entries</div>
     </div>
 </div>
 
