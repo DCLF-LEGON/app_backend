@@ -51,3 +51,36 @@ class MessageSerializer(serializers.ModelSerializer):
         model = Message
         exclude = ('created_at', 'updated_at')
 
+
+class LeaderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Leader
+        exclude = ('created_at', 'updated_at')
+
+
+class PreacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Preacher
+        exclude = ('created_at', 'updated_at')
+
+
+class PreacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Preacher
+        exclude = ('created_at', 'updated_at')
+
+
+class DoctrineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Doctrine
+        exclude = ('created_at', 'updated_at')
+
+
+class DonationSerializer(serializers.ModelSerializer):
+    network = serializers.CharField(max_length=20, default='MTN')
+    mobile_number = serializers.CharField(max_length=15, allow_blank=True)  # noqa
+    amount = serializers.DecimalField(decimal_places=3, max_digits=10)  # noqa
+
+    class Meta:
+        model = Donation
+        fields = '__all__'
