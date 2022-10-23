@@ -1,3 +1,6 @@
+import random
+import time
+import string
 import os
 from accounts.models import User
 from django.db import models
@@ -82,3 +85,19 @@ class Message(models.Model):
 
     class Meta:
         db_table = 'message'
+
+
+class Donation(models.Model):
+    def generate_transaction_id():
+        time_id = str(int(time.time() * 100))
+        return "".join(random.choices(string.ascii_uppercase + time_id + string.digits, k=10))
+    transaction_id = models.CharField(max_length=255, primary_key=True, default=generate_transaction_id)  # noqa
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    mobile_number = models.CharField(max_length=255, null=True, blank=True)
+    network = models.CharField(max_length=255, null=True, blank=True)
+    status_code = models.CharField(max_length=255, null=True, blank=True)
+    status_message = models.CharField(max_length=255, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.transaction_id if self.transaction_id else "transaction"
