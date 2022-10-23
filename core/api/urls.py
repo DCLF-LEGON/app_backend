@@ -27,6 +27,28 @@ urlpatterns += [
     path('category-messages/', views.CategoryMessagesAPI.as_view(), name="cat_msgs"),  # noqa
 ]
 
+
+# leaders urls
+urlpatterns += [
+    path('leaders/', views.LeadersListAPI.as_view(), name="leaders"),
+]
+
+
+# preachers urls
+urlpatterns += [
+    path('preachers/', views.PreachersListAPI.as_view(), name="preachers"),
+]
+
+# doctrines urls
+urlpatterns += [
+    path('doctrines/', views.DoctrinesListAPI.as_view(), name="doctrines"),
+]
+
+# donations urls
+urlpatterns += [
+    path('make-donation/', views.MakeDonationAPI.as_view(), name="make_donation"),  # noqa
+]
+
 # API AUTHENTICATION (login, logout, etc.)
 urlpatterns += [
     path('login/', views.LoginAPI.as_view(), name='login'),
