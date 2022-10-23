@@ -10,6 +10,7 @@ urlpatterns = [
 # donations
 urlpatterns += [
     path('donations/', views.DonationsListView.as_view(), name='donations'),
+    path('search-donation/', views.SearchDonationView.as_view(), name='search-donation'),  # noqa
 ]
 
 # doctrines
