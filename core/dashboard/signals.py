@@ -24,12 +24,8 @@ def mail_user_password(sender, instance, created, **kwargs):
             message = 'Hello there, your account[for dlcf app] has been created. \nUse the password below to login to your account'  # noqa
             receipients = [str(instance.email)]
             send_email(instance, email_template, passcode, subject, message, receipients)  # noqa
-            instance.set_password(generate_user_password())
+            instance.set_password(passcode)
             instance.save()
-        else:
-            # create otp
-            OTP.objects.create(user=instance, otp=generate_otp())
-        return
 
 
 @receiver(post_save, sender=OTP)
