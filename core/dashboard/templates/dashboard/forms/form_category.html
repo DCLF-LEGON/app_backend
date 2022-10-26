@@ -11,6 +11,16 @@
                 required>
         </div>
         <div class="mb-4">
+            <label for="position">Thumbnail</label>
+            {% if category.thumbnail %}
+            <br>
+            <small>Current Thumbnail: <span style="color: blue;">{{category.thumbnail.url}} </span></small>
+            {% endif %}
+            <input type="file" class="form-control" name="thumbnail" value="{{category.thumbnail}}"
+                aria-describedby="thumbnailHelp" accept="image/jpg, image/jpeg, image/png"
+                {% if not category.thumbnail %} required {% endif %}>
+        </div>
+        <div class="mb-4">
             <input type="submit" class="btn btn-sm btn-block btn-primary" value="Submit">
         </div>
     </fieldset>
