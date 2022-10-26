@@ -43,7 +43,7 @@ class CreateUpdateCategoryView(View):
     def post(self, request, *args, **kwargs):
         category_id = request.POST.get('category_id') or None
         category = MessageCategory.objects.filter(id=category_id).first()
-        form = MessageCategoryForm(request.POST, instance=category)  # noqa
+        form = MessageCategoryForm(request.POST, request.FILES, instance=category)  # noqa
         if form.is_valid():
             form.save()
             if category_id:
