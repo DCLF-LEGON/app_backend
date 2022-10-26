@@ -10,6 +10,9 @@ from .users import *
 from .preachers import *
 from .categories import *
 
+from core.utils.util_functions import get_api_wallet_balance
+from accounts.models import User
+
 
 class DashboardView(View):
     '''CBV for rendering the dashboard page'''
@@ -17,5 +20,9 @@ class DashboardView(View):
     template = 'dashboard/dashboard.html'
 
     def get(self, request):
-        context = {}
+        context = {
+            'balance': get_api_wallet_balance(),
+            'users': User.objects.count(),
+            'staff_members': User.objects.filter(is_staff=True),
+        }
         return render(request, self.template, context)
