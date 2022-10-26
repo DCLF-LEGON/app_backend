@@ -1,5 +1,6 @@
 import requests
 from core import settings
+import decimal
 
 
 def receive_payment(data):
