@@ -37,7 +37,7 @@ class MessageCategoryForm(forms.ModelForm):
     '''Form for creating a new message category'''
     class Meta:
         model = MessageCategory
-        fields = ['name', ]
+        fields = ['name', 'thumbnail', ]
 
 
 class MessageForm(forms.ModelForm):
