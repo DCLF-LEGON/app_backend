@@ -54,7 +54,9 @@ class CreateUpdateUserView(View):
         if not user_id:
             form = UserForm(request.POST, request.FILES or None)  # noqa
             if form.is_valid():
-                form.save()
+                user = form.save(commit=False)
+                user.created_from_dashboard = True
+                user.save()
                 messages.success(request, 'User created successfully')
                 return redirect('dashboard:users')
             else:
