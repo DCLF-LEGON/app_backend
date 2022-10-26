@@ -1,3 +1,7 @@
+import sys
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from io import BytesIO
+from PIL import Image
 import random
 import time
 import string
@@ -53,8 +57,35 @@ class Doctrine(models.Model):
 
 class MessageCategory(models.Model):
     name = models.CharField(max_length=50)
+    thumbnail = models.ImageField(
+        upload_to='category_thumbnails/', blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    # crop thumbnail to 300x300
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+
+        THUMBNAIL_SIZE = (300, 300)
+
+        if self.thumbnail:
+            image = Image.open(self.thumbnail)
+            image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+
+            thumb_io = BytesIO()
+            image.save(thumb_io, image.format, quality=85)
+
+            temp_name = self.thumbnail.name
+            self.thumbnail.delete(save=False)
+
+            self.thumbnail.save(
+                temp_name,
+                content=InMemoryUploadedFile(
+                    thumb_io, None, temp_name, 'image/jpeg',
+                    sys.getsizeof(thumb_io), None),
+                save=False)
+
+            super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
