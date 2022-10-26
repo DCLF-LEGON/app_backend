@@ -141,8 +141,8 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 # enviroment variables
 PAYHUB_SECRET_TOKEN = os.getenv(
-    'PAYHUB_SECRET_TOKEN', "605c4bc8f16040ce7180715fbdfde75a2db8585da73a666deaa5f5556edfcd3f")
-PAYHUB_WALLET_ID = os.getenv('PAYHUB_WALLET_ID', "e55551f0-3ca5-4481-b1d4-eebde7339a96")  # noqa
+    'PAYHUB_SECRET_TOKEN', "52b9b46af6c82f6eaa9eaaba4dff677378e525e89d73fcaa54c34154e189d4e4")
+PAYHUB_WALLET_ID = os.getenv('PAYHUB_WALLET_ID', "2632e418-05a2-4a49-9eee-5fc22740ac57")  # noqa
 ARKESEL_API_KEY = os.getenv('ARKESEL_API_KEY', 'OkhnOUlLV1FhSlpLQktXN0M=')
 
 # email settings
