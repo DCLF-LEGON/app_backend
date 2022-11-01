@@ -118,6 +118,46 @@ class Message(models.Model):
         db_table = 'message'
 
 
+class Bookmark(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.note
+
+    class Meta:
+        db_table = 'bookmark'
+
+
+class MessageNote(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
+    note = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.note
+
+    class Meta:
+        db_table = 'message_note'
+
+
+class GeneralNote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
+    title = models.CharField(max_length=100, blank=True, null=True)
+    note = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.note
+
+    class Meta:
+        db_table = 'general_note'
+
+
 class Donation(models.Model):
     def generate_transaction_id():
         time_id = str(int(time.time() * 100))
