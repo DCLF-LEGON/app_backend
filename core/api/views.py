@@ -549,6 +549,3 @@ class MakeDonationAPI(APIView):
                 }, status=status.HTTP_201_CREATED)
         # if transaction data is not valid
         return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
-# class BookMarkAPI(APIView):
