@@ -1,3 +1,4 @@
+from dataclasses import fields
 from django.contrib.auth import authenticate
 from accounts.models import User
 from dashboard.models import *
@@ -74,6 +75,12 @@ class DoctrineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Doctrine
         exclude = ('created_at', 'updated_at')
+
+
+class GeneralNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GeneralNote
+        fields = ['id', 'title', 'note', 'created_at', ]
 
 
 class DonationSerializer(serializers.ModelSerializer):
