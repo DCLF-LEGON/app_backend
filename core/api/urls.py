@@ -24,6 +24,7 @@ urlpatterns += [
 # messages urls
 urlpatterns += [
     path('all-messages/', views.MessagesListAPI.as_view(), name="all_msgs"),
+    path('message-detail/', views.MessageDetailAPI.as_view(), name="msg_detail"),
     path('category-messages/', views.CategoryMessagesAPI.as_view(), name="cat_msgs"),  # noqa
 ]
 
@@ -42,6 +43,22 @@ urlpatterns += [
 # doctrines urls
 urlpatterns += [
     path('doctrines/', views.DoctrinesListAPI.as_view(), name="doctrines"),
+    path('doctrine-detail/', views.DoctrineDetailAPI.as_view(), name="doctrine_detail"),  # noqa
+]
+
+# Bookmark urls
+urlpatterns += [
+    path('bookmarks/', views.BookmarkMessageAPI.as_view(), name="bookmarks"),
+    path('add-bookmark/', views.BookmarkMessageAPI.as_view(), name="add_bookmark"),
+    path('remove-bookmark/', views.RemoveBookmarkAPI.as_view(), name="remove_bookmark"),  # noqa
+]
+
+# general notes
+urlpatterns += [
+    path('general-notes/', views.GeneralNotesListAPI.as_view(), name="notes"),
+    path('add-general-note/', views.CreateUpdateGeneralNoteAPI.as_view(), name="add_note"),  # noqa
+    path('update-general-note/', views.CreateUpdateGeneralNoteAPI.as_view(), name="update_note"),  # noqa
+    path('delete-note/', views.DeleteGeneralNoteAPI.as_view(), name="delete_note"),  # noqa')
 ]
 
 # donations urls
