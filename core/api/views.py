@@ -1,8 +1,9 @@
+from dashboard.models import Bookmark, GeneralNote
 import decimal
 import time
 from core.utils.util_functions import get_transaction_status, receive_payment
 from core import settings
-from .serializers import DonationSerializer
+from .serializers import DonationSerializer, GeneralNoteSerializer
 from dashboard.models import Donation, Preacher
 from .serializers import PreacherSerializer
 from dashboard.models import Doctrine
@@ -22,6 +23,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import generics, permissions
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+
+from api import serializers
 
 
 class ApiEndPointsView(APIView):
@@ -84,7 +87,6 @@ class VerifyOTPAPI(generics.GenericAPIView):
                 return Response({
                     "message": "Invalid OTP!",
                 }, status=status.HTTP_400_BAD_REQUEST)
-        # NOTE: FIX!!!!!!!!!
         return Response({
             "message": "Invalid token!",
         }, status=status.HTTP_400_BAD_REQUEST)
@@ -203,6 +205,31 @@ class MessagesListAPI(APIView):
         }, status=status.HTTP_200_OK)
 
 
+class MessageDetailAPI(APIView):
+    '''This CBV is used to get a message's details'''
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        message_id = request.data.get('message_id')
+        message = Message.objects.filter(id=message_id).first()
+        if message:
+            result = {
+                "id": message.id,
+                "title": message.title,
+                "media": message.media.url,
+                "media_type": message.media_type.upper(),
+                "category": message.category.name.upper(),
+                "preacher": message.preacher.title.upper() + '. ' + message.preacher.name.upper(),
+                "created_at": message.created_at,
+            }
+            return Response({
+                "message": result,
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Message not found!",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
 class CategoryMessagesAPI(APIView):
     '''This CBV is used to get all messages from specified category'''
     permission_classes = [permissions.AllowAny]
@@ -263,6 +290,212 @@ class DoctrinesListAPI(APIView):
         }, status=status.HTTP_200_OK)
 
 
+class DoctrineDetailAPI(APIView):
+    '''This CBV is used to get a doctrine's details'''
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        doctrine_id = request.data.get('doctrine_id')
+        doctrine = Doctrine.objects.filter(id=doctrine_id).first()
+        if doctrine:
+            return Response({
+                "doctrine": serializers.DoctrineSerializer(doctrine).data,
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Doctrine not found!",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class BookmarkMessageAPI(APIView):
+    '''This CBV is used to bookmark a message'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                results = []
+                bookmarks = Bookmark.objects.filter(user=user)
+                for bookmark in bookmarks:
+                    results.append(
+                        {
+                            'bookmark_id': bookmark.id,
+                            'bookmark_created_at': bookmark.created_at,
+                            'message_id': bookmark.message.id,
+                            'message_title': bookmark.message.title,
+                            'message_media': bookmark.message.media.url,
+                            'message_media_type': bookmark.message.media_type.upper(),
+                            'message_category': bookmark.message.category.name.upper(),
+                            'message_preacher': bookmark.message.preacher.title.upper() + '. ' + bookmark.message.preacher.name.upper(),
+                            'message_created_at': bookmark.created_at,
+                        }
+                    )
+                return Response({
+                    "bookmarks": results,
+                }, status=status.HTTP_200_OK)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                message_id = request.data.get('message_id')
+                message = Message.objects.filter(id=message_id).first()
+                if message:
+                    Bookmark.objects.create(user=user, message=message)
+                    return Response({
+                        "message": "Message bookmarked successfully!",
+                    }, status=status.HTTP_200_OK)
+                return Response({
+                    "message": "Invalid message!",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class RemoveBookmarkAPI(APIView):
+    '''This CBV is used to remove a bookmark'''
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                bookmark_id = request.data.get('bookmark_id')
+                bookmark = Bookmark.objects.filter(user=user, id=bookmark_id).first()  # noqa
+                if bookmark:
+                    bookmark.delete()
+                    return Response({
+                        "message": "Message Removed From Bookmark!",
+                    }, status=status.HTTP_200_OK)
+                return Response({
+                    "message": "Invalid bookmark!",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GeneralNotesListAPI(APIView):
+    '''This CBV is used to get all general notes'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                notes = GeneralNote.objects.filter(user=user)
+                return Response({
+                    "notes": GeneralNoteSerializer(notes, many=True).data,
+                }, status=status.HTTP_200_OK)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreateUpdateGeneralNoteAPI(APIView):
+    '''This CBV is used to add a general note'''
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                note = request.data.get('note')
+                title = request.data.get('title')
+                GeneralNote.objects.create(user=user, note=note, title=title)  # noqa
+                return Response({
+                    "message": "Note added successfully!",
+                }, status=status.HTTP_200_OK)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                note_id = request.data.get('note_id')
+                note = GeneralNote.objects.filter(
+                    user=user, id=note_id).first()
+                if not note:
+                    return Response({
+                        "message": "Invalid note!",
+                    }, status=status.HTTP_400_BAD_REQUEST)
+                user = token.user
+                note.note = request.data.get('note')
+                note.title = request.data.get('title')
+                note.save()
+                return Response({
+                    "message": "Note Updated successfully!",
+                }, status=status.HTTP_200_OK)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DeleteGeneralNoteAPI(APIView):
+    '''This CBV is used to delete general note'''
+    permission_classes = [permissions.AllowAny]
+
+    def delete(self, request, *args, **kwargs):
+        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
+        if token_key:
+            token = AuthToken.objects.filter(token_key=token_key).first()
+            if token:
+                user = token.user
+                note_id = request.data.get('note_id')
+                note = GeneralNote.objects.filter(user=user, id=note_id).first()  # noqa
+                if note:
+                    note.delete()
+                    return Response({
+                        "message": "Note Deleted Successfully!",
+                    }, status=status.HTTP_200_OK)
+                return Response({
+                    "message": "Invalid Note!",
+                }, status=status.HTTP_400_BAD_REQUEST)
+            return Response({
+                "message": "Invalid token!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        return Response({
+            "message": "Invalid token!",
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+
 class MakeDonationAPI(APIView):
     # this is used to make a donation
     def generate_transaction_id(self):
@@ -316,3 +549,6 @@ class MakeDonationAPI(APIView):
                 }, status=status.HTTP_201_CREATED)
         # if transaction data is not valid
         return Response({"status": "error", "data": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+# class BookMarkAPI(APIView):
