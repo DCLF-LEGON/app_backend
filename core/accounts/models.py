@@ -1,7 +1,6 @@
 from django.utils import timezone
 from datetime import timedelta, datetime
 from datetime import timedelta
-from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 
