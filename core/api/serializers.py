@@ -53,6 +53,12 @@ class MessageSerializer(serializers.ModelSerializer):
         exclude = ('created_at', 'updated_at')
 
 
+class MessageNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MessageNote
+        fields = '__all__'
+
+
 class LeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leader
