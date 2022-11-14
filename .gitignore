@@ -139,7 +139,6 @@ virtualenv/**
 localvirtualenv/**
 **/settings/prod.py
 uploads
-app/assets
 .DS_Store
 media
 manual_test.py
