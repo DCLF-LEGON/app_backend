@@ -1,9 +1,9 @@
-from dashboard.models import Bookmark, GeneralNote
+from dashboard.models import Bookmark, GeneralNote, LikedMessage, MessageNote
 import decimal
 import time
 from core.utils.util_functions import get_transaction_status, receive_payment
 from core import settings
-from .serializers import DonationSerializer, GeneralNoteSerializer
+from .serializers import DonationSerializer, GeneralNoteSerializer, MessageNoteSerializer
 from dashboard.models import Donation, Preacher
 from .serializers import PreacherSerializer
 from dashboard.models import Doctrine
@@ -14,7 +14,7 @@ import string
 from dashboard.models import Leader, Message, MessageCategory
 from dashboard.signals import generate_otp
 from accounts.models import OTP
-from api.serializers import MessageCategorySerializer, MessageSerializer, RegisterSerializer, UserSerializer
+from api.serializers import MessageCategorySerializer, RegisterSerializer, UserSerializer
 from rest_framework.views import APIView
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
@@ -69,55 +69,38 @@ class SignUpAPI(generics.GenericAPIView):
 
 class VerifyOTPAPI(generics.GenericAPIView):
     '''This CBV is used to verify a user's OTP'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        user = request.user
         otp_code = request.data.get('otp')
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.get(token_key=token_key)
-            user = token.user
-            otp = OTP.objects.filter(user=user, otp=otp_code).first()
-            if otp and (otp.otp_is_expired() == False):
-                otp.delete()
-                return Response({
-                    "message": "OTP verified successfully",
-                }, status=status.HTTP_200_OK)
-            else:
-                return Response({
-                    "message": "Invalid OTP!",
-                }, status=status.HTTP_400_BAD_REQUEST)
-        return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+        otp = OTP.objects.filter(user=user, otp=otp_code).first()
+        if otp and (otp.otp_is_expired() == False):
+            otp.delete()
+            return Response({
+                "message": "OTP verified successfully",
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "message": "Invalid OTP!",
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ResendOTPAPI(generics.GenericAPIView):
     '''This CBV is used to resend a user's OTP'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-            else:
-                return Response({
-                    "message": "Invalid token!",
-                }, status=status.HTTP_400_BAD_REQUEST)
-            otp = OTP.objects.filter(user=user).first()
-            if otp:
-                otp.delete()
-            # The create function will create a new OTP
-            # and trigger a signal that will send the OTP to the user's mail
-            otp = OTP.objects.create(user=user, otp=generate_otp())
-            return Response({
-                "message": f"OTP resent successfully to {otp.user.email}",
-            }, status=status.HTTP_200_OK)
+        user = request.user
+        otp = OTP.objects.filter(user=user).first()
+        if otp:
+            otp.delete()
+        # The create function will create a new OTP
+        # and trigger a signal that will send the OTP to the user's mail
+        otp = OTP.objects.create(user=user, otp=generate_otp())
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message": f"OTP resent successfully to {otp.user.email}",
+        }, status=status.HTTP_200_OK)
 
 
 class ChangePasswordAPI(APIView):
@@ -125,50 +108,24 @@ class ChangePasswordAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        new_password = request.data.get('new_password')
-
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-            else:
-                return Response({
-                    "message": "Invalid token!",
-                }, status=status.HTTP_400_BAD_REQUEST)
-            user.set_password(new_password)
-            user.save()
-            return Response({
-                "message": "Password changed successfully",
-            }, status=status.HTTP_200_OK)
         user = request.user
-        user.set_password(request.data.get('password'))
+        new_password = request.data.get('new_password')
+        user.set_password(new_password)
         user.save()
         return Response({
-            "message": "Password changed successfully",
+            "message": "Password Changed Successfully",
         }, status=status.HTTP_200_OK)
 
 
 class UserProfileAPI(APIView):
     '''This CBV is used to get a user's profile'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-            else:
-                return Response({
-                    "message": "Invalid token!",
-                }, status=status.HTTP_400_BAD_REQUEST)
-            return Response({
-                "user": UserSerializer(user).data,
-            }, status=status.HTTP_200_OK)
+        user = request.user
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "user": UserSerializer(user).data,
+        }, status=status.HTTP_200_OK)
 
 
 class MessageCategoriesListAPI(APIView):
@@ -212,6 +169,12 @@ class MessageDetailAPI(APIView):
     def post(self, request, *args, **kwargs):
         message_id = request.data.get('message_id')
         message = Message.objects.filter(id=message_id).first()
+        if request.user.is_authenticated:
+            user = request.user
+            notes = MessageNote.objects.filter(message=message, user=user).order_by('-created_at')  # noqa
+            message_notes = MessageNoteSerializer(notes, many=True).data
+        else:
+            message_notes = []
         if message:
             result = {
                 "id": message.id,
@@ -221,10 +184,69 @@ class MessageDetailAPI(APIView):
                 "category": message.category.name.upper(),
                 "preacher": message.preacher.title.upper() + '. ' + message.preacher.name.upper(),
                 "created_at": message.created_at,
+                "likes": message.get_likes(),
+                "notes": message_notes,
             }
             return Response({
                 "message": result,
             }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Message not found!",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class LikeMessageAPI(APIView):
+    '''This CBV is used to like a message'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        message_id = request.data.get('message_id')
+        message = Message.objects.filter(id=message_id).first()
+        if message:
+            like = LikedMessage.objects.filter(
+                user=user, message=message).first()
+            if like:
+                like.delete()
+                return Response({
+                    "message": "Message unliked successfully",
+                }, status=status.HTTP_200_OK)
+            else:
+                LikedMessage.objects.create(user=user, message=message)
+                return Response({
+                    "message": "Message liked successfully",
+                }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Message not found!",
+        }, status=status.HTTP_404_NOT_FOUND)
+
+
+class CreateUpdateMessageNote(APIView):
+    '''This CBV is used to create or update a message note'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        message_id = request.data.get('message_id')
+        note = request.data.get('note')
+        message = Message.objects.filter(id=message_id).first()
+        if message:
+            message_note = MessageNote.objects.filter(
+                user=user, message=message).first()
+            if message_note:
+                # if message note already exists, update it
+                message_note.note = note
+                message_note.save()
+                return Response({
+                    "message": "Note Updated Successfully",
+                }, status=status.HTTP_200_OK)
+            else:
+                # if message note does not exist, create it
+                MessageNote.objects.create(
+                    user=user, message=message, note=note)
+                return Response({
+                    "message": "Note Created Successfully",
+                }, status=status.HTTP_201_CREATED)
         return Response({
             "message": "Message not found!",
         }, status=status.HTTP_404_NOT_FOUND)
@@ -308,191 +330,119 @@ class DoctrineDetailAPI(APIView):
 
 class BookmarkMessageAPI(APIView):
     '''This CBV is used to bookmark a message'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                results = []
-                bookmarks = Bookmark.objects.filter(user=user)
-                for bookmark in bookmarks:
-                    results.append(
-                        {
-                            'bookmark_id': bookmark.id,
-                            'bookmark_created_at': bookmark.created_at,
-                            'message_id': bookmark.message.id,
-                            'message_title': bookmark.message.title,
-                            'message_media': bookmark.message.media.url,
-                            'message_media_type': bookmark.message.media_type.upper(),
-                            'message_category': bookmark.message.category.name.upper(),
-                            'message_preacher': bookmark.message.preacher.title.upper() + '. ' + bookmark.message.preacher.name.upper(),
-                            'message_created_at': bookmark.created_at,
-                        }
-                    )
-                return Response({
-                    "bookmarks": results,
-                }, status=status.HTTP_200_OK)
-            return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        results = []
+        bookmarks = Bookmark.objects.filter(user=user).order_by('-created_at')
+        for bookmark in bookmarks:
+            results.append(
+                {
+                    'bookmark_id': bookmark.id,
+                    'bookmark_created_at': bookmark.created_at,
+                    'message_id': bookmark.message.id,
+                    'message_title': bookmark.message.title,
+                    'message_media': bookmark.message.media.url,
+                    'message_media_type': bookmark.message.media_type.upper(),
+                    'message_category': bookmark.message.category.name.upper(),
+                    'message_preacher': bookmark.message.preacher.title.upper() + '. ' + bookmark.message.preacher.name.upper(),
+                    'message_created_at': bookmark.created_at,
+                }
+            )
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "bookmarks": results,
+        }, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                message_id = request.data.get('message_id')
-                message = Message.objects.filter(id=message_id).first()
-                if message:
-                    Bookmark.objects.create(user=user, message=message)
-                    return Response({
-                        "message": "Message bookmarked successfully!",
-                    }, status=status.HTTP_200_OK)
-                return Response({
-                    "message": "Invalid message!",
-                }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        message_id = request.data.get('message_id')
+        message = Message.objects.filter(id=message_id).first()
+        if message:
+            Bookmark.objects.create(user=user, message=message)
             return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+                "message": "Message bookmarked successfully!",
+            }, status=status.HTTP_200_OK)
+        return Response({
+            "message": "Invalid message!",
+        }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class RemoveBookmarkAPI(APIView):
     '''This CBV is used to remove a bookmark'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                bookmark_id = request.data.get('bookmark_id')
-                bookmark = Bookmark.objects.filter(user=user, id=bookmark_id).first()  # noqa
-                if bookmark:
-                    bookmark.delete()
-                    return Response({
-                        "message": "Message Removed From Bookmark!",
-                    }, status=status.HTTP_200_OK)
-                return Response({
-                    "message": "Invalid bookmark!",
-                }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        bookmark_id = request.data.get('bookmark_id')
+        bookmark = Bookmark.objects.filter(user=user, id=bookmark_id).first()  # noqa
+        if bookmark:
+            bookmark.delete()
             return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+                "message": "Message Removed From Bookmark!",
+            }, status=status.HTTP_200_OK)
         return Response({
-            "message": "Invalid token!",
+            "message": "Invalid bookmark!",
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GeneralNotesListAPI(APIView):
     '''This CBV is used to get all general notes'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                notes = GeneralNote.objects.filter(user=user)
-                return Response({
-                    "notes": GeneralNoteSerializer(notes, many=True).data,
-                }, status=status.HTTP_200_OK)
-            return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        notes = GeneralNote.objects.filter(user=user).order_by('-created_at')
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "notes": GeneralNoteSerializer(notes, many=True).data,
+        }, status=status.HTTP_200_OK)
 
 
 class CreateUpdateGeneralNoteAPI(APIView):
     '''This CBV is used to add a general note'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                note = request.data.get('note')
-                title = request.data.get('title')
-                GeneralNote.objects.create(user=user, note=note, title=title)  # noqa
-                return Response({
-                    "message": "Note added successfully!",
-                }, status=status.HTTP_200_OK)
-            return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        note = request.data.get('note')
+        title = request.data.get('title')
+        GeneralNote.objects.create(user=user, note=note, title=title)  # noqa
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message": "Note added successfully!",
+        }, status=status.HTTP_200_OK)
 
     def put(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                note_id = request.data.get('note_id')
-                note = GeneralNote.objects.filter(
-                    user=user, id=note_id).first()
-                if not note:
-                    return Response({
-                        "message": "Invalid note!",
-                    }, status=status.HTTP_400_BAD_REQUEST)
-                user = token.user
-                note.note = request.data.get('note')
-                note.title = request.data.get('title')
-                note.save()
-                return Response({
-                    "message": "Note Updated successfully!",
-                }, status=status.HTTP_200_OK)
+        user = request.user
+        note_id = request.data.get('note_id')
+        note = GeneralNote.objects.filter(
+            user=user, id=note_id).first()
+        if not note:
             return Response({
-                "message": "Invalid token!",
+                "message": "Invalid note!",
             }, status=status.HTTP_400_BAD_REQUEST)
+        note.note = request.data.get('note')
+        note.title = request.data.get('title')
+        note.save()
         return Response({
-            "message": "Invalid token!",
-        }, status=status.HTTP_400_BAD_REQUEST)
+            "message": "Note Updated successfully!",
+        }, status=status.HTTP_200_OK)
 
 
 class DeleteGeneralNoteAPI(APIView):
     '''This CBV is used to delete general note'''
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request, *args, **kwargs):
-        token_key = request.META.get('HTTP_AUTHORIZATION').split(' ')[1][0:8]
-        if token_key:
-            token = AuthToken.objects.filter(token_key=token_key).first()
-            if token:
-                user = token.user
-                note_id = request.data.get('note_id')
-                note = GeneralNote.objects.filter(user=user, id=note_id).first()  # noqa
-                if note:
-                    note.delete()
-                    return Response({
-                        "message": "Note Deleted Successfully!",
-                    }, status=status.HTTP_200_OK)
-                return Response({
-                    "message": "Invalid Note!",
-                }, status=status.HTTP_400_BAD_REQUEST)
+        user = request.user
+        note_id = request.data.get('note_id')
+        note = GeneralNote.objects.filter(user=user, id=note_id).first()  # noqa
+        if note:
+            note.delete()
             return Response({
-                "message": "Invalid token!",
-            }, status=status.HTTP_400_BAD_REQUEST)
+                "message": "Note Deleted Successfully!",
+            }, status=status.HTTP_200_OK)
         return Response({
-            "message": "Invalid token!",
+            "message": "Invalid Note!",
         }, status=status.HTTP_400_BAD_REQUEST)
 
 
