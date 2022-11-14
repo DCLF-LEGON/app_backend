@@ -106,6 +106,10 @@ class Message(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def get_likes(self):
+        # returns the total likes for this message
+        return LikedMessage.objects.filter(message=self).count()
+
     def get_media_size(self):
         if self.media:
             return f'{round(os.path.getsize(self.media.path) / 1024 / 1024, 2)} MB'  # noqa
@@ -116,6 +120,17 @@ class Message(models.Model):
 
     class Meta:
         db_table = 'message'
+
+
+class LikedMessage(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'liked_message'
+
 
 
 class Bookmark(models.Model):
