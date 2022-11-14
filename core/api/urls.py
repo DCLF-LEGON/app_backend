@@ -26,6 +26,13 @@ urlpatterns += [
     path('all-messages/', views.MessagesListAPI.as_view(), name="all_msgs"),
     path('message-detail/', views.MessageDetailAPI.as_view(), name="msg_detail"),
     path('category-messages/', views.CategoryMessagesAPI.as_view(), name="cat_msgs"),  # noqa
+    path('like-message/', views.LikeMessageAPI.as_view(), name="like_msgs"),  # noqa
+]
+
+
+# message notes urls
+urlpatterns += [
+    path('create-update-message-note/', views.CreateUpdateMessageNote.as_view()),  # noqa
 ]
 
 
