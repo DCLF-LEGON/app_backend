@@ -152,15 +152,15 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 # enviroment variables
-PAYHUB_SECRET_TOKEN = os.getenv(
+PAYHUB_SECRET_TOKEN = os.environ.get(
     'PAYHUB_SECRET_TOKEN', "52b9b46af6c82f6eaa9eaaba4dff677378e525e89d73fcaa54c34154e189d4e4")
-PAYHUB_WALLET_ID = os.getenv('PAYHUB_WALLET_ID', "2632e418-05a2-4a49-9eee-5fc22740ac57")  # noqa
-ARKESEL_API_KEY = os.getenv('ARKESEL_API_KEY', 'OkhnOUlLV1FhSlpLQktXN0M=')
+PAYHUB_WALLET_ID = os.environ.get('PAYHUB_WALLET_ID', "2632e418-05a2-4a49-9eee-5fc22740ac57")  # noqa
+ARKESEL_API_KEY = os.environ.get('ARKESEL_API_KEY', 'OkhnOUlLV1FhSlpLQktXN0M=')
 
 # email settings
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'dlcflegonapp@gmail.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD', 'jugowqakbtjgvqyw')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'dlcflegonapp@gmail.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', 'jugowqakbtjgvqyw')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
