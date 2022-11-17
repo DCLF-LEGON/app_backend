@@ -10,7 +10,7 @@ SECRET_KEY = 'django-insecure-tzh5cn7w$l24cpi^)y6un$b&^mzpgu*@u74ns=gsf+rn(e^82n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['161.35.88.11', '*']
+ALLOWED_HOSTS = ['174.138.7.150', 'localhost']
 
 
 # Application definition
@@ -68,13 +68,25 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    # use postgresql database in production
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ.get('DB_NAME', 'dlcfdb'),
+            'USER': os.environ.get('DB_USER', 'dlcfsuperuser'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', None),
+            'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
+            'PORT': '25060',
+        }
+    }
 
 
 # Password validation
