@@ -84,7 +84,7 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DB_NAME', 'dlcfdb'),
             'USER': os.environ.get('DB_USER', 'dlcfsuperuser'),
-            'PASSWORD': os.environ.get('DB_PASSWORD', None),
+            'PASSWORD': os.environ.get('DB_PASSWORD', 'AVNS_HO40oOpNF_dSn-nWyRc'),
             'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
             'PORT': '25060',
         }
