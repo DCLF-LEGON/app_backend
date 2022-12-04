@@ -4,7 +4,6 @@ from . import views
 app_name = 'dashboard'
 urlpatterns = [
     path('', views.DashboardView.as_view(), name='dashboard'),
-    path('settings/', views.SettingsView.as_view(), name='settings'),
 ]
 
 # donations
@@ -70,4 +69,23 @@ urlpatterns += [
     path('user-details/', views.UserDetailsView.as_view(), name='user_details'),
     path('search-user/', views.SearchUsersView.as_view(), name='search_user'),
     path('delete-user/', views.DeleteUserView.as_view(), name='delete_user'),
+    path("add-user-to-group/", views.AddUserToGroupsView.as_view(), name="add_user_to_group"),  # noqa
+    path("add-perms-to-user/", views.AddPermsToUserView.as_view(), name="add_perms_to_user"),  # noqa
+]
+
+# profile urls
+urlpatterns += [
+    path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('update-profile/', views.ProfileUpdateView.as_view(), name='update_profile'),
+    path('reset-password/', views.PasswordResetView.as_view(), name='reset_password'),
+]
+
+
+# Groups
+urlpatterns += [
+    path("groups/", views.GroupsListView.as_view(), name="groups"),
+    path("create-update-group/", views.CreateUpdateGroupView.as_view(), name="create_update_group"),  # noqa
+    path("search-group/", views.SearchGroupView.as_view(), name="search_group"),  # noqa
+    path("delete-group/", views.DeleteGroupView.as_view(), name="delete_group"),  # noqa
+    path('add-perms/', views.AddPermissionsToGroupView.as_view(), name='add_perms'),  # noqa
 ]
