@@ -7,12 +7,16 @@ from dashboard.forms import MessageCategoryForm
 
 from dashboard.models import MessageCategory
 
+from django.utils.decorators import method_decorator
+from core.utils.decorators import AdminOnly, MustLogin
+
 
 class CategoriesListView(View):
     '''CBV for messsages categories list page'''
 
     template = 'dashboard/categories.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         categories = MessageCategory.objects.all().order_by('-created_at')
         context = {
@@ -27,6 +31,7 @@ class CreateUpdateCategoryView(View):
 
     template = 'dashboard/form-renderers/create_update_category.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         category_id = request.GET.get('category_id') or None
         category = MessageCategory.objects.filter(id=category_id).first()
@@ -40,6 +45,7 @@ class CreateUpdateCategoryView(View):
         }
         return render(request, self.template, context)
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         category_id = request.POST.get('category_id') or None
         category = MessageCategory.objects.filter(id=category_id).first()
@@ -63,6 +69,7 @@ class SearchCategoryView(View):
 
     template = 'dashboard/categories.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
         categories = MessageCategory.objects.filter(
@@ -79,10 +86,12 @@ class SearchCategoryView(View):
 class DeleteCategoryView(View):
     '''CBV for deleting a message category'''
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         '''redirect to messages categories list if request is get'''
         return redirect('dashboard:categories')
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         category_id = request.POST.get('category_id') or None
         if category_id:
