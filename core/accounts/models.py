@@ -12,12 +12,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     fullname = models.CharField(max_length=255, blank=True, null=True)
     gender = models.CharField(max_length=10, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
-    dob = models.DateField(blank=True, null=True)
-    region = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=255, blank=True, null=True)
-    zip = models.CharField(max_length=10, blank=True, null=True)
-    country = models.CharField(max_length=255, blank=True, null=True)
     role = models.CharField(max_length=255, blank=True, null=True)
+
+    profile_pic = models.ImageField(upload_to='profile', blank=True, null=True)  # noqa
+    profile_cover = models.ImageField(upload_to='profile', blank=True, null=True)  # noqa
+
     created_from_dashboard = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_appuser = models.BooleanField(default=True)
@@ -27,7 +26,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def get_fullname(self):
         '''return the full name of the user'''
-        return self.fullname if self.fullname else self.email
+        return self.fullname if self.fullname else self.email if self.email else 'Anonymous'  # noqa
 
     def resend_user_password(self):
         '''sends the user password to the user's email'''
@@ -38,7 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
 
     def __str__(self):
-        return self.email if self.email else "user"
+        return self.get_fullname()
 
     class Meta:
         db_table = 'user'
