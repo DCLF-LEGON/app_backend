@@ -8,11 +8,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tzh5cn7w$l24cpi^)y6un$b&^mzpgu*@u74ns=gsf+rn(e^82n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-DEPLOYMENT = True
+DEBUG = True
+DEPLOYMENT = False
 
 
-ALLOWED_HOSTS = ['188.166.43.176', 'localhost']
+ALLOWED_HOSTS = ['188.166.43.176', '*']
 
 
 # Application definition
@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'dashboard.apps.DashboardConfig',
     'api.apps.ApiConfig',
+
+    # REMEMBER ME APP
+    # 'auth_remember',
 ]
 
 MIDDLEWARE = [
@@ -43,6 +46,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # 'auth_remember.middleware.AuthRememberMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -152,6 +156,16 @@ REST_FRAMEWORK = {
 
 # django cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
+
+# FOR THE IMPLEMENTATION OF REMEMBER ME FUNCTIONALITY
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'auth_remember.backend.AuthRememberBackend',
+# )
+# AUTH_REMEMBER_COOKIE_NAME = 'remember_token'
+# AUTH_REMEMBER_COOKIE_AGE = 86400 * 28  # 4 weeks by default
+# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 # enviroment variables
 PAYHUB_SECRET_TOKEN = os.environ.get(
