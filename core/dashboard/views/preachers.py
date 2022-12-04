@@ -7,12 +7,16 @@ from django.contrib import messages
 from dashboard.forms import PreacherForm
 from dashboard.models import Preacher
 
+from django.utils.decorators import method_decorator
+from core.utils.decorators import AdminOnly, MustLogin
+
 
 class PreachersListView(View):
     '''CBV for preachers list page'''
 
     template = 'dashboard/preachers.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         preachers = Preacher.objects.all().order_by('-created_at')
         context = {
@@ -27,6 +31,7 @@ class CreatePreacherView(View):
 
     template = 'dashboard/form-renderers/create_update_preacher.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         preacher_id = request.GET.get('preacher_id') or None
         preacher = Preacher.objects.filter(id=preacher_id).first()
@@ -36,6 +41,7 @@ class CreatePreacherView(View):
         }
         return render(request, self.template, context)
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         preacher_id = request.POST.get('preacher_id') or None
         preacher = Preacher.objects.filter(id=preacher_id).first()
@@ -59,6 +65,7 @@ class PreacherDetailsView(View):
 
     template = 'dashboard/details/details_preacher.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         preacher_id = request.GET.get('preacher_id')
         preacher = Preacher.objects.filter(id=preacher_id).first()
@@ -73,6 +80,7 @@ class SearchPreacherView(View):
 
     template = 'dashboard/preachers.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
         preachers = Preacher.objects.filter(
@@ -91,10 +99,12 @@ class SearchPreacherView(View):
 class DeletePreacherView(View):
     '''CBV for deleting a preacher'''
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         '''redirect to preachers list is request is get'''
         return redirect('dashboard:preachers')
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         preacher_id = request.POST.get('preacher_id') or None
         if preacher_id:
