@@ -8,12 +8,16 @@ from dashboard.forms import MessageForm
 
 from dashboard.models import Message, MessageCategory, Preacher
 
+from django.utils.decorators import method_decorator
+from core.utils.decorators import AdminOnly, MustLogin
+
 
 class MessagesListView(View):
     '''CBV for messsages list page'''
 
     template = 'dashboard/messages.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         message_objects = Message.objects.all().order_by('-created_at')
         context = {
@@ -28,6 +32,7 @@ class CreateUpdateMessageView(View):
 
     template = 'dashboard/form-renderers/create_update_message.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         message_id = request.GET.get('message_id') or None
         message = Message.objects.filter(id=message_id).first()
@@ -51,6 +56,7 @@ class CreateUpdateMessageView(View):
         print(media_types)
         return render(request, self.template, context)
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         message_id = request.POST.get('message_id') or None
         preacher_id = request.POST.get('preacher')
@@ -81,6 +87,7 @@ class MessageDetailsView(View):
 
     template = 'dashboard/details/details_message.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         message_id = request.GET.get('message_id')
         message = Message.objects.filter(id=message_id).first()
@@ -95,6 +102,7 @@ class SearchMessageView(View):
 
     template = 'dashboard/messages.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
         message_objects = Message.objects.filter(
@@ -114,10 +122,12 @@ class SearchMessageView(View):
 class DeleteMessageView(View):
     '''CBV for deleting a message'''
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         '''redirect to messages list if request is get'''
         return redirect('dashboard:messages')
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         message_id = request.POST.get('message_id') or None
         if message_id:
