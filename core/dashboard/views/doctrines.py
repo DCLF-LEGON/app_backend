@@ -7,12 +7,16 @@ from dashboard.forms import DoctrineForm
 
 from dashboard.models import Doctrine
 
+from django.utils.decorators import method_decorator
+from core.utils.decorators import AdminOnly, MustLogin
+
 
 class DoctrinesListView(View):
     '''CBV for messsages doctrines list page'''
 
     template = 'dashboard/doctrines.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         doctrines = Doctrine.objects.all().order_by('-created_at')
         context = {
@@ -27,6 +31,7 @@ class CreateUpdateDoctrineView(View):
 
     template = 'dashboard/form-renderers/create_update_doctrine.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         doctrine_id = request.GET.get('doctrine_id') or None
         doctrine = Doctrine.objects.filter(id=doctrine_id).first()
@@ -40,6 +45,7 @@ class CreateUpdateDoctrineView(View):
         }
         return render(request, self.template, context)
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         doctrine_id = request.POST.get('doctrine_id') or None
         doctrine = Doctrine.objects.filter(id=doctrine_id).first()
@@ -63,6 +69,7 @@ class SearchDoctrineView(View):
 
     template = 'dashboard/doctrines.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
         doctrines = Doctrine.objects.filter(
@@ -82,6 +89,7 @@ class DoctrineDetailsView(View):
 
     template = 'dashboard/details/details_doctrine.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         doctrine_id = request.GET.get('doctrine_id')
         doctrine = Doctrine.objects.filter(id=doctrine_id).first()
@@ -94,10 +102,12 @@ class DoctrineDetailsView(View):
 class DeleteDoctrineView(View):
     '''CBV for deleting a doctrine'''
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         '''redirect to doctrines list if request is get'''
         return redirect('dashboard:doctrines')
 
+    @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         doctrine_id = request.POST.get('doctrine_id') or None
         if doctrine_id:
