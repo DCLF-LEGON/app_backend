@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+# from auth_remember import remember_user
 
 
 class LoginView(View):
@@ -13,17 +14,16 @@ class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # user = authenticate(request, username=email, password=password)
-        # if user is not None and user.is_staff:
-        #     # redirect to otp page
-        #     # do the redirection here
-        #     login(request, user)
-        #     return redirect('dashboard')
-        # else:
-        #     messages.error(request, 'Invalid credentials')
-        #     return redirect('accounts:login')
-        # NOTE: This is just a temporary code to test the dashboard
-        return redirect('dashboard:dashboard')
+        remember = True if request.POST.get('remember') == '1' else False
+        user = authenticate(request, email=email, password=password)
+        if user is not None and (user.is_staff or user.is_superuser):
+            login(request, user)
+            # if remember:
+            #     remember_user(request, user)
+            return redirect('dashboard:dashboard')
+        else:
+            messages.error(request, 'Invalid credentials')
+            return redirect('accounts:login')
 
 
 class LogoutView(View):
