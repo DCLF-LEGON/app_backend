@@ -136,11 +136,11 @@
               </li>
               <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
               <li class="nav-item {% if 'settings' in segment %} active {% endif %}">
-                <a href="{% url 'dashboard:settings' %}" class="nav-link">
+                <a href="{% url 'dashboard:profile' %}" class="nav-link">
                   <span class="sidebar-icon">
                     <i class="fas fa-cog"></i>
                   </span>
-                  <span class="sidebar-text">Settings</span>
+                  <span class="sidebar-text">Profile</span>
                 </a>
               </li>
 
@@ -151,7 +151,7 @@
                     <span class="sidebar-icon">
                       <i class="fas fa-user"></i>
                     </span>
-                    <span class="sidebar-text">Users</span>
+                    <span class="sidebar-text">Accounts</span>
                   </span>
                   <span class="link-arrow">
                     <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
@@ -166,13 +166,13 @@
                   id="submenu-users" aria-expanded="false">
                   <ul class="flex-column nav">
                     <li class="nav-item {% if 'users-buttons' in segment %} active {% endif %}">
-                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=app_user">
-                        <span class="sidebar-text">App Users</span>
+                      <a class="nav-link" href="{% url 'dashboard:users' %}">
+                        <span class="sidebar-text">Users</span>
                       </a>
                     </li>
                     <li class="nav-item {% if 'users-notifications' in segment %} active {% endif %}">
-                      <a class="nav-link" href="{% url 'dashboard:users' %}?q=administrator">
-                        <span class="sidebar-text">Administrators</span>
+                      <a class="nav-link" href="{% url 'dashboard:groups' %}">
+                        <span class="sidebar-text">Groups</span>
                       </a>
                     </li>
                   </ul>
@@ -183,20 +183,17 @@
                   <span class="sidebar-icon">
                     <i class="fas fa-question"></i>
                   </span>
-                  <span class="sidebar-text">Support</span>
+                  <span class="sidebar-text">Support <span class="badge"
+                      style="background-color: yellow; color: black;">Soon</span> </span>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{% url 'accounts:logout' %}"
-                  class="btn btn-secondary d-flex align-items-center justify-content-center btn-upgrade-pro">
-                  <!-- logout icon svg -->
-                  <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
-                    style="width: 24px; height:auto;" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                    </path>
-                  </svg>
-                  <span>Logout</span>
+                <a href="{% url 'accounts:logout' %}" class="nav-link d-flex align-items-center"
+                  style="background-color: grey;">
+                  <span class="sidebar-icon">
+                    <i class="bi bi-power"></i>
+                  </span>
+                  <span class="sidebar-text">Logout</span>
                 </a>
               </li>
             </ul>
