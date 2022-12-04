@@ -6,7 +6,8 @@ from dashboard.models import Donation
 
 import datetime
 
-# from django.utils.timzone import now
+from django.utils.decorators import method_decorator
+from core.utils.decorators import AdminOnly, MustLogin
 
 
 class DonationsListView(View):
@@ -14,6 +15,7 @@ class DonationsListView(View):
 
     template = 'dashboard/donations.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         donations = Donation.objects.all().order_by('-created_at')
         # today = now().date()
@@ -32,6 +34,7 @@ class SearchDonationView(View):
 
     template = 'dashboard/donations.html'
 
+    @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         query = request.GET.get('q')
         donations = Donation.objects.filter(
