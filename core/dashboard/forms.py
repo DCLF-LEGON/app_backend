@@ -9,7 +9,7 @@ class UserForm(forms.ModelForm):
     '''Form for creating a new user'''
     class Meta:
         model = User
-        fields = ['fullname', 'email', 'gender', 'phone', 'dob', 'region', 'city', 'zip', 'country', 'role', ]  # noqa
+        fields = ['fullname', 'email', 'gender', 'phone', 'role', ]  # noqa
 
 
 class LeaderForm(forms.ModelForm):
