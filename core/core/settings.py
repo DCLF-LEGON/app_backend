@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-tzh5cn7w$l24cpi^)y6un$b&^mzpgu*@u74ns=gsf+rn(e^82n'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 DEPLOYMENT = True
 
 
@@ -84,14 +84,31 @@ if not DEPLOYMENT:
 else:
     # use postgresql database in production
     DATABASES = {
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     'NAME': os.environ.get('DB_NAME', 'dlcfdb'),
+        #     'USER': os.environ.get('DB_USER', 'dlcfsuperuser'),
+        #     'PASSWORD': os.environ.get('DB_PASSWORD', 'AVNS_HO40oOpNF_dSn-nWyRc'),
+        #     'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
+        #     'PORT': '25060',
+        # },
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('DB_NAME', 'dlcfdb'),
+            'NAME': os.environ.get('DB_NAME', 'dlcf_db'),
             'USER': os.environ.get('DB_USER', 'dlcfsuperuser'),
             'PASSWORD': os.environ.get('DB_PASSWORD', 'AVNS_HO40oOpNF_dSn-nWyRc'),
             'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
             'PORT': '25060',
-        }
+        },
+        # 'default': {
+        #     'ENGINE': 'django.db.backends.postgresql',
+        #     username = dlcfsuperuser
+        #     password = AVNS_HO40oOpNF_dSn-nWyRc
+        #     host = private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com
+        #     port = 25060
+        #     database = dlcf_db
+        #     sslmode = require
+        # }
     }
 
 
