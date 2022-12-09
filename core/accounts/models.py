@@ -47,11 +47,13 @@ class OTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True)
-    expiry_date = models.DateTimeField(default=datetime.now() + timedelta(hours=2))  # noqa
+    # expiry_date = models.DateTimeField(default=datetime.now() + timedelta(hours=2))  # noqa
 
     def otp_is_expired(self):
         '''checks if the otp has expired'''
-        if self.expiry_date < timezone.now():
+        # expiry_date = datetime.now() + timedelta(hours=2)
+        expiry_date = self.created_at + timedelta(hours=2)
+        if expiry_date < timezone.now():
             return True
         return False
 
