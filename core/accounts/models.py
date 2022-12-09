@@ -16,6 +16,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     profile_pic = models.ImageField(upload_to='profile', blank=True, null=True)  # noqa
     profile_cover = models.ImageField(upload_to='profile', blank=True, null=True)  # noqa
+    test_value = models.CharField(max_length=10, default='test')
 
     created_from_dashboard = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
