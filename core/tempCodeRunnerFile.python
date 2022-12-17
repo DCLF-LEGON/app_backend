@@ -1,0 +1,4 @@
+def quine():
+    print(quine.__code__.co_consts[1])
+
+quine()
