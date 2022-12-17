@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- boostrap online version -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!-- bootstrap 5 icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+    <!-- load static -->
+    {% load static %}
+
+    <title>DLCF APP API DOCS</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img src="{% static '/assets/img/brand/dlcf.jpg' %}" alt="" width="40" height="40"
+                    style="border-radius: 50%;" class="d-inline-block align-text-top">
+                <span class="text-bold">DLCF APP</span>
+            </a>
+        </div>
+    </nav>
+    <div class="container mt-3">
+
+        <div class="row mt-4">
+            <!-- header  col -->
+            <div class="col-12 ">
+                <h2 class="text-left text-primary">DLCF APP API ENDPOINTS</h2>
+                <p class="text-left">Tentative API documentation for the dlcf app project</p>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <!-- header  col -->
+            <div class="col-12 ">
+                <h4 class="text-left text-primary">AUTHENTICATION</h4>
+                <p class="text-left">This API uses (knox) token authentication (Django Rest Knox). <br>
+                    This means that all requests made to essential endpoints must provide the token
+                    inside the header config.
+                </p>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <!-- header  col -->
+            <div class="col-12 ">
+                <h4 class="text-left text-primary">BASE URL</h4>
+                <p class="text-left">http://188.166.43.176/</p>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12 ">
+                <h4 class="text-left text-primary">HEADER</h4>
+                <code class="text-left">
+                    Authorization: Token {token} <br>
+                    Content-Type: application/json
+                </code>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 ">
+                <h4 class="text-left text-primary">ENDPOINTS</h4>
+                <p>Below are the endpoints featured in the api so far</p>
+            </div>
+        </div>
+        <!-- sign up endpoint -->
+        <div class="card shadow-sm mt-2">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/sign-up/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for creating user accounts</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">fullname: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">email: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">password: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- verify otp endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/verify-otp/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for verifying user's otp</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">otp: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- resend otp endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/resend-otp/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for sending/resending otp to user</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted" None</h6> </div> <div class="col-5"
+                        style="height: 100px; overflow-y: scroll;">
+                        <h5 class="card-title text-primary mt-2">Response </h5>
+                        <code>
+                            Soon
+                        </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- login endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/login/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for user to login</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">username: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">password: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- logout endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/logout/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for loggin user out</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+            </div>
+        </div>
+
+        <!-- categories endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/categories/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all message categories</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- all messages endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/all-messages/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all messages</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+        <!-- message detail endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/message-detail/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting detailed info on a message</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">message_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- category messages endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/category-messages/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting messages of a category</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">category_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- like message endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/like-message/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for liking a message</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">message_id: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- create, update message note endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/create-update-message-note/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for adding/updating note to a message </h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">message_id: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">note: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- leaders endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/leaders/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all leaders</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- preachers/ endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/preachers/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all leaders</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- doctrines endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/doctrines/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all doctrines</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- doctrine detail endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/doctrine-detail/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting detailed info on a doctrine</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">doctrine_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- bookmarks endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/bookmarks/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all bookmarked messages</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted"> None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- add bookmark/ endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/add-bookmark/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for user to bookmark a message</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">message_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- remove bookmark endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/remove-bookmark/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for removing message from bookmarked messages
+                    </h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">bookmark_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- general notes endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/general-notes/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting all notes made by user</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- add-general-note endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/add-general-note/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for user to write a note</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">note: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">title: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- update-general-note endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">PUT</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/update-general-note/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for updating user note</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">note_id: int</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">note: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">title: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- delete-note endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">DELETE</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/delete-note/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for deleting user notes</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">note_id: int</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- make-donation endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/make-donation/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for making donations</h6>
+                    <h6 class="card-subtitle mb-2">No Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">network: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">mobile_number: str</h6>
+                    <h6 class="card-subtitle mb-2 text-muted">amount: decimal</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- user-profile endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/user-profile/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for getting user profile </h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- change-password endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">POST</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/change-password/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for changing user password</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">new_password: str</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- logoutall endpoint -->
+        <div class="card mt-3 shadow-sm">
+            <div class="row card-body">
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">GET</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">/api/logoutall/</h6>
+                </div>
+                <div class="col-12 col-md-3">
+                    <h5 class="card-title text-primary mt-2">Description </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Endpoint for logging out all user instances</h6>
+                    <h6 class="card-subtitle mb-2">Login Required</h6>
+                </div>
+                <div class="col-12 col-md-2">
+                    <h5 class="card-title text-primary mt-2">Params </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">None</h6>
+                </div>
+                <div class="col-12 col-md-5" style="height: 100px; overflow-y: scroll;">
+                    <h5 class="card-title text-primary mt-2">Response </h5>
+                    <code>
+                        Soon
+                    </code>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card mt-5"></div>
+
+        <div class="b-example-divider"></div>
+
+        <div class="container">
+            <footer class="py-3 my-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+                    <li class="nav-item"><a href="{% url 'dashboard:dashboard' %}"
+                            class="btn btn-sm btn-primary">Dashboard</a></li>
+                </ul>
+                <p class="text-center text-muted">&copy; 2022 DLCF APP, LEGON</p>
+            </footer>
+        </div>
+
+</body>
+
+</html>
