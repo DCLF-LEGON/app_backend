@@ -1,6 +1,5 @@
-from dataclasses import fields
 from django.contrib.auth import authenticate
-from accounts.models import User
+from accounts.models import User, OTP
 from dashboard.models import *
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -33,6 +32,12 @@ class RegisterSerializer(serializers.ModelSerializer):
             fullname=validated_data['fullname'],
         )
         return user
+
+
+class OTPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OTP
+        fields = '__all__'
 
 
 class UserSerializer(serializers.ModelSerializer):
