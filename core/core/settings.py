@@ -12,11 +12,10 @@ DEBUG = True
 DEPLOYMENT = False
 
 
-ALLOWED_HOSTS = ['188.166.43.176', '*']
+ALLOWED_HOSTS = ['188.166.43.176', '164.90.196.39', '*']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -34,6 +33,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'dashboard.apps.DashboardConfig',
     'api.apps.ApiConfig',
+    'documentation.apps.DocumentationConfig',
 
     # REMEMBER ME APP
     # 'auth_remember',
@@ -84,14 +84,6 @@ if not DEPLOYMENT:
 else:
     # use postgresql database in production
     DATABASES = {
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.postgresql',
-        #     'NAME': os.environ.get('DB_NAME', 'dlcfdb'),
-        #     'USER': os.environ.get('DB_USER', 'dlcfsuperuser'),
-        #     'PASSWORD': os.environ.get('DB_PASSWORD', 'AVNS_HO40oOpNF_dSn-nWyRc'),
-        #     'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
-        #     'PORT': '25060',
-        # },
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': os.environ.get('DB_NAME', 'dlcf_db'),
@@ -100,15 +92,6 @@ else:
             'HOST': 'private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com',
             'PORT': '25060',
         },
-        # 'default': {
-        #     'ENGINE': 'django.db.backends.postgresql',
-        #     username = dlcfsuperuser
-        #     password = AVNS_HO40oOpNF_dSn-nWyRc
-        #     host = private-dlcfappdb-do-user-12828321-0.b.db.ondigitalocean.com
-        #     port = 25060
-        #     database = dlcf_db
-        #     sslmode = require
-        # }
     }
 
 
@@ -168,8 +151,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'knox.auth.TokenAuthentication',
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
+# REST_FRAMEWORK = {
+#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
 # django cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
