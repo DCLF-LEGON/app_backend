@@ -3,7 +3,7 @@ import decimal
 import time
 from core.utils.util_functions import get_transaction_status, receive_payment
 from core import settings
-from .serializers import DonationSerializer, GeneralNoteSerializer, MessageNoteSerializer
+from .serializers import DonationSerializer, GeneralNoteSerializer, MessageNoteSerializer, OTPSerializer
 from dashboard.models import Donation, Preacher
 from .serializers import PreacherSerializer
 from dashboard.models import Doctrine
@@ -70,6 +70,7 @@ class SignUpAPI(generics.GenericAPIView):
 class VerifyOTPAPI(generics.GenericAPIView):
     '''This CBV is used to verify a user's OTP'''
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = OTPSerializer
 
     def post(self, request, *args, **kwargs):
         user = request.user
@@ -89,6 +90,7 @@ class VerifyOTPAPI(generics.GenericAPIView):
 class ResendOTPAPI(generics.GenericAPIView):
     '''This CBV is used to resend a user's OTP'''
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = OTPSerializer
 
     def post(self, request, *args, **kwargs):
         user = request.user
