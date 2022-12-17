@@ -4,7 +4,7 @@ from . import views
 
 app_name = 'api'
 urlpatterns = [
-    path('api/', views.ApiEndPointsView.as_view(), name='api'),
+    path('', views.ApiEndPointsView.as_view(), name='api'),
     path('sign-up/', views.SignUpAPI.as_view(), name="sign_up"),
 ]
 
