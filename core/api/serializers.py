@@ -1,8 +1,9 @@
 from django.contrib.auth import authenticate
-from accounts.models import User, OTP
-from dashboard.models import *
 from rest_framework import serializers
 from rest_framework.response import Response
+
+from accounts.models import OTP, User
+from dashboard.models import *
 
 
 class LoginSerializer(serializers.ModelSerializer):
@@ -56,6 +57,12 @@ class MessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Message
         exclude = ('created_at', 'updated_at')
+
+
+class YoutubeVideoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = YoutubeVideo
+        exclude = ('published_at',)
 
 
 class MessageNoteSerializer(serializers.ModelSerializer):
