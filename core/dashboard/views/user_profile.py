@@ -1,9 +1,9 @@
 
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
-from django.contrib.auth import update_session_auth_hash
 from django.views import View
 
 from core.utils.decorators import AdminOnly, MustLogin

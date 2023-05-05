@@ -1,14 +1,13 @@
+from django.contrib import messages
 from django.db.models import Q
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.views import View
-from dashboard.forms import DoctrineForm
-
-from dashboard.models import Doctrine
-
+from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
+from django.views import View
+
 from core.utils.decorators import AdminOnly, MustLogin
+from dashboard.forms import DoctrineForm
+from dashboard.models import Doctrine
 
 
 class DoctrinesListView(View):

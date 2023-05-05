@@ -1,17 +1,16 @@
-from django.shortcuts import render, redirect, HttpResponse
-from django.views import View
-from django.http import HttpResponseRedirect
 from django.contrib import messages
-from django.db.models import Q
-
-from core.utils.constants import UserRoles
-from accounts.models import User
-from dashboard.forms import UserForm
-
 from django.contrib.auth.models import Group, Permission
 from django.contrib.contenttypes.models import ContentType
+from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.shortcuts import HttpResponse, redirect, render
 from django.utils.decorators import method_decorator
+from django.views import View
+
+from accounts.models import User
+from core.utils.constants import UserRoles
 from core.utils.decorators import AdminOnly, MustLogin
+from dashboard.forms import UserForm
 
 
 class UsersListView(View):

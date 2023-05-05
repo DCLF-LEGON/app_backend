@@ -4,9 +4,9 @@ from django.contrib.contenttypes.models import ContentType
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
 from django.views import View
 
-from django.utils.decorators import method_decorator
 from core.utils.decorators import AdminOnly, MustLogin
 
 

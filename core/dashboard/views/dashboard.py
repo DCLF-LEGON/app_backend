@@ -1,12 +1,11 @@
-from django.views import View
-from django.shortcuts import render, redirect
 from django.contrib import messages
-from core.utils.decorators import MustLogin
-
-from core.utils.util_functions import get_api_wallet_balance
-from accounts.models import User
-
+from django.shortcuts import redirect, render
 from django.utils.decorators import method_decorator
+from django.views import View
+
+from accounts.models import User
+from core.utils.decorators import MustLogin
+from core.utils.util_functions import get_api_wallet_balance
 
 
 class DashboardView(View):
