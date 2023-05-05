@@ -1,6 +1,10 @@
-import requests
-from core import settings
 import decimal
+
+import google.auth
+import requests
+from googleapiclient.discovery import build
+
+from core import settings
 
 
 def receive_payment(data):
@@ -55,3 +59,26 @@ def get_api_wallet_balance():
     except KeyError:
         main_balance = decimal.Decimal(0)
     return main_balance
+
+
+def fetch_youtube_data(channel_id):
+    # Set up the YouTube API client
+    API_KEY = settings.YOUTUBE_API_KEY
+    youtube = build("youtube", "v3", developerKey=API_KEY)
+
+    # Set the ID of the YouTube channel you want to fetch videos from
+    # CHANNEL_ID = settings.CHANNEL_ID
+
+    # Define the parameters for the API request
+    request = youtube.search().list(
+        part="id,snippet",
+        channelId=channel_id,
+        maxResults=50,  # You can set the number of videos to fetch
+        order="date",
+        type="video"
+    )
+
+    # Send the API request and fetch the videos from the channel
+    response = request.execute()
+    videos = response.get("items", [])
+    return videos
