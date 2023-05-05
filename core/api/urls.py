@@ -1,5 +1,6 @@
-from knox import views as knox_views
 from django.urls import path
+from knox import views as knox_views
+
 from . import views
 
 app_name = 'api'
@@ -27,6 +28,13 @@ urlpatterns += [
     path('message-detail/', views.MessageDetailAPI.as_view(), name="msg_detail"),
     path('category-messages/', views.CategoryMessagesAPI.as_view(), name="cat_msgs"),  # noqa
     path('like-message/', views.LikeMessageAPI.as_view(), name="like_msgs"),  # noqa
+]
+
+# youtube videos
+urlpatterns += [
+    path('youtube-videos/', views.YoutubeVideosAPI.as_view(), name="youtube_videos"),  # noqa
+    path('like-video/', views.LikeYoutubeVideoAPI.as_view(), name="like_video"),  # noqa
+    path('fetch-youtube-videos/', views.FetchYoutubeDataAPI.as_view(), name="fetch_videos"),  # noqa
 ]
 
 
@@ -85,3 +93,5 @@ urlpatterns += [
     path('user-profile/', views.UserProfileAPI.as_view(), name='user_profile'),  # noqa
     path('change-password/', views.ChangePasswordAPI.as_view(), name='change_password'),  # noqa
 ]
+
+#
