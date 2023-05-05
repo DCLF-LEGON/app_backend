@@ -1,14 +1,15 @@
-import sys
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from io import BytesIO
-from PIL import Image
-import random
-import time
-import string
 import os
-from accounts.models import User
-from django.db import models
+import random
+import string
+import sys
+import time
+from io import BytesIO
 
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.db import models
+from PIL import Image
+
+from accounts.models import User
 from core.utils.constants import MediaType
 
 
@@ -122,6 +123,19 @@ class Message(models.Model):
         db_table = 'message'
 
 
+class YoutubeVideo(models.Model):
+    '''For storing videos fetchfed via the youtube api'''
+    video_id = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    thumbnail_url = models.URLField()
+    published_at = models.DateTimeField()
+    likes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.title
+
+
 class LikedMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
     message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa
@@ -131,6 +145,18 @@ class LikedMessage(models.Model):
     class Meta:
         db_table = 'liked_message'
 
+
+class RecentlyWatched(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'recently_watched'
+
+    def __str__(self) -> str:
+        return self.message.title
 
 
 class Bookmark(models.Model):
