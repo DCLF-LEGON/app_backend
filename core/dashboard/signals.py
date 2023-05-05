@@ -1,14 +1,14 @@
 # import dispacher, receiver, and post_save
-from django.dispatch import receiver
-from django.db.models.signals import post_save
+import random
+import string
+
 from django.core.mail import EmailMultiAlternatives
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.template.loader import render_to_string
 
-import string
-import random
-
-from accounts.models import User, OTP
 import core.settings as settings
+from accounts.models import OTP, User
 
 # globals
 email_template = 'dashboard/notifications/password_otp_template.html'
