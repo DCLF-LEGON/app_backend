@@ -1,4 +1,5 @@
 from django.urls import path
+
 from . import views
 
 app_name = 'dashboard'
@@ -10,6 +11,9 @@ urlpatterns = [
 urlpatterns += [
     path('donations/', views.DonationsListView.as_view(), name='donations'),
     path('search-donation/', views.SearchDonationView.as_view(), name='search-donation'),  # noqa
+    path('download-as-csv/', views.DownloadDonationsAsCSV.as_view(), name='download_as_csv'),  # noqa
+    path('download-as-xl/', views.DownloadDonationsAsExcel.as_view(), name='download_as_xl'),  # noqa
+    path('download-as-pdf/', views.DownloadDonationsAsPDF.as_view(), name='download_as_pdf'),  # noqa
 ]
 
 # doctrines
@@ -46,6 +50,13 @@ urlpatterns += [
     path('message-details/', views.MessageDetailsView.as_view(), name='message_details'),  # noqa
     path('search-message/', views.SearchMessageView.as_view(), name='search_message'),  # noqa
     path('delete-message/', views.DeleteMessageView.as_view(), name='delete_message'),  # noqa
+]
+
+# Youtube videos
+urlpatterns += [
+    path('youtube-videos/', views.YoutubeVideosView.as_view(), name='youtube_videos'),  # noqa
+    path('search-youtube-video/', views.SearchYoutubeVideoView.as_view(), name='search_yt_video'),  # noqa
+    path('delete-youtube-video/', views.DeleteYoutubeVideoView.as_view(), name='delete_yt_video'),  # noqa
 ]
 
 # messages category
