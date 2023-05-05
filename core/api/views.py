@@ -1,30 +1,36 @@
-from dashboard.models import Bookmark, GeneralNote, LikedMessage, MessageNote
 import decimal
-import time
-from core.utils.util_functions import get_transaction_status, receive_payment
-from core import settings
-from .serializers import DonationSerializer, GeneralNoteSerializer, MessageNoteSerializer, OTPSerializer
-from dashboard.models import Donation, Preacher
-from .serializers import PreacherSerializer
-from dashboard.models import Doctrine
-from .serializers import DoctrineSerializer
-from .serializers import LeaderSerializer
+import os
 import random
 import string
-from dashboard.models import Leader, Message, MessageCategory
-from dashboard.signals import generate_otp
-from accounts.models import OTP
-from api.serializers import MessageCategorySerializer, RegisterSerializer, UserSerializer
-from rest_framework.views import APIView
+import time
+
+import google.auth
+from django.contrib.auth import login
+from googleapiclient.discovery import build
 from knox.models import AuthToken
 from knox.views import LoginView as KnoxLoginView
-from django.contrib.auth import login
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+import core.settings as settings
+from accounts.models import OTP
 from api import serializers
+from api.serializers import (MessageCategorySerializer, RegisterSerializer,
+                             UserSerializer, YoutubeVideoSerializer)
+from core import settings
+from core.utils.util_functions import (fetch_youtube_data,
+                                       get_transaction_status, receive_payment)
+from dashboard.models import (Bookmark, Doctrine, Donation, GeneralNote,
+                              Leader, LikedMessage, Message, MessageCategory,
+                              MessageNote, Preacher, YoutubeVideo)
+from dashboard.signals import generate_otp
+
+from .serializers import (DoctrineSerializer, DonationSerializer,
+                          GeneralNoteSerializer, LeaderSerializer,
+                          MessageNoteSerializer, OTPSerializer,
+                          PreacherSerializer)
 
 
 class ApiEndPointsView(APIView):
@@ -141,6 +147,68 @@ class MessageCategoriesListAPI(APIView):
         }, status=status.HTTP_200_OK)
 
 
+class YoutubeVideosAPI(APIView):
+    '''CBV for getting all the youtube video fetched via api'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        videos = YoutubeVideo.objects.all().filter().order_by('-published_at')
+        return Response({
+            "videos": YoutubeVideoSerializer(videos, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class LikeYoutubeVideoAPI(APIView):
+    '''CBV for like a youtube video'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        video_id = request.data.get('video_id')
+        video = YoutubeVideo.objects.filter(video_id=video_id).first()
+        if video:
+            video.likes += 1
+            video.save()
+            return Response({
+                "message": "Video Liked!",
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "message": "Ooops!",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+
+class FetchYoutubeDataAPI(APIView):
+    '''CBV for fetching youtube data'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        videos = fetch_youtube_data(settings.CHANNEL_ID)
+        videos_saved = 0
+        for video in videos:
+            # check if video already exists in YoutubeVideo model
+            video_id = video["id"]["videoId"]
+            title = video["snippet"]["title"]
+            description = video["snippet"]["description"]
+            thumbnailUrl = video["snippet"]["thumbnails"]["high"]["url"]
+            published_at = video["snippet"]["publishedAt"]
+            existing_video = YoutubeVideo.objects.filter(video_id=video_id).first()  # noqa
+            if existing_video is None:
+                YoutubeVideo.objects.create(
+                    video_id=video_id,
+                    title=title,
+                    description=description,
+                    thumbnail_url=thumbnailUrl,
+                    published_at=published_at
+                )
+                videos_saved += 1
+        return Response({
+            "message": "Youtube Videos Fetched Successfully",
+            "videos_saved": videos_saved,
+            "videos": videos,
+              # noqa
+        }, status=status.HTTP_200_OK)
+
+
 class MessagesListAPI(APIView):
     '''This CBV is used to get all messages from all categories'''
     permission_classes = [permissions.AllowAny]
@@ -189,6 +257,11 @@ class MessageDetailAPI(APIView):
                 "likes": message.get_likes(),
                 "notes": message_notes,
             }
+            # create a recently watched object
+            try:
+                RecentlyWatched.objects.create(user=user, message=message)
+            except:
+                pass
             return Response({
                 "message": result,
             }, status=status.HTTP_200_OK)
@@ -328,6 +401,18 @@ class DoctrineDetailAPI(APIView):
         return Response({
             "message": "Doctrine not found!",
         }, status=status.HTTP_404_NOT_FOUND)
+
+
+class RecentlyWatchedAPI(APIView):
+    '''CBV for getting user's recenty watched messages'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        messages = RecentlyWatched.objects.filter(user=user)
+        return Response({
+            "messages": serializers.MessageSerializer(messages).data,
+        }, status=status.HTTP_200_OK)
 
 
 class BookmarkMessageAPI(APIView):
