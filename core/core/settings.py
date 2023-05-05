@@ -1,5 +1,6 @@
-from pathlib import Path
 import os
+from pathlib import Path
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -183,3 +184,8 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'dlcflegonapp@gmail.com')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD', 'jugowqakbtjgvqyw')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+# youtube api
+YOUTUBE_API_KEY = os.environ.get('YT_API_KEY', 'AIzaSyCBAQRgng1bDHyzFL8Rib6szwFJ_low-lw')  # noqa
+# Official Deeper Life Youtube Channel ID
+CHANNEL_ID = os.environ.get('CHANNEL_ID', 'UC4zsqN5YdXfxkkdVvwNA3JA')
