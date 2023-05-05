@@ -1,8 +1,8 @@
 from django import forms
 
 from accounts.models import User
-from dashboard.models import Doctrine, Leader, Message, MessageCategory
-from dashboard.models import Preacher
+from dashboard.models import (Doctrine, Leader, Message, MessageCategory,
+                              Preacher)
 
 
 class UserForm(forms.ModelForm):
