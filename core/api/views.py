@@ -187,7 +187,7 @@ class FetchYoutubeDataAPI(APIView):
         for video in videos:
             # check if video already exists in YoutubeVideo model
             video_id = video["id"]["videoId"]
-            title = video["snippet"]["title"]
+            title = video["snippet"]["title"].strip().replace("\n", "").replace("||", "")  # noqa
             description = video["snippet"]["description"]
             thumbnailUrl = video["snippet"]["thumbnails"]["high"]["url"]
             published_at = video["snippet"]["publishedAt"]
