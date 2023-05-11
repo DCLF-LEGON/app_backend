@@ -10,3 +10,4 @@ from .preachers import *
 from .user_profile import *
 from .users import *
 from .youtube_videos import *
+from .gallery import *
