@@ -67,7 +67,7 @@ class FetchYoutubeVideosView(View):
     @method_decorator(MustLogin)
     def get(self, request, *args, **kwargs):
         try:
-            response = requests.get('http://127.0.0.1:8000/api/fetch-youtube-videos/')  # noqa
+            response = requests.get('http://165.232.71.253/api/fetch-youtube-videos/')  # noqa
             if response.status_code == 200:
                 res_message = response.json().get('message')
                 total_videos = response.json().get('total_videos')
