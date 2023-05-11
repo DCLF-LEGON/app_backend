@@ -43,6 +43,15 @@ class Preacher(models.Model):
         db_table = 'preacher'
 
 
+class Gallery(models.Model):
+    '''Saves church gallery images'''
+    image = models.ImageField(upload_to='assets/gallery/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.image.name
+
+
 class Doctrine(models.Model):
     title = models.CharField(max_length=50)
     description = models.TextField()
@@ -130,6 +139,8 @@ class YoutubeVideo(models.Model):
     description = models.TextField()
     thumbnail_url = models.URLField()
     published_at = models.DateTimeField()
+    preacher = models.ForeignKey(Preacher, related_name='youtube_videos', on_delete=models.CASCADE, null=True)  # noqa
+    catetory = models.ForeignKey(MessageCategory, related_name='youtube_videos', on_delete=models.CASCADE, null=True)  # noqa
     likes = models.IntegerField(default=0)
 
     def __str__(self):
