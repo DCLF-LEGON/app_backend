@@ -109,3 +109,9 @@ class DonationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Donation
         fields = '__all__'
+
+
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
+        fields = '__all__'
