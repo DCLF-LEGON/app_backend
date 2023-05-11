@@ -57,18 +57,12 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="h5 my-4">Profile and Cover Images</h2>
+                <h2 class="h5 my-4">Profile Images</h2>
                 <div class="row">
                     <div class="col-sm-9 mb-3">
                         <div class="form-group">
                             <label for="profile_pic">Profile Image</label>
                             <input class="form-control" name="profile_pic" type="file" accept="image/*">
-                        </div>
-                    </div>
-                    <div class="col-sm-9 mb-3">
-                        <div class="form-group">
-                            <label for="cover_image">Cover Image</label>
-                            <input class="form-control" name="profile_cover" type="file" accept="image/*">
                         </div>
                     </div>
                 </div>
@@ -122,6 +116,8 @@
                     </div>
                 </div>
             </div>
+
+            {% comment %}
             <div class="col-12">
                 <div class="card card-body border-0 shadow mb-4">
                     <h2 class="h5 mb-4">Current Profile Image</h2>
@@ -148,6 +144,9 @@
                     </div>
                 </div>
             </div>
+            {% endcomment %}
+
+
         </div>
     </div>
 </div>
