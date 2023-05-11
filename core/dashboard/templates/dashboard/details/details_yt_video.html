@@ -1,0 +1,134 @@
+{% extends "base/base.html" %}
+
+{% block title %} Youtube Video | {{video.title}} {% endblock %}
+{% load static %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center py-4">
+    <div class="d-block mb-4 mb-md-0">
+        <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item">
+                    <a href="#">
+                        <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                            </path>
+                        </svg>
+                    </a>
+                </li>
+                <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Youtube Videos</li>
+            </ol>
+        </nav>
+        <h2 class="h4">{{video.video_id}}</h2>
+        <p class="mb-0">{{video.title|safe}}</p>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+        <div class="btn-group ms-2 ms-lg-3">
+            <form action="{% url 'dashboard:delete_yt_video' %}" method="POST" style="display: inline;">
+                {% csrf_token %}
+                <input type="hidden" name="video_id" value="{{video.video_id}}">
+                <button type="submit" class="btn btn-sm btn-outline-gray-600"><span
+                        class="fas fa-trash-alt me-2"></span>Delete Video</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="card card-body border-0 shadow table-wrapper table-responsive">
+    <div class="row">
+        <div class="col-8 mt-2 mb-3 mx-auto">
+            <iframe width="600" height="400" src="https://www.youtube.com/embed/{{video.video_id}}">
+                frameborder="0"></iframe>
+        </div>
+        <hr>
+        <div class="col-4 mb-3">
+            <b>VIdeo ID</b>
+            <p class="text-primary">{{video.video_id}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Video Title</b>
+            <p class="text-primary">{{video.title}}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>URL</b>
+            <p class="text-primary">
+                <a href="https://www.youtube.com/watch?v={{video.video_id}}"
+                    target="_blank">https://www.youtube.com/watch?v={{video.video_id}}</a>
+            </p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>video Category</b>
+            <p class="text-primary">{% if video.category %}{{video.category.name}}{{video.category.name}}{% else %}No
+                Category{% endif %}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Thumbnail URL</b>
+            <p class="text-primary"><a href="{{video.thumbnail_url}}">{{video.thumbnail_url}}</a></p>
+        </div>
+
+        <div class="col-4 mb-3">
+            <b>Preacher</b>
+            <p class="text-primary">{% if video.preacher is not None %}{{video.preacher.name}}{% else %}Ps. Dr. W.F.
+                Kumuyi{% endif %}</p>
+        </div>
+        <div class="col-4 mb-3">
+            <b>Date Published</b>
+            <p class="text-primary">{{video.published_at}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-3">
+                <div class="card-header bg-primary text-white">
+                    <h4>Assign Category and Preacher</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-mb-6">
+                            <form action="{% url 'dashboard:detail_yt_video' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="video_id" value="{{video.video_id}}">
+                                <div class="mb-3">
+                                    <label for="category_id">Video Category</label>
+                                    <select class="form-control" name="category_id" id="category_id">
+                                        <option value="">Select Category</option>
+                                        {% for category in categories %}
+                                        <option value="{{category.id}}" {% if video.category.id == category.id %}
+                                            selected {% endif %}>{{category.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="preacher_id">Preacher</label>
+                                    <select class="form-control" name="preacher_id" id="preacher_id">
+                                        <option value="">Select Preacher</option>
+                                        {% for preacher in preachers %}
+                                        <option value="{{preacher.id}}" {% if video.preacher.id == preacher.id %}
+                                            selected {% endif %}>{{preacher.title}} {{preacher.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-5">
+                                    <input type="submit" class="btn btn-sm btn-primary btn-block" value="submit">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
