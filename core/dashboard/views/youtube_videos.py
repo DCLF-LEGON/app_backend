@@ -78,7 +78,7 @@ class FetchYoutubeVideosView(View):
             messages.info(request, str(e))
         else:
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 class UpdateYoutubeVideoView(View):
