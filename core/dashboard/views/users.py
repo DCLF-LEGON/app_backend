@@ -57,12 +57,15 @@ class CreateUpdateUserView(View):
     def post(self, request, *args, **kwargs):
         user_id = request.POST.get('user_id') or None
         user = User.objects.filter(id=user_id).first()
+        role = request.POST.get('role')
         # new user
         if not user_id:
             form = UserForm(request.POST, request.FILES or None)  # noqa
             if form.is_valid():
                 user = form.save(commit=False)
                 user.created_from_dashboard = True
+                if role == 'administrator':
+                    user.is_staff = True
                 user.save()
                 messages.success(request, 'User created successfully')
                 return redirect('dashboard:users')
