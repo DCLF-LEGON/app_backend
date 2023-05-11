@@ -1,0 +1,30 @@
+<!-- Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="galleryModalLabel">Add Images To Gallery</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form action="{% url 'dashboard:add_images' %}" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="images">User Email</label>
+                            <input type="file" name="images" id="images" accept="image/*" class="form-control" multiple>
+                            <small class="text-primary">You can upload multiple images by highlighting several
+                                images</small>
+                        </div>
+                        <div class="mb-3">
+                            <input type="submit" class="btn btn-sm btn-primary" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
