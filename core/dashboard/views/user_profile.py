@@ -31,7 +31,6 @@ class ProfileUpdateView(View):
     @method_decorator(MustLogin)
     def post(self, request, *args, **kwargs):
         profile_pic = request.FILES.get('profile_pic') or None
-        profile_cover = request.FILES.get('profile_cover') or None
         email = request.POST.get('email') or None
         user = request.user
         user.fullname = request.POST.get('fullname')
@@ -41,8 +40,6 @@ class ProfileUpdateView(View):
             user.email = email
         if profile_pic:
             user.profile_pic = profile_pic
-        if profile_cover:
-            user.profile_cover = profile_cover
         user.save()
         messages.success(request, 'Profile Updated successfully')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
