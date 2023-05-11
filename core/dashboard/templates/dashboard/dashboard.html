@@ -232,8 +232,8 @@
                                     <div class="col-auto">
                                         <!-- Avatar -->
                                         <a href="#" class="avatar">
-                                            <img class="rounded" alt="Image placeholder"
-                                                src="{% static '/assets/img/team/profile-picture-1.jpg' %}">
+                                            <img class="rounded" alt="Image placeholder" src="{% if user.profile_pic %} {{user.profile_pic.url}} {% else %}
+                                                {% static '/assets/img/team/profile-picture-1.jpg' %} {% endif %} ">
                                         </a>
                                     </div>
                                     <div class="col-auto ms--2">
