@@ -55,8 +55,11 @@ urlpatterns += [
 # Youtube videos
 urlpatterns += [
     path('youtube-videos/', views.YoutubeVideosView.as_view(), name='youtube_videos'),  # noqa
+    path('detail-youtube-videos/', views.YoutubeVideoDetailView.as_view(), name='detail_yt_video'),  # noqa
     path('search-youtube-video/', views.SearchYoutubeVideoView.as_view(), name='search_yt_video'),  # noqa
     path('delete-youtube-video/', views.DeleteYoutubeVideoView.as_view(), name='delete_yt_video'),  # noqa
+    path('update-youtube-video/', views.UpdateYoutubeVideoView.as_view(), name='update_yt_video'),  # noqa
+    path('fetch-youtube-video/', views.FetchYoutubeVideosView.as_view(), name='fetch_yt_video'),  # noqa
 ]
 
 # messages category
