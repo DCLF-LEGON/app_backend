@@ -186,7 +186,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h2 class="fs-5 fw-bold mb-0">Page visits</h2>
+                                <h2 class="fs-5 fw-bold mb-0">Most Liked Videos</h2>
                             </div>
                             <div class="col text-end">
                                 <a href="#" class="btn btn-sm btn-primary">See all</a>
@@ -197,19 +197,21 @@
                         <table class="table align-items-center table-flush">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="border-bottom" scope="col">Page name</th>
-                                    <th class="border-bottom" scope="col">Page Views</th>
+                                    <th class="border-bottom" scope="col">Video Title</th>
+                                    <th class="border-bottom" scope="col">Total Likes</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                {% for video in top_videos %}
                                 <tr>
-                                    <th class="text-gray-900" scope="row">
-                                        /demo/admin/index.html
-                                    </th>
+                                    <td class="text-gray-900" scope="row">
+                                        {{video.title|safe}}
+                                    </td>
                                     <td class="fw-bolder text-gray-500">
-                                        3,225
+                                        {{video.likes}}
                                     </td>
                                 </tr>
+                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
