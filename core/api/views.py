@@ -22,12 +22,12 @@ from api.serializers import (MessageCategorySerializer, RegisterSerializer,
 from core import settings
 from core.utils.util_functions import (fetch_youtube_data,
                                        get_transaction_status, receive_payment)
-from dashboard.models import (Bookmark, Doctrine, Donation, GeneralNote,
+from dashboard.models import (Bookmark, Doctrine, Donation, Gallery, GeneralNote,
                               Leader, LikedMessage, Message, MessageCategory,
-                              MessageNote, Preacher, YoutubeVideo)
+                              MessageNote, Preacher, RecentlyWatched, YoutubeVideo)
 from dashboard.signals import generate_otp
 
-from .serializers import (DoctrineSerializer, DonationSerializer,
+from .serializers import (DoctrineSerializer, DonationSerializer, GallerySerializer,
                           GeneralNoteSerializer, LeaderSerializer,
                           MessageNoteSerializer, OTPSerializer,
                           PreacherSerializer)
@@ -219,13 +219,12 @@ class MessagesListAPI(APIView):
         all_messages = []
         for message in messages:
             all_messages.append({
-                "id": message.id,
+                "id": message.id,  # type: ignore
                 "title": message.title,
                 "media": message.media.url,
                 "media_type": message.media_type.upper(),
                 "category": message.category.name.upper(),
                 "preacher": message.preacher.title.upper() + '. ' + message.preacher.name.upper(),
-
             })
         return Response({
             "messages": all_messages,
@@ -239,6 +238,7 @@ class MessageDetailAPI(APIView):
     def post(self, request, *args, **kwargs):
         message_id = request.data.get('message_id')
         message = Message.objects.filter(id=message_id).first()
+        user = None
         if request.user.is_authenticated:
             user = request.user
             notes = MessageNote.objects.filter(message=message, user=user).order_by('-created_at')  # noqa
@@ -247,7 +247,7 @@ class MessageDetailAPI(APIView):
             message_notes = []
         if message:
             result = {
-                "id": message.id,
+                "id": message.id,  # type: ignore
                 "title": message.title,
                 "media": message.media.url,
                 "media_type": message.media_type.upper(),
@@ -426,9 +426,9 @@ class BookmarkMessageAPI(APIView):
         for bookmark in bookmarks:
             results.append(
                 {
-                    'bookmark_id': bookmark.id,
+                    'bookmark_id': bookmark.id,  # type: ignore
                     'bookmark_created_at': bookmark.created_at,
-                    'message_id': bookmark.message.id,
+                    'message_id': bookmark.message.id,  # type: ignore
                     'message_title': bookmark.message.title,
                     'message_media': bookmark.message.media.url,
                     'message_media_type': bookmark.message.media_type.upper(),
@@ -531,6 +531,17 @@ class DeleteGeneralNoteAPI(APIView):
         return Response({
             "message": "Invalid Note!",
         }, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GalleryAPI(APIView):
+    '''This CBV is used to get all gallery images'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        images = Gallery.objects.all().order_by('-created_at')
+        return Response({
+            "images": GallerySerializer(images, many=True).data,
+        }, status=status.HTTP_200_OK)
 
 
 class MakeDonationAPI(APIView):
