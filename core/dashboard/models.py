@@ -176,7 +176,7 @@ class Bookmark(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.note
+        return self.message.title
 
     class Meta:
         db_table = 'bookmark'
