@@ -103,3 +103,10 @@ urlpatterns += [
     path("delete-group/", views.DeleteGroupView.as_view(), name="delete_group"),  # noqa
     path('add-perms/', views.AddPermissionsToGroupView.as_view(), name='add_perms'),  # noqa
 ]
+
+# Gallery
+urlpatterns += [
+    path("gallery/", views.GalleryView.as_view(), name="gallery"),
+    path("add-images/", views.AddImagesView.as_view(), name="add_images"),
+    path("delete-image/", views.DeleteImageView.as_view(), name="delete_image"),
+]
