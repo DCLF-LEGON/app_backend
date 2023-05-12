@@ -94,4 +94,7 @@ urlpatterns += [
     path('change-password/', views.ChangePasswordAPI.as_view(), name='change_password'),  # noqa
 ]
 
-#
+# Gallery
+urlpatterns += [
+    path('gallery/', views.GalleryAPI.as_view(), name='gallery'),
+]

@@ -13,7 +13,7 @@ DEBUG = True
 DEPLOYMENT = False
 
 
-ALLOWED_HOSTS = ['188.166.43.176', '164.90.196.39', '*']
+ALLOWED_HOSTS = ['165.232.71.253' '*']
 
 
 # Application definition
@@ -144,17 +144,6 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 
-
-# NOTE: OLD SETTTINGD
-# STATIC_URL = '/static/'
-# STATIC_ROOT = BASE_DIR / 'staticfiles/'
-
-# MEDIA_ROOT = BASE_DIR / 'media/'
-# MEDIA_URL = str(BASE_DIR / 'media') + '/'
-
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-# ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
