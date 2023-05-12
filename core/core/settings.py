@@ -13,7 +13,7 @@ DEBUG = True
 DEPLOYMENT = False
 
 
-ALLOWED_HOSTS = ['165.232.71.253' '*']
+ALLOWED_HOSTS = ['165.232.71.253', '*']
 
 
 # Application definition
