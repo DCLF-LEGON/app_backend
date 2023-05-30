@@ -157,20 +157,9 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
-# REST_FRAMEWORK = {
-#     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
 
 # django cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
-
-# FOR THE IMPLEMENTATION OF REMEMBER ME FUNCTIONALITY
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'auth_remember.backend.AuthRememberBackend',
-# )
-# AUTH_REMEMBER_COOKIE_NAME = 'remember_token'
-# AUTH_REMEMBER_COOKIE_AGE = 86400 * 28  # 4 weeks by default
-# SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 
 # enviroment variables
@@ -191,3 +180,4 @@ EMAIL_USE_SSL = False
 YOUTUBE_API_KEY = os.environ.get('YT_API_KEY', 'AIzaSyCBAQRgng1bDHyzFL8Rib6szwFJ_low-lw')  # noqa
 # Official Deeper Life Youtube Channel ID
 CHANNEL_ID = os.environ.get('CHANNEL_ID', 'UC4zsqN5YdXfxkkdVvwNA3JA')
+CHANNEL_ID2 = os.environ.get('CHANNEL_ID2', 'UCV_UyUXis6uqyIEvzDfD3sQ')

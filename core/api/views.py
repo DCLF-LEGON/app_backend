@@ -183,6 +183,8 @@ class FetchYoutubeDataAPI(APIView):
 
     def get(self, request, *args, **kwargs):
         videos = fetch_youtube_data(settings.CHANNEL_ID)
+        videos2 = fetch_youtube_data(settings.CHANNEL_ID2)
+        videos.extend(videos2)
         videos_saved = 0
         for video in videos:
             # check if video already exists in YoutubeVideo model
@@ -205,7 +207,6 @@ class FetchYoutubeDataAPI(APIView):
             "message": "Youtube Videos Fetched Successfully",
             "videos_saved": videos_saved,
             "videos": videos,
-              # noqa
         }, status=status.HTTP_200_OK)
 
 

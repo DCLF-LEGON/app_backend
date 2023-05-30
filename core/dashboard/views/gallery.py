@@ -12,6 +12,7 @@ class GalleryView(View):
     '''CBV for showing gallery page'''
     template = 'dashboard/gallery.html'
 
+    @method_decorator(AdminOnly)
     def get(self, request, *args, **kwargs):
         gallery = Gallery.objects.all()
         context = {

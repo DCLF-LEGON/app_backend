@@ -24,7 +24,7 @@ class AdminOnly(object):
 
     def __call__(self, request, *args,  **kwargs):
         if request.user.is_authenticated:
-            if (request.user.is_superuser):  # noqa
+            if (request.user.is_staff):  # noqa
                 return self.original_method(request, *args, **kwargs)
             else:
                 messages.info(request, "Access Denied!")  # noqa

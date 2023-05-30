@@ -66,14 +66,11 @@ def fetch_youtube_data(channel_id):
     API_KEY = settings.YOUTUBE_API_KEY
     youtube = build("youtube", "v3", developerKey=API_KEY)
 
-    # Set the ID of the YouTube channel you want to fetch videos from
-    # CHANNEL_ID = settings.CHANNEL_ID
-
-    # Define the parameters for the API request
+    # parameters for the API request
     request = youtube.search().list(
         part="id,snippet",
         channelId=channel_id,
-        maxResults=50,  # You can set the number of videos to fetch
+        maxResults=50,  # max num of videos to fetch
         order="date",
         type="video"
     )
