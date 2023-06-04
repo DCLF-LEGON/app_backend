@@ -334,7 +334,7 @@ class CategoryMessagesAPI(APIView):
 
     def get(self, request, *args, **kwargs):
         category_id = request.GET.get('category_id')
-        category = MessageCategory.objects.filter(id=category_id).first()
+        category = MessageCategory.objects.filter(pk=category_id).first()
         if not category:
             return Response({
                 "message": "Invalid category!",
@@ -343,7 +343,7 @@ class CategoryMessagesAPI(APIView):
         all_messages = []
         for message in messages:
             all_messages.append({
-                "id": message.id,
+                "id": message.pk,
                 "title": message.title,
                 "media": message.media.url,
                 "media_type": message.media_type.upper(),
@@ -352,6 +352,20 @@ class CategoryMessagesAPI(APIView):
             })
         return Response({
             "messages": all_messages,
+        }, status=status.HTTP_200_OK)
+
+
+class CategoryYoutubeMessagesAPI(APIView):
+    '''This CBV is used to get all youtube messages from specified category'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        category_id = request.data.get('category_id')
+        category = MessageCategory.objects.filter(id=category_id).first()
+        messages = YoutubeVideo.objects.filter(category=category).order_by('-published_at')  # noqa
+        serializer = YoutubeVideoSerializer(messages, many=True)
+        return Response({
+            "messages": serializer.data,
         }, status=status.HTTP_200_OK)
 
 

@@ -140,7 +140,7 @@ class YoutubeVideo(models.Model):
     thumbnail_url = models.URLField()
     published_at = models.DateTimeField()
     preacher = models.ForeignKey(Preacher, related_name='youtube_videos', on_delete=models.CASCADE, null=True)  # noqa
-    catetory = models.ForeignKey(MessageCategory, related_name='youtube_videos', on_delete=models.CASCADE, null=True)  # noqa
+    category = models.ForeignKey(MessageCategory, related_name='youtube_videos', on_delete=models.CASCADE, null=True)  # noqa
     likes = models.IntegerField(default=0)
 
     def __str__(self):
