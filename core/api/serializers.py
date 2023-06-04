@@ -59,7 +59,15 @@ class MessageSerializer(serializers.ModelSerializer):
         exclude = ('created_at', 'updated_at')
 
 
+class PreacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Preacher
+        exclude = ('created_at', 'updated_at')
+
+
 class YoutubeVideoSerializer(serializers.ModelSerializer):
+    preacher = PreacherSerializer()
+
     class Meta:
         model = YoutubeVideo
         exclude = ('published_at',)
@@ -74,18 +82,6 @@ class MessageNoteSerializer(serializers.ModelSerializer):
 class LeaderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Leader
-        exclude = ('created_at', 'updated_at')
-
-
-class PreacherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Preacher
-        exclude = ('created_at', 'updated_at')
-
-
-class PreacherSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Preacher
         exclude = ('created_at', 'updated_at')
 
 
