@@ -58,7 +58,7 @@ class LoginAPI(KnoxLoginView):
         if not user.otp_verified:
             return Response({
                 "user": UserSerializer(user).data,
-                "token": None,
+                "token": AuthToken.objects.create(user)[1],
             }, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
         # Delete token
