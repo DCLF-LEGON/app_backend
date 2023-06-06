@@ -158,6 +158,12 @@ REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
+# knox - make token non-expiry
+REST_KNOX = {
+    'TOKEN_TTL': None,
+}
+
+
 # django cors headers settings
 CORS_ALLOW_ALL_ORIGINS = True
 
