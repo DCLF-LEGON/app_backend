@@ -95,6 +95,8 @@ class VerifyOTPAPI(generics.GenericAPIView):
         otp = OTP.objects.filter(user=user, otp=otp_code).first()
         if otp and (otp.otp_is_expired() == False):
             otp.delete()
+            user.otp_verified = True
+            user.save()
             return Response({
                 "message": "OTP verified successfully",
             }, status=status.HTTP_200_OK)
