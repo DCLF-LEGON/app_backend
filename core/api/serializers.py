@@ -16,8 +16,7 @@ class LoginSerializer(serializers.ModelSerializer):
         user = authenticate(**data)
         if user and user.is_active:
             return Response(user, status=200)
-        raise Response(
-            {"error": "Unable to log in with provided credentials."}, status=400)
+        raise serializers.ValidationError("Incorrect Credentials")
 
 
 class RegisterSerializer(serializers.ModelSerializer):
