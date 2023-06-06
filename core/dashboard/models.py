@@ -171,12 +171,12 @@ class RecentlyWatched(models.Model):
 
 
 class Bookmark(models.Model):
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa
+    video = models.ForeignKey(YoutubeVideo, on_delete=models.CASCADE)  # noqa
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.message.title
+        return self.video.title
 
     class Meta:
         db_table = 'bookmark'

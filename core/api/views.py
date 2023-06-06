@@ -190,6 +190,24 @@ class LikeYoutubeVideoAPI(APIView):
             }, status=status.HTTP_404_NOT_FOUND)
 
 
+class BookmarkYoutubeVideoAPI(APIView):
+    '''CBV for bookmarking a youtube video'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        video_id = request.data.get('video_id')
+        video = YoutubeVideo.objects.filter(video_id=video_id).first()
+        if video:
+            Bookmark.objects.create(video=video, user=request.user)
+            return Response({
+                "message": "Video Saved!",
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "message": "Ooops!",
+            }, status=status.HTTP_404_NOT_FOUND)
+
+
 class FetchYoutubeDataAPI(APIView):
     '''CBV for fetching youtube data'''
     permission_classes = [permissions.AllowAny]
