@@ -54,8 +54,19 @@ class LoginAPI(KnoxLoginView):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        # check if user has verified their otp
+        if not user.otp_verified:
+            return Response({
+                "user": UserSerializer(user).data,
+                "token": None,
+            }, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
-        return super(LoginAPI, self).post(request, format=None)
+        # Delete token
+        AuthToken.objects.filter(user=user).delete()
+        return Response({
+            "user": UserSerializer(user).data,
+            "token": AuthToken.objects.create(user)[1],
+        }, status=status.HTTP_200_OK)
 
 
 class SignUpAPI(generics.GenericAPIView):
