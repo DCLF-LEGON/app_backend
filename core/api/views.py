@@ -372,7 +372,7 @@ class CategoryYoutubeMessagesAPI(APIView):
     '''This CBV is used to get all youtube messages from specified category'''
     permission_classes = [permissions.AllowAny]
 
-    def get(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         category_id = request.data.get('category_id')
         category = MessageCategory.objects.filter(id=category_id).first()
         messages = YoutubeVideo.objects.filter(category=category).order_by('-published_at')  # noqa
