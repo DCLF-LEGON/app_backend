@@ -36,6 +36,7 @@ urlpatterns += [
     path('like-video/', views.LikeYoutubeVideoAPI.as_view(), name="like_video"),  # noqa
     path('fetch-youtube-videos/', views.FetchYoutubeDataAPI.as_view(), name="fetch_videos"),  # noqa
     path('category-videos/', views.CategoryYoutubeMessagesAPI.as_view(), name="cat_videos"),  # noqa
+    path('bookmark-video/', views.BookmarkYoutubeVideoAPI.as_view(), name="bookmark_video"),  # noqa
 ]
 
 
