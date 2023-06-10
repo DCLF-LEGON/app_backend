@@ -43,9 +43,20 @@ class Preacher(models.Model):
         db_table = 'preacher'
 
 
+class GalleryCategory(models.Model):
+    '''Saves categories of galleris'''
+    name = models.CharField(max_length=100)
+    thumbnail = models.ImageField(upload_to='assets/gallery/category/', null=True, blank=True)  # noqa
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Gallery(models.Model):
     '''Saves church gallery images'''
     image = models.ImageField(upload_to='assets/gallery/')
+    category = models.ForeignKey(GalleryCategory, related_name='images', null=True, on_delete=models.CASCADE)  # noqa
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -63,6 +74,15 @@ class Doctrine(models.Model):
 
     class Meta:
         db_table = 'doctrine'
+
+
+class ChurchDocument(models.Model):
+    title = models.CharField(max_length=500)
+    document = models.FileField(upload_to='assets/documents/')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
 
 class MessageCategory(models.Model):

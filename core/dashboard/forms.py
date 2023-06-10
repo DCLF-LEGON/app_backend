@@ -1,8 +1,8 @@
 from django import forms
 
 from accounts.models import User
-from dashboard.models import (Doctrine, Leader, Message, MessageCategory,
-                              Preacher)
+from dashboard.models import (ChurchDocument, Doctrine, Leader, Message, MessageCategory,
+                              Preacher, GalleryCategory)
 
 
 class UserForm(forms.ModelForm):
@@ -45,3 +45,17 @@ class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
         fields = ['title', 'media', 'media_type', ]  # noqa
+
+
+class GalleryCategoryForm(forms.ModelForm):
+    '''Form for creating a new gallery category'''
+    class Meta:
+        model = GalleryCategory
+        fields = ['name', 'thumbnail', ]
+
+
+class ChurchDocumentForm(forms.ModelForm):
+    '''Form for creating a new church document'''
+    class Meta:
+        model = ChurchDocument
+        fields = ['title', 'document', ]

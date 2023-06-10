@@ -109,4 +109,17 @@ urlpatterns += [
     path("gallery/", views.GalleryView.as_view(), name="gallery"),
     path("add-images/", views.AddImagesView.as_view(), name="add_images"),
     path("delete-image/", views.DeleteImageView.as_view(), name="delete_image"),
+
+    path("gallery-category/", views.GalleryCategoryView.as_view(), name="gallery_category"),  # noqa
+    path("create-gallery-category/",
+         views.CreateGalleryCategoryView.as_view(), name="add_gallery_category"),
+    path("delete-gallery-category/",
+            views.DeleteGalleryCategoryView.as_view(), name="delete_gallery_category"),
+]
+
+# Church document
+urlpatterns += [
+    path("church-document/", views.ChurchDocumentView.as_view(), name="document"),  # noqa
+    path("add-church-document/", views.AddChurchDocumentView.as_view(), name="add_document"),  # noqa
+    path("delete-church-document/", views.DeleteChurchDocumentView.as_view(), name="delete_document"),  # noqa
 ]

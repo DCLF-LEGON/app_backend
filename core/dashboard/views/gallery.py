@@ -5,19 +5,21 @@ from django.utils.decorators import method_decorator
 from django.views import View
 
 from core.utils.decorators import AdminOnly
-from dashboard.models import Gallery
+from dashboard.models import Gallery, GalleryCategory
 
 
 class GalleryView(View):
-    '''CBV for showing gallery page'''
+    '''CBV for showing pictures page'''
     template = 'dashboard/gallery.html'
 
     @method_decorator(AdminOnly)
     def get(self, request, *args, **kwargs):
         gallery = Gallery.objects.all()
+        categories = GalleryCategory.objects.all()
         context = {
             'gallery': gallery,
-            'total_gallery': gallery.count()
+            'total_gallery': gallery.count(),
+            'categories': categories,
         }
         return render(request, self.template, context)
 
@@ -32,16 +34,22 @@ class AddImagesView(View):
     @method_decorator(AdminOnly)
     def post(self, request, *args, **kwargs):
         images = request.FILES.getlist('images')
+        category_id = request.POST.get('category_id')
+        category = GalleryCategory.objects.filter(id=category_id).first()
+        if category is None:
+            messages.info(request, 'Category Not Found')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         count = 0
         for image in images:
             try:
-                Gallery.objects.create(image=image)
+                Gallery.objects.create(image=image, category=category)
+                count += 1
             except Exception as e:
                 print(e)
             else:
-                count += 1
+                pass
         if count == 0:
-            messages.error(request, 'No Images Added To Gallery')
+            messages.info(request, 'No Images Added To Gallery')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         messages.success(request, f'{count} Images Added To Gallery Successfully')  # noqa
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -22,12 +22,12 @@ from api.serializers import (MessageCategorySerializer, RegisterSerializer,
 from core import settings
 from core.utils.util_functions import (fetch_youtube_data,
                                        get_transaction_status, receive_payment)
-from dashboard.models import (Bookmark, Doctrine, Donation, Gallery, GeneralNote,
+from dashboard.models import (Bookmark, ChurchDocument, Doctrine, Donation, Gallery, GalleryCategory, GeneralNote,
                               Leader, LikedMessage, Message, MessageCategory,
                               MessageNote, Preacher, RecentlyWatched, YoutubeVideo)
 from dashboard.signals import generate_otp
 
-from .serializers import (DoctrineSerializer, DonationSerializer, GallerySerializer,
+from .serializers import (ChurchDocumentSerializer, DoctrineSerializer, DonationSerializer, GalleryCategorySerializer, GallerySerializer,
                           GeneralNoteSerializer, LeaderSerializer,
                           MessageNoteSerializer, OTPSerializer,
                           PreacherSerializer)
@@ -587,6 +587,45 @@ class GalleryAPI(APIView):
         images = Gallery.objects.all().order_by('-created_at')
         return Response({
             "images": GallerySerializer(images, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class GalleryCategoryAPI(APIView):
+    '''This CBV is use to get all gallery categories'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        categories = GalleryCategory.objects.all().order_by('-created_at')
+        return Response({
+            "categories": GalleryCategorySerializer(categories, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class GalleryCategoryImagesAPI(APIView):
+    '''This CBV is used to get all images in a category'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        category_id = request.data.get('category_id')
+        category = GalleryCategory.objects.filter(id=category_id).first()
+        if not category:
+            return Response({
+                "message": "Invalid category!",
+            }, status=status.HTTP_400_BAD_REQUEST)
+        images = Gallery.objects.filter(category=category).order_by('-created_at')  # noqa
+        return Response({
+            "images": GallerySerializer(images, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
+class ChurchDocumentAPI(APIView):
+    '''This CBV is used to get all church documents'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        documents = ChurchDocument.objects.all().order_by('-created_at')
+        return Response({
+            "documents": ChurchDocumentSerializer(documents, many=True).data,
         }, status=status.HTTP_200_OK)
 
 

@@ -99,4 +99,13 @@ urlpatterns += [
 # Gallery
 urlpatterns += [
     path('gallery/', views.GalleryAPI.as_view(), name='gallery'),
+    path('gallery-category/', views.GalleryCategoryAPI.as_view(),
+         name='gallery_category'),
+    path('gallery-category-images/', views.GalleryCategoryImagesAPI.as_view(),
+         name='gallery_category_images'),
+]
+
+# Church documents
+urlpatterns += [
+    path('church-documents/', views.ChurchDocumentAPI.as_view(), name='church_documents'),  # noqa
 ]

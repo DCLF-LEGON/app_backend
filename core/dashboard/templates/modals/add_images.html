@@ -11,10 +11,19 @@
                     <form action="{% url 'dashboard:add_images' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
-                            <label for="images">User Email</label>
+                            <label for="images">Images</label>
                             <input type="file" name="images" id="images" accept="image/*" class="form-control" multiple>
                             <small class="text-primary">You can upload multiple images by highlighting several
                                 images</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="category">Gallery Category</label>
+                            <select name="category_id" id="category" class="form-control">
+                                <option value="---">Select Category</option>
+                                {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                                {% endfor %}
+                            </select>
                         </div>
                         <div class="mb-3">
                             <input type="submit" class="btn btn-sm btn-primary" value="Submit">

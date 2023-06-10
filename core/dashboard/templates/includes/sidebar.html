@@ -57,13 +57,39 @@
                   <span class="sidebar-text">Dashboard</span>
                 </a>
               </li>
-              <li class="nav-item {% if 'dashboard' in segment %} active {% endif %}">
-                <a href="{% url 'dashboard:gallery' %}" class="nav-link">
-                  <span class="sidebar-icon">
-                    <i class="bi bi-camera-fill"></i>
+              <li class="nav-item {% if 'tables-bootstrap-' in segment %} active {% endif %}">
+                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                  data-bs-toggle="collapse" data-bs-target="#submenu-gallery">
+                  <span>
+                    <span class="sidebar-icon">
+                      <i class="bi bi-camera-fill"></i>
+                    </span>
+                    <span class="sidebar-text">Gallery</span>
                   </span>
-                  <span class="sidebar-text">Gallery</span>
-                </a>
+                  <span class="link-arrow">
+                    <svg class="icon icon-sm" fill="currentColor" viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                        clip-rule="evenodd"></path>
+                    </svg>
+                  </span>
+                </span>
+                <div class="multi-level collapse {% if 'messages' in segment %} show {% endif %}" role="list"
+                  id="submenu-gallery" aria-expanded="false">
+                  <ul class="flex-column nav">
+                    <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
+                      <a class="nav-link" href="{% url 'dashboard:gallery' %}">
+                        <span class="sidebar-text">Pictures</span>
+                      </a>
+                    </li>
+                    <li class="nav-item {% if 'bootstrap-tables' in segment %} active {% endif %}">
+                      <a class="nav-link" href="{% url 'dashboard:gallery_category' %}">
+                        <span class="sidebar-text">Categories</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li class="nav-item {% if 'donations' in segment %} active {% endif %}">
                 <a href="{% url 'dashboard:donations' %}" class="nav-link">
@@ -79,6 +105,14 @@
                     <i class="fas fa-book"></i>
                   </span>
                   <span class="sidebar-text">Doctrines</span>
+                </a>
+              </li>
+              <li class="nav-item {% if 'document' in segment %} active {% endif %}">
+                <a href="{% url 'dashboard:document' %}" class="nav-link">
+                  <span class="sidebar-icon">
+                    <i class="bi bi-book"></i>
+                  </span>
+                  <span class="sidebar-text">Document</span>
                 </a>
               </li>
               <li class="nav-item {% if 'leadership' in segment %} active {% endif %}">
@@ -198,6 +232,7 @@
                   <span class="sidebar-text">Logout</span>
                 </a>
               </li>
+              <div class="my-4"></div>
             </ul>
           </div>
         </nav>

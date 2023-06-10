@@ -109,4 +109,16 @@ class DonationSerializer(serializers.ModelSerializer):
 class GallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Gallery
-        fields = '__all__'
+        exclude = ['created_at', 'category']
+
+
+class GalleryCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GalleryCategory
+        exclude = ['created_at']
+
+
+class ChurchDocumentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ChurchDocument
+        exclude = ['created_at']

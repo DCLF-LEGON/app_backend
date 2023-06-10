@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 
-{% block title %} Gallery {% endblock %}
+{% block title %} Gallery Categories {% endblock %}
 {% load static %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -24,17 +24,17 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Gallery</li>
+                <li class="breadcrumb-item active" aria-current="page">Gallery Categories</li>
             </ol>
         </nav>
-        <h2 class="h4">All Gallery</h2>
+        <h2 class="h4">All Gallery Categories</h2>
         <p class="mb-0">And He gave some as apostles, and some as prophets, and some as evangelists...</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group ms-2 ms-lg-3">
             <button type="button" class="btn btn-sm btn-primary" style="width: fit-content;" data-bs-toggle="modal"
-                data-bs-target="#galleryModal">
-                <span class="bi bi-cloud-arrow-up me-2"></span> Add Images
+                data-bs-target="#galleryCategoryModal">
+                <span class="bi bi-cloud-arrow-up me-2"></span> Add Category
             </button>
         </div>
     </div>
@@ -47,7 +47,7 @@
                 <form action="">
                     <div class="row">
                         <div class="col-9 mx-0" style="padding-right: 0;">
-                            <input type="text" class="form-control" name="q" placeholder="Search gallery">
+                            <input type="text" class="form-control" name="q" placeholder="Search gallery category">
                         </div>
                         <div class="col-3 mx-0" style="padding-left: 0;">
                             <span><button class="btn btn-sm btn-primary">Search</button></span>
@@ -61,9 +61,9 @@
             <div class="dropdown">
                 <button class="btn btn-link text-white m-0 p-1 bg-gray-800">
                     {% if search %}
-                    {{total_gallery}} Image Found!
+                    {{total_gallery_categogry}} Categories Found!
                     {% else %}
-                    {{total_gallery}} Image Added
+                    {{total_gallery_categogry}} Categories Added
                     {% endif %}
                 </button>
             </div>
@@ -76,25 +76,25 @@
         <thead>
             <tr>
                 <th class="border-gray-200">#</th>
-                <th class="border-gray-200">Image</th>
-                <th class="border-gray-200">Category</th>
+                <th class="border-gray-200">Thumbnail</th>
+                <th class="border-gray-200">Category Name</th>
                 <th class="border-gray-200">Date Added</th>
                 <th class="border-gray-200">Action</th>
             </tr>
         </thead>
         <tbody>
             <!-- Item -->
-            {% for image in gallery %}
+            {% for category in categories %}
             <tr>
                 <td>
                     {{forloop.counter}}
                 </td>
                 <td>
-                    <img src="{% if image.image %} {{image.image.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %}"
-                        alt="image" style="height:50px; width:auto;">
+                    <img src="{% if category.thumbnail %} {{category.thumbnail.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %}"
+                        alt="category" style="height:50px; width:auto;">
                 </td>
-                <td>{{image.category.name}}</td>
-                <td><span class="fw-normal">{{image.created_at}}</span></td>
+                <td>{{category.name}}</td>
+                <td><span class="fw-normal">{{category.created_at}}</span></td>
                 <td>
                     <div class="btn-group">
                         <button class="btn btn-link text-dark dropdown-toggle dropdown-toggle-split m-0 p-0"
@@ -105,11 +105,12 @@
                         </button>
                         <div class="dropdown-menu py-0">
                             <a class="dropdown-item rounded-top"
-                                href="{% if image.image %} {{image.image.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %}"
+                                href="{% if category.thumbnail %} {{category.thumbnail.url}} {% else %} {% static '/assets/img/users/user.png' %} {% endif %}"
                                 target="_blank"><span class="fas fa-eye me-2"></span>View</a>
-                            <form action="{% url 'dashboard:delete_image' %}" method="POST" style="display: inline;">
+                            <form action="{% url 'dashboard:delete_gallery_category' %}" method="POST"
+                                style="display: inline;">
                                 {% csrf_token %}
-                                <input type="hidden" name="image_id" value="{{image.id}}">
+                                <input type="hidden" name="category_id" value="{{category.id}}">
                                 <button type="submit" class="dropdown-item text-danger rounded-bottom"><span
                                         class="fas fa-trash-alt me-2"></span>Delete</button>
                             </form>
@@ -147,13 +148,14 @@
                 </li>
             </ul>
         </nav>
-        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{total_gallery}}</b> out of <b>{{total_gallery}}</b>
+        <div class="fw-normal small mt-4 mt-lg-0">Showing <b>{{total_gallery_categogry}}</b> out of
+            <b>{{total_gallery_categogry}}</b>
             entries</div>
     </div>
 </div>
 
 <!-- modal content -->
-{% include 'modals/add_images.html' %}
+{% include 'modals/add_gallery_category.html' %}
 
 {% endblock content %}
 
