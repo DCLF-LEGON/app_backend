@@ -606,7 +606,7 @@ class GalleryCategoryImagesAPI(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
-        category_id = request.data.get('category_id')
+        category_id = request.GET.get('category_id')
         category = GalleryCategory.objects.filter(id=category_id).first()
         if not category:
             return Response({
