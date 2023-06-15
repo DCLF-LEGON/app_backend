@@ -208,6 +208,18 @@ class BookmarkYoutubeVideoAPI(APIView):
             }, status=status.HTTP_404_NOT_FOUND)
 
 
+class BookmarkedYoutubeVideosAPI(APIView):
+    '''CBV for getting all the bookmarked videos'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        videos = Bookmark.objects.filter(
+            user=request.user).order_by('-created_at')
+        return Response({
+            "videos": YoutubeVideoSerializer(videos, many=True).data,
+        }, status=status.HTTP_200_OK)
+
+
 class FetchYoutubeDataAPI(APIView):
     '''CBV for fetching youtube data'''
     permission_classes = [permissions.AllowAny]
