@@ -72,6 +72,14 @@ class YoutubeVideoSerializer(serializers.ModelSerializer):
         exclude = ('published_at',)
 
 
+class BookmarksSerializer(serializers.ModelSerializer):
+    video = YoutubeVideoSerializer()
+
+    class Meta:
+        model = Bookmark
+        fields = '__all__'
+
+
 class MessageNoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = MessageNote

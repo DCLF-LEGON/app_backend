@@ -27,7 +27,7 @@ from dashboard.models import (Bookmark, ChurchDocument, Doctrine, Donation, Gall
                               MessageNote, Preacher, RecentlyWatched, YoutubeVideo)
 from dashboard.signals import generate_otp
 
-from .serializers import (ChurchDocumentSerializer, DoctrineSerializer, DonationSerializer, GalleryCategorySerializer, GallerySerializer,
+from .serializers import (BookmarksSerializer, ChurchDocumentSerializer, DoctrineSerializer, DonationSerializer, GalleryCategorySerializer, GallerySerializer,
                           GeneralNoteSerializer, LeaderSerializer,
                           MessageNoteSerializer, OTPSerializer,
                           PreacherSerializer)
@@ -216,7 +216,7 @@ class BookmarkedYoutubeVideosAPI(APIView):
         videos = Bookmark.objects.filter(
             user=request.user).order_by('-created_at')
         return Response({
-            "videos": YoutubeVideoSerializer(videos, many=True).data,
+            "videos": BookmarksSerializer(videos, many=True).data,
         }, status=status.HTTP_200_OK)
 
 
