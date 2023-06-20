@@ -1,5 +1,6 @@
 import os
 import google.auth
+import pprint
 from googleapiclient.discovery import build
 import core.settings as settings
 
@@ -23,6 +24,8 @@ request = youtube.search().list(
 # Send the API request and fetch the videos from the channel
 response = request.execute()
 videos = response.get("items", [])
+
+pprint.pprint(videos)
 
 # Print the title and video ID of each video
 for video in videos:

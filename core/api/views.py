@@ -15,10 +15,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 import core.settings as settings
-from accounts.models import OTP
+from accounts.models import OTP, MembershipInfo
 from api import serializers
 from api.serializers import (MessageCategorySerializer, RegisterSerializer,
-                             UserSerializer, YoutubeVideoSerializer)
+                             UserSerializer, YoutubeVideoSerializer, MembershipInfoSerializer)
 from core import settings
 from core.utils.util_functions import (fetch_youtube_data,
                                        get_transaction_status, receive_payment)
@@ -54,10 +54,12 @@ class LoginAPI(KnoxLoginView):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
+        info = MembershipInfo.objects.filter(user=user).first()
         # check if user has verified their otp
         if not user.otp_verified:
             return Response({
                 "user": UserSerializer(user).data,
+                "membership_info": MembershipInfoSerializer(info).data,
                 "token": AuthToken.objects.create(user)[1],
             }, status=status.HTTP_403_FORBIDDEN)
         login(request, user)
@@ -65,6 +67,7 @@ class LoginAPI(KnoxLoginView):
         AuthToken.objects.filter(user=user).delete()
         return Response({
             "user": UserSerializer(user).data,
+            "membership_info": MembershipInfoSerializer(info).data,
             "token": AuthToken.objects.create(user)[1],
         }, status=status.HTTP_200_OK)
 
@@ -78,8 +81,10 @@ class SignUpAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        info = MembershipInfo.objects.filter(user=user).first()
         return Response({
             "user": UserSerializer(user).data,
+            "membership_info": MembershipInfoSerializer(info).data,
             "token": AuthToken.objects.create(user)[1],
         }, status=status.HTTP_201_CREATED)
 
@@ -138,14 +143,75 @@ class ChangePasswordAPI(APIView):
         }, status=status.HTTP_200_OK)
 
 
+class GetMembershipInfAPI(APIView):
+    '''This CBV is used to get a user's membership info'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        info = MembershipInfo.objects.filter(user=user).first()
+        return Response({
+            "membership_info": MembershipInfoSerializer(info).data,
+        }, status=status.HTTP_200_OK)
+
+
+class CreateUpdateMembershipInfo(APIView):
+    '''CBV to create or update user membership info'''
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        user = request.user
+        program = request.data.get('program')
+        department = request.data.get('department')
+        level = request.data.get('level')
+        hall = request.data.get('hall')
+        room = request.data.get('room')
+        phone = request.data.get('phone')
+        gender = request.data.get('gender')
+
+        info = MembershipInfo.objects.filter(user=user).first()
+        if info is None:
+            # info doesn't exist - create new info
+            new_inf = MembershipInfo.objects.create(
+                user=user,
+                program=program,
+                department=department,
+                level=level,
+                hall=hall,
+                room=room,
+                phone=phone,
+                gender=gender,
+            )
+            return Response({
+                "message": "Membership Info Created Successfully",
+                "membership_info": MembershipInfoSerializer(new_inf).data,
+            }, status=status.HTTP_201_CREATED)
+        else:
+            # info exists - update info
+            info.program = program
+            info.department = department
+            info.level = level
+            info.hall = hall
+            info.room = room
+            info.phone = phone
+            info.gender = gender
+            info.save()
+            return Response({
+                "message": "Membership Info Updated Successfully",
+                "membership_info": MembershipInfoSerializer(info).data,
+            }, status=status.HTTP_200_OK)
+
+
 class UserProfileAPI(APIView):
     '''This CBV is used to get a user's profile'''
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        info = MembershipInfo.objects.filter(user=user).first()
         return Response({
             "user": UserSerializer(user).data,
+            "membership_info": MembershipInfoSerializer(info).data,
         }, status=status.HTTP_200_OK)
 
 
@@ -661,7 +727,7 @@ class MakeDonationAPI(APIView):
             receive_payment(data)
             transaction_is_successful = False
             # wait for 30 seconds for payment to be completed
-            for i in range(6):
+            for i in range(8):
                 time.sleep(5)
                 transaction_status = get_transaction_status(transaction_id)  # noqa
                 print(transaction_status)

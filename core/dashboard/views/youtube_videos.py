@@ -70,7 +70,7 @@ class FetchYoutubeVideosView(View):
             response = requests.get('http://165.232.71.253/api/fetch-youtube-videos/')  # noqa
             if response.status_code == 200:
                 res_message = response.json().get('message')
-                total_videos = response.json().get('total_videos')
+                total_videos = response.json().get('videos_saved')
                 messages.success(request, f"{res_message} | {total_videos} Videos Added")  # noqa
             else:
                 messages.info(request, 'Something Went Wrong')

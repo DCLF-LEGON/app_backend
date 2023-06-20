@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 
-{% block title %} Donations {% endblock %}
+{% block title %} Membership {% endblock %}
 {% load static %}
 
 <!-- Specific Page CSS goes HERE  -->
@@ -24,11 +24,11 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="#">DLCF APP</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Donations</li>
+                <li class="breadcrumb-item active" aria-current="page">Membership</li>
             </ol>
         </nav>
-        <h2 class="h4">All Donations</h2>
-        <p class="mb-0">Your web analytics on donations from DLCF Legon App.</p>
+        <h2 class="h4">All Membership</h2>
+        <p class="mb-0">Your web analytics on DLCF Legon Membership.</p>
     </div>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="javascript:void()" class="btn btn-sm btn-gray-800 d-inline-flex align-items-center">
@@ -40,9 +40,9 @@
             Export to
         </a>
         <div class="btn-group ms-2 ms-lg-3">
-            <a href="{% url 'dashboard:download_as_csv' %}" class="btn btn-sm btn-outline-gray-600">CSV</a>
-            <a href="{% url 'dashboard:download_as_pdf' %}" class="btn btn-sm btn-outline-gray-600">PDF</a>
-            <a href="{% url 'dashboard:download_as_xl' %}" class="btn btn-sm btn-outline-gray-600">Excel</a>
+            <a href="{% url 'dashboard:d_m_as_csv' %}" class="btn btn-sm btn-outline-gray-600">CSV</a>
+            <a href="{% url 'dashboard:d_m_as_xl' %}" class="btn btn-sm btn-outline-gray-600">Excel</a>
+            <a href="{% url 'dashboard:d_m_as_pdf' %}" class="btn btn-sm btn-outline-gray-600">PDF</a>
         </div>
     </div>
 </div>
@@ -51,10 +51,10 @@
     <div class="row align-items-center justify-content-between">
         <div class="col col-md-6 col-lg-3 col-xl-4">
             <div class="input-group me-2 me-lg-3 fmxw-400">
-                <form action="{% url 'dashboard:search-donation' %}">
+                <form action="{% url 'dashboard:search_membership' %}">
                     <div class="row">
                         <div class="col-9 mx-0" style="padding-right: 0;">
-                            <input type="text" class="form-control" name="q" placeholder="Search Donations">
+                            <input type="text" class="form-control" name="q" placeholder="Search Membership">
                         </div>
                         <div class="col-3 mx-0" style="padding-left: 0;">
                             <span><button class="btn btn-sm btn-primary">Search</button></span>
@@ -67,7 +67,7 @@
         <div class="col-4 col-md-2 col-xl-1 ps-md-0 text-end">
             <div class="dropdown">
                 <button class="btn btn-link text-white m-0 p-1 bg-gray-800">
-                    {{donations_today}} Donations Today
+                    {{total_membership}} Total Membership
                 </button>
             </div>
         </div>
@@ -75,39 +75,41 @@
 </div>
 
 <div class="card card-body border-0 shadow table-wrapper table-responsive">
-    <table class="table table-hover" id="donations">
+    <table class="table table-hover" id="members">
         <thead>
             <tr>
                 <th class="border-gray-200">#</th>
-                <th class="border-gray-200">Donation ID</th>
-                <th class="border-gray-200">Amount</th>
-                <th class="border-gray-200">Mobile Number</th>
-                <th class="border-gray-200">Network</th>
-                <th class="border-gray-200">Status Code</th>
-                <th class="border-gray-200">Status Message</th>
-                <th class="border-gray-200">Date Donated</th>
+                <th class="border-gray-200">Fullname</th>
+                <th class="border-gray-200">Program</th>
+                <th class="border-gray-200">Department</th>
+                <th class="border-gray-200">Level</th>
+                <th class="border-gray-200">Hall</th>
+                <th class="border-gray-200">Room</th>
+                <th class="border-gray-200">Phone</th>
+                <th class="border-gray-200">Created At</th>
             </tr>
         </thead>
         <tbody>
             <!-- Item -->
-            {% for donation in donations %}
+            {% for member in members %}
             <tr>
                 <td>
                     {{forloop.counter}}
                 </td>
                 <td>
                     <a href="javascript:void()" class="fw-bold">
-                        {{donation.transaction_id}}
+                        {{member.user.fullname}}
                     </a>
                 </td>
                 <td>
-                    <span class="fw-normal">{{donation.amount}}</span>
+                    <span class="fw-normal">{{member.program}}</span>
                 </td>
-                <td><span class="fw-bold">{{donation.mobile_number}}</span></td>
-                <td><span class="fw-bold text-warning">{{donation.network}}</span></td>
-                <td><span class="fw-normal">{{donation.status_code}}</span></td>
-                <td><span class="fw-normal">{{donation.status_message}}</span></td>
-                <td><span class="fw-normal">{{donation.created_at}}</span></td>
+                <td><span class="fw-bold">{{member.department}}</span></td>
+                <td><span class="fw-bold text-warning">{{member.level}}</span></td>
+                <td><span class="fw-normal">{{member.hall}}</span></td>
+                <td><span class="fw-normal">{{member.room}}</span></td>
+                <td><span class="fw-normal">{{member.phone}}</span></td>
+                <td><span class="fw-normal">{{member.created_at}}</span></td>
             </tr>
             {% endfor %}
             <!-- Item -->
@@ -126,7 +128,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#donations').DataTable();
+        $('#members').DataTable();
     });
 </script>
 {% endblock javascripts %}

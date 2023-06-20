@@ -44,6 +44,22 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = 'user'
 
 
+class MembershipInfo(models.Model):
+    '''Membership information of the user'''
+    user = models.OneToOneField(User, on_delete=models.CASCADE, )
+    program = models.CharField(max_length=255, blank=True, null=True)
+    department = models.CharField(max_length=255, blank=True, null=True)
+    level = models.CharField(max_length=50, blank=True, null=True)
+    hall = models.CharField(max_length=150, blank=True, null=True)
+    room = models.CharField(max_length=50, blank=True, null=True)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    gender = models.CharField(max_length=8, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.user.get_fullname()
+
+
 class OTP(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)

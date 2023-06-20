@@ -95,15 +95,15 @@ urlpatterns += [
 urlpatterns += [
     path('user-profile/', views.UserProfileAPI.as_view(), name='user_profile'),  # noqa
     path('change-password/', views.ChangePasswordAPI.as_view(), name='change_password'),  # noqa
+    path('get-membership-info/', views.GetMembershipInfAPI.as_view(), name='get_info'),  # noqa
+    path('add-membership-info/', views.CreateUpdateMembershipInfo.as_view(), name='add_info'),  # noqa
 ]
 
 # Gallery
 urlpatterns += [
     path('gallery/', views.GalleryAPI.as_view(), name='gallery'),
-    path('gallery-category/', views.GalleryCategoryAPI.as_view(),
-         name='gallery_category'),
-    path('gallery-category-images/', views.GalleryCategoryImagesAPI.as_view(),
-         name='gallery_category_images'),
+    path('gallery-category/', views.GalleryCategoryAPI.as_view(), name='gallery_category'),  # noqa
+    path('gallery-category-images/', views.GalleryCategoryImagesAPI.as_view(), name='gallery_category_images'),  # noqa
 ]
 
 # Church documents

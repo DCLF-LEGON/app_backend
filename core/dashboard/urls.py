@@ -123,3 +123,12 @@ urlpatterns += [
     path("add-church-document/", views.AddChurchDocumentView.as_view(), name="add_document"),  # noqa
     path("delete-church-document/", views.DeleteChurchDocumentView.as_view(), name="delete_document"),  # noqa
 ]
+
+# membership
+urlpatterns += [
+    path('membership/', views.MembershipListView.as_view(), name='membership'),
+    path('search-membership/', views.SearchMembershipView.as_view(), name='search_membership'),  # noqa
+    path('download-membership-as-csv/', views.DownloadMembershipAsCSV.as_view(), name='d_m_as_csv'),  # noqa
+    path('download-membership-as-xl/', views.DownloadMembershipAsExcel.as_view(), name='d_m_as_xl'),  # noqa
+    path('download-membership-as-pdf/', views.DownloadMembershipAsPDF.as_view(), name='d_m_as_pdf'),  # noqa
+]

@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.response import Response
 
-from accounts.models import OTP, User
+from accounts.models import OTP, MembershipInfo, User
 from dashboard.models import *
 
 
@@ -44,6 +44,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('password', 'is_superuser', 'groups', 'user_permissions', 'last_login', 'id')  # noqa
+
+
+class MembershipInfoSerializer(serializers.Serializer):
+    class Meta:
+        model = MembershipInfo
+        exclude = ['user', ]
 
 
 class MessageCategorySerializer(serializers.ModelSerializer):
