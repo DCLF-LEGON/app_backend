@@ -67,6 +67,7 @@ class DownloadMembershipAsCSV(View):
             'Department',
             'Hall',
             'Phone',
+            'Gender',
             'Created At',
         ])
         for member in membership:
@@ -77,6 +78,7 @@ class DownloadMembershipAsCSV(View):
                 member.department,
                 member.hall,
                 member.phone,
+                member.gender,
                 member.created_at,
             ])
         return response
@@ -98,6 +100,7 @@ class DownloadMembershipAsExcel(View):
             'Department',
             'Hall',
             'Phone',
+            'Gender',
             'Created At',
         ])
         for member in membership:
@@ -108,6 +111,7 @@ class DownloadMembershipAsExcel(View):
                 member.department,
                 member.hall,
                 member.phone,
+                member.gender,
                 member.created_at,
             ])
         return response
@@ -129,6 +133,7 @@ class DownloadMembershipAsPDF(View):
             'Department',
             'Hall',
             'Phone',
+            'Gender',
             'Created At',
         ])
         for member in membership:
@@ -139,6 +144,7 @@ class DownloadMembershipAsPDF(View):
                 member.department,
                 member.hall,
                 member.phone,
+                member.gender,
                 member.created_at,
             ])
         return response
