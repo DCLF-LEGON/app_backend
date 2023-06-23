@@ -294,11 +294,55 @@ class FetchYoutubeDataAPI(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
+        print("Fetching from HQ Channel")
         videos = fetch_youtube_data(settings.CHANNEL_ID)
+        print("Fetching from Ghana-HQ Channel")
         videos2 = fetch_youtube_data(settings.CHANNEL_ID2)
-        videos.extend(videos2)
+        print("Fetching from DLCF-APP Channel")
+        videos3 = fetch_youtube_data(settings.CHANNEL_ID3)
+        # videos.extend(videos2)
         videos_saved = 0
+        # save videos from HQ channel
+        print("Saving from HQ Channel")
         for video in videos:
+            # check if video already exists in YoutubeVideo model
+            video_id = video["id"]["videoId"]
+            title = video["snippet"]["title"].strip().replace("\n", "").replace("||", "")  # noqa
+            description = video["snippet"]["description"]
+            thumbnailUrl = video["snippet"]["thumbnails"]["high"]["url"]
+            published_at = video["snippet"]["publishedAt"]
+            existing_video = YoutubeVideo.objects.filter(video_id=video_id).first()  # noqa
+            if existing_video is None:
+                YoutubeVideo.objects.create(
+                    video_id=video_id,
+                    title=title,
+                    description=description,
+                    thumbnail_url=thumbnailUrl,
+                    published_at=published_at
+                )
+                videos_saved += 1
+        # save videos from Ghana
+        print("Saving from Ghana-HQ")
+        for video in videos2:
+            # check if video already exists in YoutubeVideo model
+            video_id = video["id"]["videoId"]
+            title = video["snippet"]["title"].strip().replace("\n", "").replace("||", "")  # noqa
+            description = video["snippet"]["description"]
+            thumbnailUrl = video["snippet"]["thumbnails"]["high"]["url"]
+            published_at = video["snippet"]["publishedAt"]
+            existing_video = YoutubeVideo.objects.filter(video_id=video_id).first()  # noqa
+            if existing_video is None:
+                YoutubeVideo.objects.create(
+                    video_id=video_id,
+                    title=title,
+                    description=description,
+                    thumbnail_url=thumbnailUrl,
+                    published_at=published_at
+                )
+                videos_saved += 1
+        # save videos from DLCF APP Channel
+        print("Fetching from DLCF-APP Channel")
+        for video in videos3:
             # check if video already exists in YoutubeVideo model
             video_id = video["id"]["videoId"]
             title = video["snippet"]["title"].strip().replace("\n", "").replace("||", "")  # noqa

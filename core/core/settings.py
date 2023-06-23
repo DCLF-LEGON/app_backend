@@ -185,5 +185,6 @@ EMAIL_USE_SSL = False
 # youtube api
 YOUTUBE_API_KEY = os.environ.get('YT_API_KEY', 'AIzaSyCBAQRgng1bDHyzFL8Rib6szwFJ_low-lw')  # noqa
 # Official Deeper Life Youtube Channel ID
-CHANNEL_ID = os.environ.get('CHANNEL_ID', 'UC4zsqN5YdXfxkkdVvwNA3JA')
-CHANNEL_ID2 = os.environ.get('CHANNEL_ID2', 'UCV_UyUXis6uqyIEvzDfD3sQ')
+CHANNEL_ID = os.environ.get('CHANNEL_ID', 'UC4zsqN5YdXfxkkdVvwNA3JA')  # noqa  # DLCM HQ - Channel
+CHANNEL_ID2 = os.environ.get('CHANNEL_ID2', 'UCV_UyUXis6uqyIEvzDfD3sQ')  # noqa  # DLCM HQ - GHANA Channel
+CHANNEL_ID3 = os.environ.get('CHANNEL_ID3', 'UC7_dxUv76dYwAkJr7adY8Ow')  # noqa # DLCF LEGON APP Channel
