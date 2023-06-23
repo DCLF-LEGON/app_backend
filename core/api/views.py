@@ -67,6 +67,7 @@ class LoginAPI(KnoxLoginView):
         AuthToken.objects.filter(user=user).delete()
         return Response({
             "user": UserSerializer(user).data,
+            "membership_info_completed": True if info is not None else False,
             "membership_info": MembershipInfoSerializer(info).data,
             "token": AuthToken.objects.create(user)[1],
         }, status=status.HTTP_200_OK)
@@ -85,6 +86,7 @@ class SignUpAPI(generics.GenericAPIView):
         print(f"info: {info}")
         return Response({
             "user": UserSerializer(user).data,
+            "membership_info_completed": True if info is not None else False,
             "membership_info": MembershipInfoSerializer(info).data,
             "token": AuthToken.objects.create(user)[1],
         }, status=status.HTTP_201_CREATED)
