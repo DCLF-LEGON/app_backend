@@ -54,7 +54,7 @@ class LoginAPI(KnoxLoginView):
         serializer = AuthTokenSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
-        info = MembershipInfo.objects.filter(user=user).first()
+        info = MembershipInfo.objects.filter(user__id=user.id).first()
         # check if user has verified their otp
         if not user.otp_verified:
             return Response({
@@ -81,7 +81,8 @@ class SignUpAPI(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
-        info = MembershipInfo.objects.filter(user=user).first()
+        info = MembershipInfo.objects.filter(user__id=user.id).first()
+        print(f"info: {info}")
         return Response({
             "user": UserSerializer(user).data,
             "membership_info": MembershipInfoSerializer(info).data,

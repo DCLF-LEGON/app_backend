@@ -46,7 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = ('password', 'is_superuser', 'groups', 'user_permissions', 'last_login', 'id')  # noqa
 
 
-class MembershipInfoSerializer(serializers.Serializer):
+class MembershipInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = MembershipInfo
         exclude = ['user', ]
