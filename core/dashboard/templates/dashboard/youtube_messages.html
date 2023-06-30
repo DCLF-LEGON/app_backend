@@ -83,6 +83,7 @@
                 <th class="border-gray-200">#</th>
                 <th class="border-gray-200">Video ID</th>
                 <th class="border-gray-200">Title</th>
+                <th class="border-gray-200">Category</th>
                 <th class="border-gray-200">Likes</th>
                 <th class="border-gray-200">Date Published</th>
                 <th class="border-gray-200">Action</th>
@@ -100,6 +101,9 @@
                 </td>
                 <td>
                     <span class="fw-normal">{{video.title|slice:":50"|default:""|safe}}</span>
+                </td>
+                <td>
+                    <span class="fw-normal">{{video.category.name}}</span>
                 </td>
                 <td>
                     <span class="fw-normal">{{video.likes}}</span>
