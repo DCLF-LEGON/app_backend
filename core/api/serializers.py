@@ -78,6 +78,12 @@ class YoutubeVideoSerializer(serializers.ModelSerializer):
         exclude = ('published_at',)
 
 
+class LiveStreamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LiveStream
+        fields = '__all__'
+
+
 class BookmarksSerializer(serializers.ModelSerializer):
     video = YoutubeVideoSerializer()
 

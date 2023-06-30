@@ -167,6 +167,18 @@ class YoutubeVideo(models.Model):
         return self.title
 
 
+class LiveStream(models.Model):
+    '''For temporarilly storing meta data of live message'''
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    url = models.URLField()
+    preacher = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+
 class LikedMessage(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)  # noqa
     message = models.ForeignKey(Message, on_delete=models.CASCADE)  # noqa

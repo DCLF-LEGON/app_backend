@@ -2,7 +2,7 @@ from django import forms
 
 from accounts.models import User
 from dashboard.models import (ChurchDocument, Doctrine, Leader, Message, MessageCategory,
-                              Preacher, GalleryCategory)
+                              Preacher, GalleryCategory, LiveStream)
 
 
 class UserForm(forms.ModelForm):
@@ -59,3 +59,10 @@ class ChurchDocumentForm(forms.ModelForm):
     class Meta:
         model = ChurchDocument
         fields = ['title', 'document', ]
+
+
+class LiveStreamForm(forms.ModelForm):
+    '''Form for creating a new live stream'''
+    class Meta:
+        model = LiveStream
+        exclude = ['created_at']

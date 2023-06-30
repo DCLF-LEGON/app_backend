@@ -18,12 +18,12 @@ import core.settings as settings
 from accounts.models import OTP, MembershipInfo
 from api import serializers
 from api.serializers import (MessageCategorySerializer, RegisterSerializer,
-                             UserSerializer, YoutubeVideoSerializer, MembershipInfoSerializer)
+                             UserSerializer, YoutubeVideoSerializer, MembershipInfoSerializer, LiveStreamSerializer)
 from core import settings
 from core.utils.util_functions import (fetch_youtube_data,
                                        get_transaction_status, receive_payment)
 from dashboard.models import (Bookmark, ChurchDocument, Doctrine, Donation, Gallery, GalleryCategory, GeneralNote,
-                              Leader, LikedMessage, Message, MessageCategory,
+                              Leader, LikedMessage, LiveStream, Message, MessageCategory,
                               MessageNote, Preacher, RecentlyWatched, YoutubeVideo)
 from dashboard.signals import generate_otp
 
@@ -363,6 +363,18 @@ class FetchYoutubeDataAPI(APIView):
             "message": "Youtube Videos Fetched Successfully",
             "videos_saved": videos_saved,
             "videos": videos,
+        }, status=status.HTTP_200_OK)
+
+
+class GetLiveStreamAPI(APIView):
+    '''This CBV is used to get the current live message'''
+    permission_classes = [permissions.AllowAny]
+
+    def get(self, request, *args, **kwargs):
+        live_stream = LiveStream.objects.all().order_by('-created_at').first()
+        serializer = LiveStreamSerializer(live_stream)
+        return Response({
+            "stream": serializer.data,
         }, status=status.HTTP_200_OK)
 
 

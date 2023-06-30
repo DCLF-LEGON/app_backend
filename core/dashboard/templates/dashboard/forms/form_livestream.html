@@ -1,0 +1,32 @@
+<form action="{% url 'dashboard:create_update_stream' %}" style="border: 2px solid blue; padding: 30px 50px;"
+    method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="stream_id" value="{{stream.id}}">
+    <fieldset>
+        <legend>Create/Update Stream Form</legend>
+        <!-- main form content -->
+        <div class="mb-4">
+            <label for="title">Title*</label>
+            <input type="text" class="form-control" name="title" value="{{stream.title}}" aria-describedby="titleHelp"
+                required>
+        </div>
+        <div class="mb-4">
+            <label for="url">URL*</label>
+            <input type="url" class="form-control" name="url" value="{{stream.url}}" aria-describedby="urlHelp"
+                required>
+        </div>
+        <!-- description -->
+        <div class="mb-4">
+            <label for="description">Description</label>
+            <textarea class="form-control" name="description" rows="3">{{stream.description}}</textarea>
+        </div>
+        <div class="mb-4">
+            <label for="preacher">Preacher*</label>
+            <input type="text" class="form-control" name="preacher" value="{{stream.preacher}}"
+                aria-describedby="preacherHelp" required>
+        </div>
+        <div class="mb-4">
+            <input type="submit" class="btn btn-sm btn-block btn-primary" value="Submit">
+        </div>
+    </fieldset>
+</form>

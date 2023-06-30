@@ -71,6 +71,14 @@ urlpatterns += [
     path('delete-category/', views.DeleteCategoryView.as_view(), name='delete_category'),  # noqa
 ]
 
+# Live Stream
+urlpatterns += [
+    path('live-streams/', views.LiveStreamListView.as_view(), name='streams'),
+    path('create-update-stream/', views.CreateUpdateLiveStreamView.as_view(), name='create_update_stream'),  # noqa
+    path('search-stream/', views.SearchLiveStreamView.as_view(), name='search_stream'),  # noqa
+    path('delete-stream/', views.DeleteLiveStreamView.as_view(), name='delete_stream'),  # noqa
+]
+
 # notifications
 urlpatterns += [
     path('notifications/', views.NotificationsListView.as_view(), name='notifications'),  # noqa
