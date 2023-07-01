@@ -372,9 +372,11 @@ class GetLiveStreamAPI(APIView):
 
     def get(self, request, *args, **kwargs):
         live_stream = LiveStream.objects.all().order_by('-created_at').first()
-        serializer = LiveStreamSerializer(live_stream)
+        serializer = LiveStreamSerializer(live_stream, many=False)
+        print("LIVE STREAM", live_stream)
+        print("SERIALIZER", serializer)
         return Response({
-            "stream": serializer.data,
+            "stream": serializer.data if live_stream else {},
         }, status=status.HTTP_200_OK)
 
 

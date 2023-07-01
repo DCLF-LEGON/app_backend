@@ -172,6 +172,7 @@ class LiveStream(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField()
     url = models.URLField()
+    video_id = models.CharField(max_length=50, default="")
     preacher = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
 

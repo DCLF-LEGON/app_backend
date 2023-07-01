@@ -50,7 +50,9 @@ class CreateUpdateLiveStreamView(View):
         stream = LiveStream.objects.filter(id=stream_id).first()
         form = LiveStreamForm(request.POST, instance=stream)  # noqa
         if form.is_valid():
-            form.save()
+            stream_item = form.save()
+            stream_item.video_id = stream_item.url.split("=")[1]
+            stream_item.save()
             if stream:
                 messages.info(request, 'Stream Updated Successfully')
             else:

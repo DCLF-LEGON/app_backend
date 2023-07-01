@@ -38,7 +38,7 @@ urlpatterns += [
     path('category-videos/', views.CategoryYoutubeMessagesAPI.as_view(), name="cat_videos"),  # noqa
     path('bookmark-video/', views.BookmarkYoutubeVideoAPI.as_view(), name="bookmark_video"),  # noqa
     path('bookmarked-youtube-videos/', views.BookmarkedYoutubeVideosAPI.as_view(), name="bookmarked_yt_videos"),  # noqa
-    path('get-live-streamget/', views.GetLiveStreamAPI.as_view(), name="live_stream"),  # noqa
+    path('get-live-stream/', views.GetLiveStreamAPI.as_view(), name="live_stream"),  # noqa
 ]
 
 
