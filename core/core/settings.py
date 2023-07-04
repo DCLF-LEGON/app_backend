@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'dashboard.apps.DashboardConfig',
     'api.apps.ApiConfig',
     'documentation.apps.DocumentationConfig',
+    'website.apps.WebsiteConfig',
 
     # REMEMBER ME APP
     # 'auth_remember',

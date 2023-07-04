@@ -7,7 +7,7 @@ from django.views import View
 
 from core.utils.decorators import MustLogin
 from dashboard.forms import LiveStreamForm
-from dashboard.models import LiveStream
+from dashboard.models import LiveStream, YoutubeVideo
 
 
 class LiveStreamListView(View):
@@ -53,6 +53,19 @@ class CreateUpdateLiveStreamView(View):
             stream_item = form.save()
             stream_item.video_id = stream_item.url.split("=")[1]
             stream_item.save()
+            # create a new youtube video with the stream info
+            yt_video = YoutubeVideo.objects.filter(video_id=stream_item.video_id).first()  # noqa
+            random_video = YoutubeVideo.objects.first()  # noqa
+            if yt_video:
+                # delete old info if it's exists
+                yt_video.delete()
+            YoutubeVideo.objects.create(
+                video_id=stream_item.video_id,
+                title=stream_item.title,
+                description=stream_item.description,
+                thumbnail_url=random_video.thumbnail_url if random_video else None,  # noqa
+                published_at=stream_item.created_at,
+            )
             if stream:
                 messages.info(request, 'Stream Updated Successfully')
             else:
