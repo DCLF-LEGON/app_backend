@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- load static files -->
+    {% load static %}
+    <!-- Links of CSS files -->
+    <link rel="stylesheet" href=" {% static '/website/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/animate.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/fontawesome.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/flaticon.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/magnific-popup.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/nice-select.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/slick.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/meanmenu.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/odometer.min.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/style.css' %}">
+    <link rel="stylesheet" href=" {% static '/website/css/responsive.css' %}">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static '/assets/img/brand/dlcf.jpg' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static '/assets/img/brand/dlcf.jpg' %}">
+
+    <title>DLCF Legon App | {% block title %}{% endblock %} </title>
+</head>
+
+<!-- Preloader -->
+<div class="preloader">
+    <div class="loader">
+        <div class="shadow"></div>
+        <div class="box"></div>
+    </div>
+</div>
+<!-- End Preloader -->
+
+<!-- Start Navbar Area -->
+<div class="navbar-area">
+    <div class="luvion-responsive-nav">
+        <div class="container">
+            <div class="luvion-responsive-menu">
+                <div class="logo">
+                    <a href="#">
+                        <img src="{% static '/assets/img/brand/dlcf.jpg' %}" alt="logo" height="60">
+                        <img src="{% static '/assets/img/brand/dlcf.jpg' %}" alt="logo" height="60">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="luvion-nav">
+        <div class="container">
+            <nav class="navbar navbar-expand-md navbar-light">
+                <a class="navbar-brand" href="">
+                    <img src="{% static '/assets/img/brand/dlcf.jpg' %}" alt="logo" height="60">
+                    <img src="{% static '/assets/img/brand/dlcf.jpg' %}" alt="logo" height="60">
+                </a>
+
+                <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a href="{% url 'website:homepage' %}" class="nav-link ">Home
+                        </li>
+
+                        <li class="nav-item"><a href="#" class="nav-link ">About Us</a></li>
+
+                        <li class="nav-item"><a href="#" class="nav-link ">Our Services
+                        </li>
+                        <li class="nav-item"><a href="{% url 'website:contactpage' %}" class="nav-link ">Contact Us</a>
+                        </li>
+                    </ul>
+
+                    <div class="others-options">
+                        <a href="{% url 'accounts:login' %}" class="login-btn"><i class="flaticon-user"></i> My
+                            Account</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<!-- End Navbar Area -->
+
+<!-- main content -->
+{% block content %}
+
+{% endblock %}
+
+<!-- Start Account Create Area -->
+<section class="account-create-area">
+    <div class="container">
+        <div class="account-create-content">
+            <h2>Download legon DLCF app</h2>
+            <p>Get your DLCF app today!</p>
+            <a href="" class="btn btn-primary"> Download on playstore </a>
+            <a href="" class="btn btn-primary">Download on appstore</a>
+        </div>
+    </div>
+</section>
+<!-- End Account Create Area -->
+
+<!-- Start Footer Area -->
+<footer class="footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget">
+                    <div class="logo">
+                        <a href=""><img src="{% static '/website/img/1024.png' %}" alt="logo"></a>
+                        <p>DLCF Legon: Raising Saintly Intellectuals.</p>
+                    </div>
+
+                    <ul class="social-links">
+                        <li><a href="" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="" target="_blank"><i class="fab fa-twitter"></i></a></li>
+                        <li><a href="" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget pl-5">
+                    <h3>Company</h3>
+
+                    <ul class="list">
+                        <li><a href="{% url 'website:homepage' %}">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Our Services</a></li>
+                        <li><a href="{% url 'accounts:login' %}">My Account</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>Support</h3>
+
+                    <ul class="list">
+                        <li><a href="#">FAQ's</a></li>
+                        <li><a href="">Privacy Policy</a></li>
+                        <!-- <li><a href="#">Terms & Condition</a></li> -->
+                        <li><a href="#">Community</a></li>
+                        <li><a href="{% url 'website:contactpage' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="single-footer-widget">
+                    <h3>Address</h3>
+
+                    <ul class="footer-contact-info">
+                        <li><span>Location:</span> Legon Campus -University of Ghana</li>
+                        <li><span>Email:</span> <a href="">dicflegonapp@gmail.com</a></li>
+                        <li><span>Phone:</span> <a href=""> +233 249 759 944</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright-area">
+            <p>Copyright @2023 Media Team <a href="">DLCF Legon</a>. All rights reserved</p>
+        </div>
+    </div>
+
+    <div class="map-image"><img src="{% static '/website/img/map.png' %}" alt="map"></div>
+</footer>
+<!-- End Footer Area -->
+
+<div class="go-top"><i class="fas fa-arrow-up"></i></div>
+
+<!-- Links of JS files -->
+<script src="{% static '/website/js/jquery.min.js' %}"></script>
+<script src="{% static '/website/js/popper.min.js' %}"></script>
+<script src="{% static '/website/js/bootstrap.min.js' %}"></script>
+<script src="{% static '/website/js/jquery.meanmenu.js' %}"></script>
+<script src="{% static '/website/js/jquery.nice-select.min.js' %}"></script>
+<script src="{% static '/website/js/slick.min.js' %}"></script>
+<script src="{% static '/website/js/jquery.magnific-popup.min.js' %}"></script>
+<script src="{% static '/website/js/jquery.appear.min.js' %}"></script>
+<script src="{% static '/website/js/odometer.min.js' %}"></script>
+<script src="{% static '/website/js/owl.carousel.min.js' %}"></script>
+<script src="{% static '/website/js/parallax.min.js' %}"></script>
+<script src="{% static '/website/js/wow.min.js' %}"></script>
+<script src="{% static '/website/js/form-validator.min.js' %}"></script>
+<script src="{% static '/website/js/contact-form-script.js' %}"></script>
+<script src="{% static '/website/js/main.js' %}"></script>
+</body>
+
+</html>
