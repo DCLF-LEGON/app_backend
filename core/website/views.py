@@ -1,5 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.views import View
+
+from dashboard.forms import ContactUsForm
 
 
 class HomePageView(View):
@@ -20,3 +23,13 @@ class ContactUsView(View):
     def get(self, request):
         context = {}
         return render(request, self.template, context)
+
+    def post(self, request):
+        form = ContactUsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            print("Contact saved")
+            return redirect('website:homepage')
+        else:
+            print(f"ERRORS: {str(form.errors)}")
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

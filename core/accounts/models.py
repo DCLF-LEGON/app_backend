@@ -61,6 +61,7 @@ class MembershipInfo(models.Model):
 
 
 class OTP(models.Model):
+    '''OTP model'''
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     otp = models.CharField(max_length=6)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
@@ -81,3 +82,19 @@ class OTP(models.Model):
 
     class Meta:
         db_table = 'otp'
+
+
+class ContactUs(models.Model):
+    '''Contact us model'''
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=50)
+    phone = models.CharField(max_length=15, blank=True, null=True)
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        db_table = 'contact_us'

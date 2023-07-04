@@ -1,6 +1,6 @@
 from django import forms
 
-from accounts.models import User
+from accounts.models import ContactUs, User
 from dashboard.models import (ChurchDocument, Doctrine, Leader, Message, MessageCategory,
                               Preacher, GalleryCategory, LiveStream)
 
@@ -65,4 +65,11 @@ class LiveStreamForm(forms.ModelForm):
     '''Form for creating a new live stream'''
     class Meta:
         model = LiveStream
+        exclude = ['created_at']
+
+
+class ContactUsForm(forms.ModelForm):
+    '''Form for creating a new contact us message'''
+    class Meta:
+        model = ContactUs
         exclude = ['created_at']

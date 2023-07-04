@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from accounts.models import OTP, MembershipInfo, User
+from accounts.models import OTP, MembershipInfo, User, ContactUs
 from dashboard.models import YoutubeVideo, MessageCategory, Preacher, Leader, Doctrine, Message, Gallery, GalleryCategory, GeneralNote, LiveStream
 
 admin.site.register(User)
@@ -16,3 +16,4 @@ admin.site.register(GalleryCategory)
 admin.site.register(GeneralNote)
 admin.site.register(MembershipInfo)
 admin.site.register(LiveStream)
+admin.site.register(ContactUs)
