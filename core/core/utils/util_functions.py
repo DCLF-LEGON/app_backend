@@ -8,7 +8,8 @@ from core import settings
 
 
 def receive_payment(data):
-    ENDPOINT = 'https://payhubghana.io/api/v1.0/debit_mobile_account/'
+    ENDPOINT = 'https://payhubghana.io/api/v1.0/debit_mobile_account/' #old
+    # ENDPOINT = 'https://www.payhubghana.io/api/v1.0/debit_mobile_account/' #new
     headers = {
         "Authorization": f"Token {settings.PAYHUB_SECRET_TOKEN}",
     }
@@ -19,7 +20,8 @@ def receive_payment(data):
 
 
 def make_payment(data):
-    ENDPOINT = 'https://payhubghana.io/api/v1.0/credit_mobile_account/'
+    ENDPOINT = 'https://payhubghana.io/api/v1.0/credit_mobile_account/' #old
+    # ENDPOINT = 'https://www.payhubghana.io/api/v1.0/credit_mobile_account/' #new
     headers = {
         "Authorization": f"Token {settings.PAYHUB_SECRET_TOKEN}",
     }
@@ -30,7 +32,8 @@ def make_payment(data):
 
 
 def get_transaction_status(transaction_id):
-    ENDPOINT = 'https://payhubghana.io/api/v1.0/transaction_status'
+    ENDPOINT = 'https://payhubghana.io/api/v1.0/transaction_status' #old
+    # ENDPOINT = 'https://www.payhubghana.io/api/v1.0/transaction_status' #new
     headers = {
         "Authorization": f"Token {settings.PAYHUB_SECRET_TOKEN}",
     }
@@ -45,7 +48,8 @@ def get_transaction_status(transaction_id):
 
 
 def get_api_wallet_balance():
-    ENDPOINT = 'https://payhubghana.io/api/v1.0/wallet_balance'
+    ENDPOINT = 'https://payhubghana.io/api/v1.0/wallet_balance'   #old
+    # ENDPOINT = 'https://www.payhubghana.io/api/v1.0/wallet_balance' #new
     headers = {
         "Authorization": f"Token {settings.PAYHUB_SECRET_TOKEN}",
     }
